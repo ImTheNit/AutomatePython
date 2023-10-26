@@ -1,0 +1,25 @@
+//pourquoi pas les droits dans DATA????
+
+
+
+git clone "URL"
+
+git pull
+
+git config credential.helper store // pour enregistrer les ID
+
+
+
+
+
+
+
+DEBUT DE TRAVAIL:
+	git pull // pour mettre a jour le repertoire en local 
+	
+
+POUR L'UPLOAD:
+	git add NOMFICHIER
+	git commit
+	git pull
+	git push
