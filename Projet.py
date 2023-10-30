@@ -530,16 +530,16 @@ def VerifAEF(MonDico):
     else:
 
         Etat=EtatDico(MonDico)
-        Evenement=EvenementDico(MonDico)
-
-        for i in range(len(MonDico)):   #les print aident a comprendre 
+        Evenement=EvenementDico(MonDico)    
+        #les print aident a comprendre 
+        for i in range(len(MonDico)):   
             #print("\n")
-            for j in range(len(Evenement)):
+            for j in range(len(Evenement)): #on parcours le dictionnaire 
                 #print(Evenement[j])
-                if MonDico[i][Evenement[j]] not in Etat and MonDico[i][Evenement[j]]!="":
+                if MonDico[i][Evenement[j]] not in Etat and MonDico[i][Evenement[j]]!="":   #on test si une 'case' est deja un etat ou si elle est vide
                     return False                    
 
-        # si on arrive ici --> tous les element sont dans Etat -> AEF
+        # si on arrive ici --> tous les element sont dans des etats ou alors ils sont vide --> AEF
         return True
 
             
@@ -903,10 +903,12 @@ while ARRET == 0 :
 #
 #
 #
-#{0: {'colonne': 'a', 'A': 'var1', 'B': 'var2', 'C': 'var3'},
+#{
+#0: {'colonne': 'a', 'A': 'var1', 'B': 'var2', 'C': 'var3'},
 #1: {'colonne': 'b', 'A': 'var4', 'B': 'var5', 'C': 'var6'},
 #2: {'colonne': 'c', 'A': 'var7', 'B': 'var8', 'C': 'var9'},
-#3: {'colonne': 'd', 'A': '1', 'B': '2', 'C': '3'}}
+#3: {'colonne': 'd', 'A': '1', 'B': '2', 'C': '3'}
+#}
 #
 #
 #
