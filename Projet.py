@@ -23,7 +23,7 @@ FichierSortie="data2.csv"
 
 ARRET=0 #0 si on veut continuer, 1 sinon
 
-DEBUGG=0 #1 si on veut debugger, 0 sinon --> different de ARRET
+DEBUGG=0 #1 si onveut debugger, 0 sinon --> different de ARRET
 
 DELIMITER=";"
 
@@ -218,7 +218,7 @@ def CreationDico():
             if int(Rep)==0:         #L'utilisateur veut arreter la saisie des evenements
                 a=0
         else:                       #La reponse ne peut pas etre converti en entier->l'utilisateur veut continuer
-            while VerifSaisieEvenement(Rep,Evenement)==False:
+            while VerifSaisieNewEvenement(Rep,Evenement)==False:
                 print("Le nom de l'évènement ne respecte pas les conditions.\n"+CONDITIONS_EVENEMENT)
                 Rep=input("Nouveau choix:")
             Evenement.append(Rep)
@@ -536,7 +536,7 @@ def VerifAEF(MonDico):
             #print("\n")
             for j in range(len(Evenement)):
                 #print(Evenement[j])
-                if MonDico[i][Evenement[j]] not in range(Etat) :
+                if MonDico[i][Evenement[j]] not in Etat and MonDico[i][Evenement[j]]!="":
                     return False                    
 
         # si on arrive ici --> tous les element sont dans Etat -> AEF
@@ -630,7 +630,7 @@ def VerifSaisieEvenement(choix):#en attente de savoir quels caractères sont int
 def VerifSaisieNouvelEtat(choix,ListeEtat):#en attente de savoir quels caractères sont interdits
     #pour les états de "destination"
     if choix == "":    #chaine vide 
-        return False
+        return True
 
     else:
 
