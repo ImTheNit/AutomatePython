@@ -23,13 +23,34 @@ FichierSortie="data2.csv"
 
 ARRET=0 #0 si on veut continuer, 1 sinon
 
-DEBUGG=1 #1 si on veut debugger, 0 sinon --> different de ARRET
+DEBUGG=0 #1 si on veut debugger, 0 sinon --> different de ARRET
 
 DELIMITER=";"
 
 Dictionnaire={}
 
-TEXTE_DEMANDE_USER="\n-----------------------------\nChoisissez une action parmis:\n-----------------------------\nCharger un automate depuis un fichier .csv(1)\nAfficher un Automate depuis un fichier .csv(2)\nAfficher l'Automate en mémoire(3)\nEnregistrer l'Automate  en mémoire dans un fichier .csv(4)\nEffacer l'Automate en mémoire(5)\nArrêter le programme(0)"
+TYPE=[0,1,2,3]
+
+RESTRICTION_CHOIX_ETAT=[";"," "]
+
+RESTRICTION_CHOIX_EVENEMENT=[";"," "]
+
+RESTRICTION_CHOIX_NOUVEL_ETAT=[";"," "]
+
+CONDITIONS_ETAT="Un Etat ne peut pas contenir "+str(RESTRICTION_CHOIX_ETAT)+" ni être vide"
+
+CONDITIONS_EVENEMENT="Un Evènement ne peut pas contenir "+str(RESTRICTION_CHOIX_EVENEMENT)+" ni être vide"
+
+CONDITIONS_NOUVEL_ETAT="Un Etat ne peut pas contenir "+str(RESTRICTION_CHOIX_ETAT)+" ni être vide.De plus un Etat de destination doit être un état existant"
+
+
+TEXTE_DEMANDE_USER="\n-----------------------------\nChoisissez une action parmis:\n-----------------------------\n(1)Charger un automate depuis un fichier .csv\n(2)Afficher un Automate depuis un fichier .csv\n(3)Afficher l'Automate en mémoire\n(4)Enregistrer l'Automate  en mémoire dans un fichier .csv\n(5)Effacer l'Automate en mémoire\n(6)Créer un Automate\n(7)Modifier un Automate en mémoire\n(8)Verifier si un Automate est un Automate d'état fini\n(0)Arrêter le programme"
+
+
+
+
+
+
 #
 #
 #------------------------------------------------------------------------------------------------------------------------------------
@@ -149,6 +170,88 @@ def DicoToCSV(MonDico,CSVFILES):
 #ok
 #
 
+def CreationDico():
+    MonDico={}
+    Etat=[]
+    Type=[]
+    Evenement=[]
+    a=1
+
+    #insertion des états
+    while a != 0:
+        Rep=input("Saisissez un état (0 pour arrêter):")
+        if VerifEntier(Rep)==True : #La reponse de l'utilisateur peut etre converti en entier
+            if int(Rep)==0:         #L'utilisateur veut arreter la saisie des états
+                a=0
+            else:
+                while VerifSaisieNewEtat(Rep,Etat)==False:
+                    print("Le nom de l'état ne respecte pas les conditions.\n"+CONDITIONS_ETAT)
+                    Rep=input("Nouveau choix:")
+                Rep2=-1
+                while VerifType(Rep2)==False :
+                    Rep2=input("Saisissez le type de l'état "+Rep+" parmis: quelconque(0), initial(1), final(2) ou initial et final(3):")
+                    if VerifType(Rep2)==False:
+                        print("Le type n'est pas valide")
+                Type.append(Rep2)
+                Etat.append(Rep)
+        else:                       #La reponse ne peut pas etre converti en entier->l'utilisateur veut continuer
+            while VerifSaisieNewEtat(Rep,Etat)==False:
+                print("Le nom de l'état ne respecte pas les conditions.\n"+CONDITIONS_ETAT)
+                Rep=input("Nouveau choix:")
+            Rep2=-1
+            while VerifType(Rep2)==False :
+                Rep2=input("Saisissez le type de l'état "+Rep+" parmis: quelconque(0), initial(1), final(2) ou initial et final(3):")
+                if VerifType(Rep2)==False:
+                    print("Le type n'est pas valide")
+            Type.append(Rep2)
+            Etat.append(Rep)
+
+    print("La liste des états saisies:",Etat)
+    print("La liste des type:",Type,"\n")
+
+    a=1
+
+    #insertion des évènement
+    while a != 0:
+        Rep=input("Saisissez un évènement (0 pour arrêter):")
+        if VerifEntier(Rep)==True : #La reponse de l'utilisateur peut etre converti en entier
+            if int(Rep)==0:         #L'utilisateur veut arreter la saisie des evenements
+                a=0
+        else:                       #La reponse ne peut pas etre converti en entier->l'utilisateur veut continuer
+            while VerifSaisieEvenement(Rep,Evenement)==False:
+                print("Le nom de l'évènement ne respecte pas les conditions.\n"+CONDITIONS_EVENEMENT)
+                Rep=input("Nouveau choix:")
+            Evenement.append(Rep)
+    print("La liste des évènements saisies:",Evenement,"\n")
+
+
+    #insertion de "l'interieur"
+    print("Insertion des états de destination:\nSynthaxe: Etat de Départ:Evenement-->Etat d'arrivée")
+
+    for i in range(len(Etat)):
+        MonDico[i]={}     #générer un indice pour notre dictionnaire pour pouvoir y acceder ensuite (INDISPENSABLE)
+        MonDico[i]["colonne"]=Etat[i]
+        MonDico[i]["Type"]=Type[i]
+
+        for j in range(len(Evenement)):
+            Rep3=input(Etat[i]+":"+Evenement[j]+"-->")
+            while VerifSaisieNouvelEtat(Rep3,Etat)==False:
+                print("Le nom de l'état ne respecte pas les conditions.\n"+CONDITIONS_NOUVEL_ETAT)
+                Rep3=input(Etat[i]+":"+Evenement[j]+"-->")
+
+            MonDico[i][Evenement[j]]=Rep3
+            
+
+    return MonDico
+
+#
+#status
+#OK
+#
+
+
+
+
 def FIELDNAMES(MonDico):# on renvoi les clés pour les champs du csv
 
     if DicoVide(MonDico)==True:
@@ -163,17 +266,188 @@ def FIELDNAMES(MonDico):# on renvoi les clés pour les champs du csv
 #ok
 #
     
-            
-def ModifNomColonne(MonDico):
+def ModifDico(MonDico):
+    if DicoVide(MonDico)==True:
+        print("Erreur: l'automate est vide/inexistant")
+        return -1
+    else:
+        ListeEtat=EtatDico(MonDico)
+        ListeEvenement=EvenementDico(MonDico)
 
-    for i in range(len(Dictionnaire)):
-        MonDico[i]["colonne"]=i
+        NewListeEtat=modifListeEtat(ListeEtat)
+        NewListeEvenement=modifListeEvenement(ListeEvenement)
+
+        #seul les listes des etats/evenment ont été modifiés, pas le dictionnaire
+        #AffichageAutomateFromDico(MonDico)
+        return MonDico
+
+#
+#Status   
+#En cours
+#
+
+
+
+
+def modifListeEtat(ListeEtat):
+
+    if len(ListeEtat) == 0:#la liste est de taille 0 --> vide
+        print("La liste est vide")
+        return -1
+    else:
+        #print("Liste OK")
         
-    return MonDico
+        stop = 0
+        while stop == 0:
+            reponse =input(str(ListeEtat)+"\nVoulez vous modifier la liste des états ci dessus (oui ou non):")
+            match reponse:
+
+                #on veut modifier
+                case "oui":
+                    print("Modification")
+                    Reponse2=input("Taper le nom de l'etat pour le modifier ou le supprimer et taper le nouveau nom pour le rajouter:")
+
+                    #Verification que la reponse est correcte:
+                    while VerifSaisieEtat(Reponse2)==False:
+                        print("Le nom de l'état ne respecte pas les conditions.\n"+CONDITIONS_ETAT)
+                        Reponse2=input("Nouveau choix:")
+                    #notre champs est désormais conforme 
+
+                    if Reponse2 in ListeEtat:   #l'état choisi est dans la liste
+
+                        Choix=input("Etat sélectionné: "+Reponse2+" Voulez vous le supprimer(0) ou le modifier(1):")
+
+                        #Verification du champ 'Choix'
+                        while VerifEntier(Choix)==False or int(Choix) not in [0,1]:
+                            print("La réponse attendue est 0 ou 1")
+                            Choix=input("Etat sélectionné: "+Reponse2+" Voulez vous le supprimer(0) ou le modifier(1):")
+
+                        if int(Choix)==0:
+                            #Suppression
+                            ListeEtat.remove(Reponse2)
+                        
+                        else:
+                            #Modification
+                            new=input("Saisissez le nouvel Etat:")
+
+                            #verification de la saisie
+                            while VerifSaisieNewEtat(new,ListeEtat)==False:
+                                print("Le nom de l'état ne respecte pas les conditions.\n"+CONDITIONS_ETAT)
+                                new=input("Nouveau choix:")
+
+
+                            ListeEtat=ModifListe(Reponse2,ListeEtat,new)
+
+
+                    else:
+                        #Ajout
+                        ListeEtat.append(Reponse2)
+
+
+
+                #On ne veut pas/plus modifier
+                case "non":
+                    print("Fin de modification")
+                    stop=1
+                
+
+                #Autre reponse
+                case _:
+                    print("La réponse attendue est oui ou non")
+
+        return ListeEtat
+#
+#Status
+#OK
+#
+
+
+def modifListeEvenement(ListeEvenement):
+
+    if len(ListeEvenement) == 0:#la liste est de taille 0 --> vide
+        print("La liste est vide")
+        return -1
+    else:
+        #print("Liste OK")
+        
+        stop = 0
+        while stop == 0:
+            reponse =input(str(ListeEvenement)+"\nVoulez vous modifier la liste des évènements ci dessus (oui ou non):")
+            match reponse:
+
+                #on veut modifier
+                case "oui":
+                    print("Modification")
+                    Reponse2=input("Taper le nom de l'évènement pour le modifier ou le supprimer et taper le nouveau nom pour le rajouter:")
+
+                    #Verification que la reponse est correcte:
+                    while VerifSaisieEvenement(Reponse2)==False:
+                        print("Le nom de l'évènement ne respecte pas les conditions.\n"+CONDITIONS_EVENEMENT)
+                        Reponse2=input("Nouveau choix:")
+                    #notre champs est désormais conforme 
+
+                    if Reponse2 in ListeEvenement:   #l'évènement choisi est dans la liste
+
+                        Choix=input("Evènement sélectionné: "+Reponse2+" Voulez vous le supprimer(0) ou le modifier(1):")
+
+                        #Verification du champ 'Choix'
+                        while VerifEntier(Choix)==False or int(Choix) not in [0,1]:
+                            print("La réponse attendue est 0 ou 1")
+                            Choix=input("Evènement sélectionné: "+Reponse2+" Voulez vous le supprimer(0) ou le modifier(1):")
+
+                        if int(Choix)==0:
+                            #Suppression
+                            ListeEvenement.remove(Reponse2)
+                        
+                        else:
+                            #Modification
+                            new=input("Saisissez le nouvel Evènement:")
+
+                            #verification de la saisie
+                            while VerifSaisieNewEvenement(new,ListeEvenement)==False:
+                                print("Le nom de l'évènement ne respecte pas les conditions.\n"+CONDITIONS_EVENEMENT)
+                                new=input("Nouveau choix:")
+
+
+                            ListeEvenement=ModifListe(Reponse2,ListeEvenement,new)
+
+
+                    else:
+                        #Ajout
+                        ListeEvenement.append(Reponse2)
+
+
+
+                #On ne veut pas/plus modifier
+                case "non":
+                    print("Fin de modification")
+                    stop=1
+                
+
+                #Autre reponse
+                case _:
+                    print("La réponse attendue est oui ou non")
+
+        return ListeEvenement
+#
+#Status
+#OK
+# 
+
+
+
+
+def ModifListe(ancien,Liste,nouveau):
+    if len(Liste)!= 0:
+        for i in range(len(Liste)):
+            if Liste[i]==ancien:
+                Liste[i]=nouveau
+                return  Liste      
 #
 #status
-#ok
+#OK
 #
+
 
 def DicoVide(MonDico):
 
@@ -217,7 +491,22 @@ def FichierExiste(CSVFILES):
 #ok
 #
 
+def VerifType(a):
 
+
+    #TYPE est un variable global déclarée plus haut
+
+    if VerifEntier(a)==True:    #Le type est bien un entier
+
+        if int(a) in TYPE:      #le type est correct         #TYPE est déclarer au debut du fichier
+
+            return True
+
+    return False     #le type est incorrect
+#
+#status
+#ok
+#
 
 def VerifEntier(a):
 
@@ -237,7 +526,7 @@ def VerifEntier(a):
 def VerifAEF(MonDico):
     if DicoVide(MonDico)==True:
         print("L'automate est vide")
-        return -1
+        return False
     else:
 
         Etat=EtatDico(MonDico)
@@ -247,7 +536,7 @@ def VerifAEF(MonDico):
             #print("\n")
             for j in range(len(Evenement)):
                 #print(Evenement[j])
-                if MonDico[i][Evenement[j]] not in Etat :
+                if MonDico[i][Evenement[j]] not in range(Etat) :
                     return False                    
 
         # si on arrive ici --> tous les element sont dans Etat -> AEF
@@ -256,7 +545,110 @@ def VerifAEF(MonDico):
             
 #
 #status
-#ko
+#OK
+#
+
+def VerifSaisieNewEtat(choix,ListeEtat):#en attente de savoir quels caractères sont interdits
+    
+    if choix == "":    #chaine vide 
+        return False
+
+    else:
+        if choix in ListeEtat:                                      #on verifie que l'etat n'existe pas déjà   
+            print("Cet Etat existe déjà")
+            return False
+
+        for i in range(len(RESTRICTION_CHOIX_ETAT)):
+            if RESTRICTION_CHOIX_ETAT[i] in choix:                  # on verifie qu'aucun caractère interdit n'est utilisé
+                return False
+
+        return True
+#
+#status
+#OK
+#
+
+
+def VerifSaisieEtat(choix):#en attente de savoir quels caractères sont interdits
+    
+    if choix == "":    #chaine vide 
+        return False
+
+    else:
+
+        for i in range(len(RESTRICTION_CHOIX_ETAT)):
+            if RESTRICTION_CHOIX_ETAT[i] in choix:                  # on verifie qu'aucun caractère interdit n'est utilisé
+                return False
+
+        return True
+#
+#status
+#OK
+#
+
+
+
+def VerifSaisieNewEvenement(choix,ListeEvenement):#en attente de savoir quels caractères sont interdits
+    
+    if choix == "":    #chaine vide 
+        return False
+
+    else:
+        if choix in ListeEvenement:                                 #on verifie que l'evenement n'existe pas deja  
+            print("Cet Evenement existe déjà")                      
+            return False
+
+        for i in range(len(RESTRICTION_CHOIX_EVENEMENT)):       
+            if RESTRICTION_CHOIX_EVENEMENT[i] in choix:             # on verifie qu'aucun caractère interdit n'est utilisé
+                return False
+
+        return True
+#
+#status
+#OK
+#
+
+
+def VerifSaisieEvenement(choix):#en attente de savoir quels caractères sont interdits
+    
+    if choix == "":    #chaine vide 
+        return False
+
+    else:
+
+        for i in range(len(RESTRICTION_CHOIX_EVENEMENT)):       
+            if RESTRICTION_CHOIX_EVENEMENT[i] in choix:             # on verifie qu'aucun caractère interdit n'est utilisé
+                return False
+
+        return True
+#
+#status
+#OK
+#
+
+
+def VerifSaisieNouvelEtat(choix,ListeEtat):#en attente de savoir quels caractères sont interdits
+    #pour les états de "destination"
+    if choix == "":    #chaine vide 
+        return False
+
+    else:
+
+        for i in range(len(RESTRICTION_CHOIX_NOUVEL_ETAT)):       
+            if RESTRICTION_CHOIX_NOUVEL_ETAT[i] in choix:             # on verifie qu'aucun caractère interdit n'est utilisé
+                return False
+
+        if choix in ListeEtat:                           # le nouvel etat existe bien deja 
+            return True
+
+        else:                                               #le nouvel etat n'existe pas deja
+            return False
+    
+    return False
+
+#
+#status
+#OK
 #
 
 
@@ -285,7 +677,7 @@ def EvenementDico(MonDico):
     else:
         evenement=list(MonDico[0].keys()) # la premiere ligne, il faut retirer la premiere valeur de la liste
         Evenement=[]
-        for i in range(1,len(evenement)):
+        for i in range(2,len(evenement)):   #on commence à deux pour ne pas ajouter  "colonne" ni "type"
             Evenement.append(evenement[i])
         return Evenement
 #
@@ -326,9 +718,12 @@ def choixFichier(a,NomFichier):
 
         #Mode Choix fichier de sortie
         case 2:
-            while FichierExiste(NomFichier)==False:
-                NomFichier=input("Fichier introuvable, réessayer:")
-            print("Fichier OK")
+            if FichierExiste(NomFichier)==False:#Le fichier n'existe pas 
+                print("Aucun fichier correspondant, création d'un nouveau fichier")
+                    #Pour Créer un fichier en python, on l'ouvre en mode ecriture(et cela sera fait lors de l'ecriture)
+
+            else:   #Le fichier existe déjà
+                print("Fichier OK")
             return NomFichier
 
         case _:
@@ -348,9 +743,13 @@ def choixFichier(a,NomFichier):
 #---------------------------------------------------------------------------------------------------------------------------------------------
 #
 #
+
+
+
 if DEBUGG == 1:
     Dictionnaire=CSVToDico(FichierEntree)
-    print(VerifAEF(Dictionnaire))
+
+    ModifDico(Dictionnaire)
     ARRET = 1
 
 
@@ -370,7 +769,7 @@ while ARRET == 0 :
         #chargement automate depuis .csv
         case 1:
 
-            print("Chargement d'un Automate depuis un Fichier")
+            print("\nChargement d'un Automate depuis un Fichier\n")
 
             #choix du fichier 
             Fichier=input("Saisissez le nom du fichier:")
@@ -383,13 +782,13 @@ while ARRET == 0 :
                 print("Automate chargé avec succès")
     
             else:
-                print("Dictionnaire vide à l'arrivée, un probleme est apparu")
+                print("Automate vide à l'arrivée, un probleme est apparu")
             
 
         #Affichage Automate depuis .csv    
         case 2:
 
-            print("Affichage d'un Automate depuis un Fichier\n")
+            print("\nAffichage d'un Automate depuis un Fichier\n")
 
             #choix du fichier 
             Fichier=input("Saisissez le nom du fichier:")
@@ -404,9 +803,9 @@ while ARRET == 0 :
         #Affichage de l'Automate en mémoire
         case 3:
 
-            print("Affichage de l'Automate en mémoire\n")
+            print("\nAffichage de l'Automate en mémoire\n")
             if DicoVide(Dictionnaire)==True:
-                print("Erreur: Aucun Dictionnaire n'est chargé en mémoire")
+                print("Erreur: Aucun Automate n'est chargé en mémoire")
             else:
                 AffichageAutomateFromDico(Dictionnaire)
 
@@ -415,7 +814,7 @@ while ARRET == 0 :
         #Enregistrer l'automate dans un fichier
         case 4:
 
-            print("Sauvegarde de l'Automate en mémoire vers un fichier")
+            print("\nSauvegarde de l'Automate en mémoire vers un fichier\n")
 
             if DicoVide(Dictionnaire)==True:
                 print("Erreur: Aucun Dictionnaire n'est chargé en mémoire")
@@ -435,9 +834,57 @@ while ARRET == 0 :
 
         #Effacer Automate en memoire
         case 5:
-            print("Effacement de l'Automate en mémoire")
+
+            print("\nEffacement de l'Automate en mémoire\n")
             Dictionnaire={}#remplacement par dictionnaire vide
             print("Automate effacé")
+
+
+        #Créer un nouvel automate
+        case 6:
+            print("\nCréation d'un nouvel Automate\n")
+            Dictionnaire=CreationDico()
+            if VerifAEF(Dictionnaire)==False:
+                print("Erreur lors de la création")
+            else:
+                print("Création de l'automate avec succès")
+                AffichageAutomateFromDico(Dictionnaire)
+
+
+        #Modifier un Automate
+        case 7:
+
+            print("\nModification d'un Automate\n")
+
+            if DicoVide(Dictionnaire)==True:
+                print("Aucun Automate en mémoire")
+            else:
+                ModifDico(Dictionnaire)
+
+
+        #verifier si un Automate est un AEF en mémoire uniquement (l'ordre peut changer)
+        case 8:
+
+            print("\nVerification AEF\n")
+
+            if DicoVide(Dictionnaire)==True:    #il n'y a pas d'Automate en memoire
+                print("Aucun Automate n'est enregisé en mémoire")
+            else:       #un automate a bien été trouvé
+                match VerifAEF(Dictionnaire):
+            
+                    #L'automate est un AEF
+                    case True:
+                        print("L'automate est un Automate d'état fini")
+                    
+                    #L'automate n'est pas un AEF
+                    case False:
+                        print("L'automate n'est pas un Automate d'état fini")
+
+                    #Cas défaut
+                    case _: 
+                        print("Erreur: probleme lors de la verification de l'automate")
+                    
+                    
 
 
         #cas default
@@ -448,33 +895,10 @@ while ARRET == 0 :
 
 
 
-#REFLEXION
-
-
-#saisi d'un automate au terminal
-#
-#Demander le nombre d'etat
-#Demander le nombre d'évènement
-#
-#pour chaque "case", offrir la possibilité de changer la valeur
-#
-#
-
-
-#modif d'un automate
-#nouveau MENU
-#ajouter element(1),suppr elements(2), modif element(3)
-
-#   OU BIEN
-
-#
-#
 
 
 
-#De la forme :
-#
-#
+#Dictionnaire de la forme :
 #
 #
 #
@@ -487,10 +911,97 @@ while ARRET == 0 :
 #
 #
 #
+
+#Fichier CSV de la forme:
+#
+#
+#
+#
+#colonne;type;A;B;C;D
+#a;0;a;a;a;a
+#b;0;a;a;b;a
+#c;0;a;a;b;d
+#d;0;a;a;d;c
+#
+#
+#
 #
 
-#afficher automate ok
-#saisir un automate à la main(succesions de input?)ko
-#verif AEF(chaque "case est un évènement présent sur la colonne de gauche")
 
 
+#afficher automate(depuis fichier ou mémoire)
+#->OK
+
+#Récupération de l'Automate depuis un fichier
+#->OK
+
+#Sauvegarde de l'Automate vers un fichier
+#->OK
+
+#etablir automate de la bonne forme(ajout colonne pour nom et pour type(initial,final))
+#   |-> pas besoin de faire une colonne pour le nom
+#   |-> Si on veut modifier les colonnes a prendre en compte, voir la fonction EvenementDico()
+#->OK
+                #   Proposition de format pour le type:
+                #   0-> quelconque
+                #   1-> initial
+                #   2-> final
+                #   3->initial ET final
+
+
+
+#verif AEF(chaque "case" est un évènement présent sur la colonne de gauche--> tout nouvel etat est un etat existant)
+        #test pour etre sur qu'on a pas de problème
+#->OK
+
+
+#Verif le contenu du fichier est correct
+#->nom des deux premieres case(colonne et type)
+#->??
+#pas OK
+
+
+#saisir un automate à la main
+#On demande les etats puis les evenements et enfin les nouveaux etats
+#->OK
+
+
+#Modif d'un Automate a la main
+#affichage des etats, modifié cette liste-->ok
+#affichage des evenements-->ok
+#-->comment modifier le dictionnaire après?
+#pour chaque etat de destination: proposer un changement(si pas de changement on garde l'ancien)--> on affichera bien sur la valeur actuelle
+
+
+
+
+#Fonctions pour verifier qu'une saisie est correcte(Etat/Evenement/NouvelEtat)
+
+#Etat:
+#   pas vide
+#   n'existe pas déjà
+#   carac interdit " ", ";"
+#   ???
+
+#Evenement:
+#   pas vide
+#   n'existe pas déjà
+#   carac interdit " ", ";"
+#   ???
+
+#Nouvel Etat:
+#   pas vide
+#   carac interdit " ", ";"
+#   Existe dans les etats
+#   cas où plusieurs etats d'arrivée???
+#   ???
+
+
+
+
+
+#REFLEXION:
+
+#CAS d'un AEF non-deterministe:(deux etat possible avec le meme évènement/transition)
+# Comment on l'ecrit dans le fichier?
+#   -> ";" va poser des probleme pour lire le fichier

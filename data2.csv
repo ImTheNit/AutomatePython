@@ -1,5 +1,5 @@
-colonne;A;B;C;D
-a;var1;var2;var3;49
-b;var4;var5;var6;56
-c;var7;var8;var9;lettre
-d;1;2;3;valeur
+colonne;Type;A;B;C;D
+q0;0;q3;q2;q1;q0
+q1;0;q3;q2;q1;q0
+q2;0;q3;q2;q1;q0
+q3;0;q3;q2;q1;q0

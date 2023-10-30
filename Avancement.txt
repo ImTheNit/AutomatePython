@@ -1,0 +1,37 @@
+creation de la structure global
+
+creation plusieurs fonctions
+	
+
+
+30/10
+*FORMAT:
+ajout de la colonne 'type' pour identifier si l'etat est quelconque, final et/ou initial
+pas besoin d'ajouter une nouvelle colonne 'nom de l'etat' ils seront déjà enregistré via des nom insérer par l'utilisateur
+ajustement des fonctions préexistante pour accepter ce changement de format
+
+*SAISI:
+Ajout de la fonction et de la fonctionnalité permettant de saisir un automate intégralement via le terminal
+    ->Etat,Evenements et Etat de destination
+
+*MODIFICATION
+ajout de la fonctionnalité Modification d'un automate,
+    -> pas au point 
+    -> pour l'instant on récupère la liste des etats(idem pour Evenement) et on la modifie mais pas de réimplémentation dans le dictionnaire contenant l'automate
+
+*VERIF
+Fonction pour verifier si certains champs saisies sont correct/conforme aux attentes
+
+
+
+
+
+
+
+
+
+
+
+
+
+

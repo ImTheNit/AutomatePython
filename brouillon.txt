@@ -1,0 +1,30 @@
+while reponse =="oui":          # on boucle tant que l'utilisateur veut modifier la liste
+
+            reponse2=input("Taper le nom de l'etat pour le modifier ou le supprimer et taper le nouveau nom pour le rajouter:")
+
+            while VerifSaisieEtat(reponse2,ListeEtat)==False:
+
+                if reponse2 in ListeEtat:       #agir sur un element présent dans la liste
+                    Choix=input("Etat sélectionné:"+reponse2+". Voulez vous le supprimer(0) ou le modifier(1):")
+
+                    while VerifEntier(Choix)==False or Choix in [0,1]:#on verifie la saisie
+                        print("La réponse attendu est 0 ou 1")
+                        Choix=input("Etat sélectionné:"+reponse2+". Voulez vous le supprimer(0) ou le modifier(1):")
+
+                    if int(Choix)==0:            #suppression
+                        ListeEtat.remove(reponse2)
+
+                    else:                   #remplacement
+
+                        new=input("Saisissez le nouvel Etat:")
+                        while VerifSaisieEtat(new,ListeEtat)==False:
+                            print("Le nom de l'état ne respecte pas les conditions.\n"+CONDITIONS_ETAT)
+                            new=input("Nouveau choix:")
+                        ListeEtat=ModifListe(reponse2,ListeEtat,new)
+                    reponse2=0
+                else:
+                    print("Le nom de l'état ne respecte pas les conditions.\n"+CONDITIONS_ETAT)
+            
+        
+            reponse=input(str(ListeEtat)+"Voulez vous modifier la liste des états ci dessus (oui ou non):")     # on redemande si on veut modifier la liste
+        return ListeEtat

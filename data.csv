@@ -1,5 +1,5 @@
-colonne;A;B;C;D
-a;a;a;a;a
-b;a;a;b;a
-c;a;a;b;d
-d;a;a;d;c
+colonne;type;A;B;C;D
+a;0;a;a;a;a
+b;0;a;a;b;a
+c;0;a;a;b;d
+d;0;a;a;d;c
