@@ -1,5 +1,5 @@
 colonne;type;A;B;C;D
-a;0;a;a;a;a
-b;0;a;a;b;a
-c;0;a;a;b;d
-d;0;a;a;d;c
+q0;0;q0;q1;q2;q3
+q1;0;q3;q0;q1;q2
+q2;0;q2;q3;q0;q1
+q3;0;q1;q2;q3;q0

@@ -24,8 +24,16 @@ ajout de la fonctionnalité Modification d'un automate,
 Fonction pour verifier si certains champs saisies sont correct/conforme aux attentes
 
 
+31/10
 
-
+*MODIFICATION
+    Creation des fonctions
+        VerifTrieDico() qui verifie qu'un dictionnaire passé en parametre est trié en fonction de ses clés
+        TrieDicoCle() qui trie un dictionnaire passé en paramètre en fonction de ses clés(remettre les lignes ans l'ordre)
+        EquilibrageDico() qui réarrange les clés du dictionnaire passé en paramètre(les clés seront misent dans l'ordre : 0,1,2,3,...,n)
+    
+*COMMENTAIRE
+    Ajout de commentaire sur l'intégralité du code
 
 
 
