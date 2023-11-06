@@ -489,7 +489,13 @@ def TrieDicoCle(MonDico):
         return -1
     
     else:
-        DicoFinal=sorted(MonDico.items(),key=lambda t:t[0])
+        Dico=sorted(MonDico.items(),key=lambda t:t[0])
+        #Here it's a list not a dictionnary, let's convert it
+
+        DicoFinal={}
+
+        for i in range(len(Dico)):
+            DicoFinal[Dico[i][0]]=Dico[i][1]
         return DicoFinal
 #
 #Status
@@ -1113,13 +1119,13 @@ if DEBUGG == 1:
         3: {'colonne': 'q2', 'type': '0', 'A': 'q2', 'B': 'q3', 'C': 'q0', 'D': 'q1'}, 
         2: {'colonne': 'q3', 'type': '0', 'A': 'q1', 'B': 'q2', 'C': 'q3', 'D': 'q0'}
         }
-    print(VerifTrieDico(Dictionnaire))
-    Dictionnaire=TrieDicoCle(Dictionnaire)
-    print(Dictionnaire)
+    #print(Dictionnaire)
+    #print(VerifTrieDico(Dictionnaire))
+    #Dictionnaire=TrieDicoCle(Dictionnaire)
+    #print(Dictionnaire)
     #print(VerifTrieDico(Dictionnaire))
     
-    
-    
+
     
     #ModifDico(Dictionnaire)
     #print(Dictionnaire)
@@ -1282,14 +1288,14 @@ while ARRET == 0 :
 #
 #
 #{
-#0: {'colonne': 'a', 'A': 'var1', 'B': 'var2', 'C': 'var3'},
+#0: {'colonne': 'a','Type':0,'A': 'var1', 'B': 'var2', 'C': 'var3'},
 #1: {'colonne': 'b', 'A': 'var4', 'B': 'var5', 'C': 'var6'},
 #2: {'colonne': 'c', 'A': 'var7', 'B': 'var8', 'C': 'var9'},
 #3: {'colonne': 'd', 'A': '1', 'B': '2', 'C': '3'}
 #}
 #
 #
-#
+#Dictionnaire[i].values().values('Type')
 #
 
 #Fichier CSV de la forme:
