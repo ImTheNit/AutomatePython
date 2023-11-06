@@ -25,7 +25,7 @@ DELIMITER=";"
 
 ARRET=0 #0 si on veut continuer, 1 sinon
 
-DEBUGG=1 #1 si onveut debugger, 0 sinon --> different de ARRET
+DEBUGG=0 #1 si onveut debugger, 0 sinon --> different de ARRET
 
 Dictionnaire={}
 
@@ -106,7 +106,7 @@ def AffichageAutomateFromCSV(CSVFILES):
 
     #On verifie que le fichier existe bien et qu'il est non-vide
     if FichierExiste(CSVFILES)==True:
-        if FichierVide(CSVFILES)==True:
+        if FichierVide(CSVFILES)==False:
 
             # On convertit le fichier dans notre dictionnaire puis on affiche le dictionnaire
             Dico=CSVToDico(CSVFILES)
