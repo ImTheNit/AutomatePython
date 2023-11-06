@@ -25,7 +25,7 @@ DELIMITER=";"
 
 ARRET=0 #0 si on veut continuer, 1 sinon
 
-DEBUGG=0 #1 si onveut debugger, 0 sinon --> different de ARRET
+DEBUGG=1 #1 si onveut debugger, 0 sinon --> different de ARRET
 
 Dictionnaire={}
 
@@ -72,8 +72,8 @@ def AffichageDico(MonDico):
 
     print("Dictionnaire:")
 
-    for i in range(len(Dictionnaire)):
-        print(Dictionnaire[i],"\n")
+    for i in range(len(MonDico)):
+        print(MonDico[i],"\n")
     return 0
 #
 #status
@@ -90,10 +90,10 @@ def AffichageAutomateFromDico(MonDico):
 
         print("Affichage sous la forme:\nETAT:évènement-->NouvelEtat\n")
         field=list(FIELDNAMES(MonDico))
-        for i in (range(len(Dictionnaire))):
+        for i in (range(len(MonDico))):
 
             for j in range(1,len(field)):
-                print(Dictionnaire[i][field[0]],":",field[j],"-->",Dictionnaire[i][list(FIELDNAMES(MonDico))[j]])
+                print(MonDico[i][field[0]],":",field[j],"-->",MonDico[i][list(FIELDNAMES(MonDico))[j]])
             print("\n")#pour séparer les affichage de chaque état
         return 0
 #
@@ -1113,9 +1113,9 @@ if DEBUGG == 1:
         3: {'colonne': 'q2', 'type': '0', 'A': 'q2', 'B': 'q3', 'C': 'q0', 'D': 'q1'}, 
         2: {'colonne': 'q3', 'type': '0', 'A': 'q1', 'B': 'q2', 'C': 'q3', 'D': 'q0'}
         }
-    #print(VerifTrieDico(Dictionnaire))
-    #Dictionnaire=TrieDicoCle(Dictionnaire)
-    #print(Dictionnaire)
+    print(VerifTrieDico(Dictionnaire))
+    Dictionnaire=TrieDicoCle(Dictionnaire)
+    print(Dictionnaire)
     #print(VerifTrieDico(Dictionnaire))
     
     
