@@ -36,7 +36,7 @@ Dictionnaire={}
 #   3->initial ET final
 TYPE=[0,1,2,3]
 
-#Caractères interdit dans les différentes saisies
+#Caractères interdit dans les differentes saisies
 RESTRICTION_CHOIX_ETAT=[";"," "]
 
 RESTRICTION_CHOIX_EVENEMENT=[";"," "]
@@ -1074,6 +1074,15 @@ def choixFichier(mode,NomFichier):
 #ok
 #
 
+#COCOZONE
+
+
+def VerifComplet(Dico):#return TRUE if the automate if complete, FALSE else
+    for i in range(len(Dico)):
+        b=0
+
+#END OF COCOZONE
+
 
 #
 #
@@ -1282,10 +1291,10 @@ while ARRET == 0 :
 #
 #
 #{
-#0: {'colonne': 'a', 'A': 'var1', 'B': 'var2', 'C': 'var3'},
-#1: {'colonne': 'b', 'A': 'var4', 'B': 'var5', 'C': 'var6'},
-#2: {'colonne': 'c', 'A': 'var7', 'B': 'var8', 'C': 'var9'},
-#3: {'colonne': 'd', 'A': '1', 'B': '2', 'C': '3'}
+#0: {'colonne': 'a', 'A': 'a,b', 'B': 'c', 'C': 'd'},
+#1: {'colonne': 'b', 'A': 'a', 'B': 'c', 'C': 'c'},
+#2: {'colonne': 'c', 'A': 'a', 'B': 'c', 'C': 'c'},
+#3: {'colonne': 'd', 'A': 'a', 'B': 'b', 'C': 'd'}
 #}
 #
 #
