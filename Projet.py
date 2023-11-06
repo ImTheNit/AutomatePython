@@ -7,7 +7,7 @@
 #
 #
 
-import csv #pour gerer les ransfert entre python et csv
+import csv #pour gerer les transfert entre python et csv
 import os   #pour verifier la taille d'un fichier(verifier s'il est vide)
 import time #pour les sleep, temps d'attentes
 
