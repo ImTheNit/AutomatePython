@@ -1078,8 +1078,17 @@ def choixFichier(mode,NomFichier):
 
 
 def VerifComplet(Dico):#return TRUE if the automate if complete, FALSE else
-    for i in range(len(Dico)):
-        b=0
+    Events = EvenementDico(Dico)
+    Keys = EtatDico(Dico)
+    end = True
+    for i in range(len(Dico)): #test every elmt
+        for j in range(len(Events)): #test every possible transition
+            if Dico[i][Events[j]]=="": #if a transition don't have an output, the automate isn't complete
+                end = False
+                return end
+    return end
+                
+
 
 #END OF COCOZONE
 
