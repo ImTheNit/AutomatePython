@@ -36,7 +36,7 @@ Dictionnaire={}
 #   3->initial ET final
 TYPE=[0,1,2,3]
 
-#Caractères interdit dans les différentes saisies
+#Caractères interdit dans les differentes saisies
 RESTRICTION_CHOIX_ETAT=[";"," "]
 
 RESTRICTION_CHOIX_EVENEMENT=[";"," "]
@@ -1079,6 +1079,24 @@ def choixFichier(mode,NomFichier):
 #status
 #ok
 #
+
+#COCOZONE
+
+
+def VerifComplet(Dico):#return TRUE if the automate if complete, FALSE else
+    Events = EvenementDico(Dico)
+    Keys = EtatDico(Dico)
+    end = True
+    for i in range(len(Dico)): #test every elmt
+        for j in range(len(Events)): #test every possible transition
+            if Dico[i][Events[j]]=="": #if a transition don't have an output, the automate isn't complete
+                end = False
+                return end
+    return end
+                
+
+
+#END OF COCOZONE
 
 
 #
