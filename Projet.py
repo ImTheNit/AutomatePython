@@ -25,7 +25,7 @@ DELIMITER=";"
 
 ARRET=0 #0 si on veut continuer, 1 sinon
 
-DEBUGG=0 #1 si onveut debugger, 0 sinon --> different de ARRET
+DEBUGG=1 #1 si onveut debugger, 0 sinon --> different de ARRET
 
 Dictionnaire={}
 
@@ -36,7 +36,7 @@ Dictionnaire={}
 #   3->initial ET final
 TYPE=[0,1,2,3]
 
-#Caractères interdit dans les différentes saisies
+#Caractères interdit dans les differentes saisies
 RESTRICTION_CHOIX_ETAT=[";"," "]
 
 RESTRICTION_CHOIX_EVENEMENT=[";"," "]
@@ -72,8 +72,8 @@ def AffichageDico(MonDico):
 
     print("Dictionnaire:")
 
-    for i in range(len(Dictionnaire)):
-        print(Dictionnaire[i],"\n")
+    for i in range(len(MonDico)):
+        print(MonDico[i],"\n")
     return 0
 #
 #status
@@ -90,10 +90,10 @@ def AffichageAutomateFromDico(MonDico):
 
         print("Affichage sous la forme:\nETAT:évènement-->NouvelEtat\n")
         field=list(FIELDNAMES(MonDico))
-        for i in (range(len(Dictionnaire))):
+        for i in (range(len(MonDico))):
 
             for j in range(1,len(field)):
-                print(Dictionnaire[i][field[0]],":",field[j],"-->",Dictionnaire[i][list(FIELDNAMES(MonDico))[j]])
+                print(MonDico[i][field[0]],":",field[j],"-->",MonDico[i][list(FIELDNAMES(MonDico))[j]])
             print("\n")#pour séparer les affichage de chaque état
         return 0
 #
@@ -489,7 +489,13 @@ def TrieDicoCle(MonDico):
         return -1
     
     else:
-        DicoFinal=sorted(MonDico.items(),key=lambda t:t[0])
+        Dico=sorted(MonDico.items(),key=lambda t:t[0])
+        #Here it's a list not a dictionnary, let's convert it
+
+        DicoFinal={}
+
+        for i in range(len(Dico)):
+            DicoFinal[Dico[i][0]]=Dico[i][1]
         return DicoFinal
 #
 #Status
@@ -1076,6 +1082,26 @@ def choixFichier(mode,NomFichier):
 def VerifEtatFinal(MonDico):
     list(MonDico[i].values())[1]
     
+
+#COCOZONE
+
+
+def VerifComplet(Dico):#return TRUE if the automate if complete, FALSE else
+    Events = EvenementDico(Dico)
+    Keys = EtatDico(Dico)
+    end = True
+    for i in range(len(Dico)): #test every elmt
+        for j in range(len(Events)): #test every possible transition
+            if Dico[i][Events[j]]=="": #if a transition don't have an output, the automate isn't complete
+                end = False
+                return end
+    return end
+                
+
+
+#END OF COCOZONE
+
+
 #
 #
 #---------------------------------------------------------------------------------------------------------------------------------------------
@@ -1114,13 +1140,13 @@ if DEBUGG == 1:
         3: {'colonne': 'q2', 'type': '0', 'A': 'q2', 'B': 'q3', 'C': 'q0', 'D': 'q1'}, 
         2: {'colonne': 'q3', 'type': '0', 'A': 'q1', 'B': 'q2', 'C': 'q3', 'D': 'q0'}
         }
+    #print(Dictionnaire)
     #print(VerifTrieDico(Dictionnaire))
     #Dictionnaire=TrieDicoCle(Dictionnaire)
     #print(Dictionnaire)
     #print(VerifTrieDico(Dictionnaire))
     
-    
-    
+
     
     #ModifDico(Dictionnaire)
     #print(Dictionnaire)
@@ -1283,14 +1309,14 @@ while ARRET == 0 :
 #
 #
 #{
-#0: {'colonne': 'a', 'A': 'var1', 'B': 'var2', 'C': 'var3'},
+#0: {'colonne': 'a','Type':0,'A': 'var1', 'B': 'var2', 'C': 'var3'},
 #1: {'colonne': 'b', 'A': 'var4', 'B': 'var5', 'C': 'var6'},
 #2: {'colonne': 'c', 'A': 'var7', 'B': 'var8', 'C': 'var9'},
 #3: {'colonne': 'd', 'A': '1', 'B': '2', 'C': '3'}
 #}
 #
 #
-#
+#Dictionnaire[i].values().values('Type')
 #
 
 #Fichier CSV de la forme:

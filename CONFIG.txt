@@ -23,3 +23,63 @@ POUR L'UPLOAD:
 	git commit
 	git pull
 	git push
+
+
+------Paramétrage supplémentaire-------------
+
+Des configurations supplémentaires peuvent être requises en fonction de l'environnement de travail.
+
+---UNIX-----
+Pour les machines de l'écoles, afin de pouvoir utiliser l'ensemble des commandes git en se placant sur le disque H: qui est la partition partagée entre les deux OS,
+un problème de droit apparait. Pour résoudre ce problème on utilisera la commande "sudo" qui nous placera en mode administrateur sur la machine.
+Pour ne pas avoir à répéter cette opération à chaque ligne de commande on pourra utiliser un alias qu'on placera dans le fichier bashrc comme suit:
+
+
+ETABLIR LA PROCEDURE
+
+
+---WINDOWS----
+
+Il est possible de configurer VScode sur Windows pour utiliser git.
+Pour cela effectuer la procédure suivante:
+
+Configuration de git sur VScode:
+
+-Télécharger git(https://git-scm.com/download/win)
+
+-Modifier le chemin de git sous VScode:
+	-Manage->settings puis taper "type &rarr the path to the Git executable" dans la barre de recherche
+	-Cliquer sur  "Edit in settings.json"
+	-Ajouter le Chemin correspondant au fichier git.exe (Note: les "\" des chemins windows devront être remplacé par des "/")
+
+-Paramétrer git en insérant votre nom d'utilisateur et email github.
+	-git config --global user.email "you@example.com"
+	-git config --global user.name "Your Name"
+
+	-On pourra utiliser "git config credential.helper store" pour enregistrer les ID github
+
+
+Note: Lors de la première tentative de connexion avec github, il sera demander de se connecter sur le navigateur.	
+
+Git est maintenant configurer pour VScode mais pas pour le terminal.
+
+
+
+
+
+Configuration du git sur un terminal sous windows:
+
+-Télécharger git(https://git-scm.com/download/win)
+
+-Dans le menu Démarrer ou la recherche dans la barre des tâches, recherchez «variable d'environnement».
+
+-Sélectionnez "Modifier les variables d'environnement système"
+
+-Cliquez sur le bouton "Variables d'environnement" en bas.
+
+-Double-cliquez sur l'entrée "Chemin"(path en anglais) sous "Variables système".
+
+-Avec le bouton "Nouveau" dans l'éditeur PATH, ajoutez C:\Program Files\Git\bin\et C:\Program Files\Git\cmd\à la fin de la liste. 
+	-Il faut utiliser les répertoires propre à votre installation
+
+
