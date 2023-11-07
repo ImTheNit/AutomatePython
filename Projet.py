@@ -1076,6 +1076,9 @@ def choixFichier(mode,NomFichier):
 #status
 #ok
 #
+def VerifEtatFinal(MonDico):
+    list(MonDico[i].values())[1]
+    
 
 #COCOZONE
 
@@ -1091,7 +1094,10 @@ def VerifComplet(Dico):#return TRUE if the automate if complete, FALSE else
                 return end
     return end
                 
-
+def changeToComplet(Dico):
+    if not VerifComplet(Dico):#the automate isn't complete
+        blabla =1
+    return blabla
 
 #END OF COCOZONE
 
