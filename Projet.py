@@ -1077,7 +1077,7 @@ def choixFichier(mode,NomFichier):
 #ok
 #
 def VerifEtatFinal(MonDico):
-    list(MonDico[i].values())[1]
+    list(MonDico[0].values())[1]
     
 
 #COCOZONE
