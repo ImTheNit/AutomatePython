@@ -52,7 +52,20 @@ Configuration de git sur VScode:
 	-Cliquer sur  "Edit in settings.json"
 	-Ajouter le Chemin correspondant au fichier git.exe (Note: les "\" des chemins windows devront être remplacé par des "/")
 
+-Paramétrer git en insérant votre nom d'utilisateur et email github.
+	-git config --global user.email "you@example.com"
+	-git config --global user.name "Your Name"
+
+	-On pourra utiliser "git config credential.helper store" pour enregistrer les ID github
+
+
+Note: Lors de la première tentative de connexion avec github, il sera demander de se connecter sur le navigateur.	
+
 Git est maintenant configurer pour VScode mais pas pour le terminal.
+
+
+
+
 
 Configuration du git sur un terminal sous windows:
 
@@ -68,3 +81,5 @@ Configuration du git sur un terminal sous windows:
 
 -Avec le bouton "Nouveau" dans l'éditeur PATH, ajoutez C:\Program Files\Git\bin\et C:\Program Files\Git\cmd\à la fin de la liste. 
 	-Il faut utiliser les répertoires propre à votre installation
+
+
