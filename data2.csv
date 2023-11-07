@@ -1,5 +1,4 @@
-colonne;Type;A;B;C;D
-q0;0;q3;q2;q1;q0
-q1;0;q3;q2;q1;q0
-q2;0;q3;q2;q1;q0
-q3;0;q3;q2;q1;q0
+colonne;Type;a;b
+q0;1;q0;q1
+q1;0;q3;q1
+q2;;;
