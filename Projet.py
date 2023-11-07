@@ -1096,6 +1096,8 @@ def VerifComplet(Dico):#return TRUE if the automate if complete, FALSE else
                 
 def changeToComplet(Dico):
     if not VerifComplet(Dico):#the automate isn't complete
+        blabla =1
+    return blabla
 
 #END OF COCOZONE
 
