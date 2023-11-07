@@ -1097,10 +1097,15 @@ def VerifComplet(Dico):#return TRUE if the automate if complete, FALSE else
                 return end
     return end
                 
-def changeToComplet(Dico):
+def changeToComplet(Dico): #to do, utiliser la fct pour ajouter un evenement poubelle et rajouter lorsqu'on trouve un lien manquant un lien vers poubelle pour chaque événement
     if not VerifComplet(Dico):#the automate isn't complete
-        blabla =1
-    return blabla
+        Events = EvenementDico(Dico)
+        Keys = EtatDico(Dico)
+        for i in range(len(Dico)): #test every elmt
+            for j in range(len(Events)): #test every possible transition
+                if Dico[i][Events[j]]=="": #if a transition don't have an output, the automate isn't complete
+                    blabla =1
+    return Dico
 
 #END OF COCOZONE
 
