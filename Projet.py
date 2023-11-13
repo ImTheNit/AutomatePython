@@ -52,7 +52,7 @@ CONDITIONS_NOUVEL_ETAT="Un Etat ne peut pas contenir "+str(RESTRICTION_CHOIX_ETA
 
 
 #Message des choix de mode
-TEXTE_DEMANDE_USER="\n-----------------------------\nChoisissez une action parmis:\n-----------------------------\n(1)Charger un automate depuis un fichier .csv\n(2)Afficher un Automate depuis un fichier .csv\n(3)Afficher l'Automate en mémoire\n(4)Enregistrer l'Automate  en mémoire dans un fichier .csv\n(5)Effacer l'Automate en mémoire\n(6)Créer un Automate\n(7)Modifier un Automate en mémoire\n(8)Verifier si un Automate est un Automate d'état fini\n(0)Arrêter le programme"
+TEXTE_DEMANDE_USER="\n-----------------------------\nChoisissez une action parmis:\n-----------------------------\n(1)Load an automaton from a .csv file\n(2)Display the automaton from a .csv file\n(3)Display the automaton in memory\n(4)Register the automaton in memory in a .csv file\n(5)Erase the automaton in memory\n(6)Create an automaton\n(7)Modify the automaton in memory\n(8)Verify if the automaton is a final state machine\n(9)Verify that the automaton is complete\n(10)Complete the automaton\n(0)Arrêter le programme"
 
 
 
@@ -382,9 +382,12 @@ def ModifDico(MonDico):
         #   ->(Ou alors créer une fonction pour rééquilibrer le dictionnaire(si un indice n'est plus present on le remplace par le suivant)) //recursif
         #       -> FAIT
 
+        #On reorganise notre Dictionnaire pour que les indices soient successifs
+        MonDico=ConvertIndiceDico(MonDico)
 
         # Retirons les etats qui ont été supprimés et reorganisons le dicionnaire
-
+        
+        print("Suppresssion des etats indésirables")
         for i in range(len(AncienneListeEtat)):
             if AncienneListeEtat[i] not in ListeEtat:
                 #l'etat etait là avant mais il n'est plus là
@@ -394,9 +397,8 @@ def ModifDico(MonDico):
                 print("valeur suppr:",a)
 
 
-
         # Ajoutons les etats qui ont été ajoutés
-        print(ListeEtat)
+        print("ajout des nouveaux etats")
         for i in range (len(ListeEtat)):
             Taille=len(MonDico)
             if ListeEtat[i] not in AncienneListeEtat:
@@ -410,17 +412,28 @@ def ModifDico(MonDico):
             else:
                 #l'etat etait deja là
                 print("Ancien Etat:",ListeEtat[i])
-
+        
         # On verifie que le dictionnaire est trié, si besoin on le trie pour pouvoir l'equilibrer ensuite
         if VerifTrieDico(MonDico)==False:
             MonDico=TrieDicoCle(MonDico)
         
-        print("test1:",MonDico)
-        MonDico=EquilibrageDico(MonDico)
-        print("test2:",MonDico)
         
+        #On retire maintenant les évenement que l'utilisateur ne veut plus garder
+        print("Suppresssion des evennements indésirables")
+        for i in range(len(AncienneListeEvenement)):
+            if AncienneListeEvenement[i] not in ListeEvenement:
+                print("Ancienne valeur:",AncienneListeEvenement[i])
+                #l'evennement etait là avant mais il n'est plus là
+                for j in range(len(MonDico)):
+                        a=MonDico[j].pop(AncienneListeEvenement[i])
+                        print("valeur suppr:",a)
+                # Donc on supprime
+        print(MonDico)
 
-
+        # On rajoute les evennements qui ont été rajoutés
+        print("Ajout des nouveaux evennements")
+        for i in range(len(ListeEvenement)):
+            Taille=len(ListeEvenement)
         return MonDico
 
 #
@@ -476,6 +489,22 @@ def EquilibrageDico(MonDico):
 #Status
 #OK
 #
+
+def ConvertIndiceDico(MonDico):
+    if DicoVide(MonDico):
+        print("Erreur: le Dictionnaire est vide")
+        return -1
+    else:
+        DicoFinal={}
+        for i in range(len(MonDico.keys())):
+            DicoFinal[i]=MonDico[list(MonDico.keys())[i]]
+    return DicoFinal
+#
+#Status
+#ok
+#
+
+
 
 
 def TrieDicoCle(MonDico):
@@ -819,7 +848,7 @@ def VerifAEF(MonDico):
         # si on arrive ici --> tous les element sont dans des etats ou alors ils sont vide --> AEF
         return True          
 #
-#status
+#statusFIELDNAMES(
 #OK
 #
 
@@ -990,8 +1019,10 @@ def EtatDico(MonDico):
 
     else:
         etat=[]
-        for i in range(len(MonDico)):
-            etat.append(MonDico[i][list(FIELDNAMES(MonDico))[0]])
+
+        for i in range(len(MonDico.keys())):
+
+            etat.append(MonDico[list(MonDico.keys())[i]]['colonne'])
         return(etat)
 #
 #status
@@ -1117,10 +1148,22 @@ def VerifComplet(Dico):#return TRUE if the automate if complete, FALSE else
                 return end
     return end
                 
-def changeToComplet(Dico):
+def ChangeToComplet(Dico): #to do, utiliser la fct pour ajouter un evenement poubelle et rajouter lorsqu'on trouve un lien manquant un lien vers poubelle pour chaque événement
     if not VerifComplet(Dico):#the automate isn't complete
-        blabla =1
-    return blabla
+        Events = EvenementDico(Dico)
+        bin = "bin"
+        if bin in Events: #if bin is already the name of an event
+            n=0
+            bin=bin.str(n)
+        while bin in Events:
+            n+=1
+            bin = "bin".str(n)
+        Keys = EtatDico(Dico)
+        for i in range(len(Dico)): #test every elmt
+            for j in range(len(Events)): #test every possible transition
+                if Dico[i][Events[j]]=="": #if a transition don't have an output, the automate isn't complete
+                    blabla =1
+    return Dico
 
 #END OF COCOZONE
 
@@ -1136,7 +1179,6 @@ if DEBUGG != 1:
 
     print("\n-------------------------\nGestionnaire D'Automate\n-------------------------")
 
-#
 #------------------------------------
 #---------------DEBUGG---------------
 #------------------------------------
@@ -1163,6 +1205,34 @@ if DEBUGG == 1:
     #print(VerifMotAEF(Dictionnaire))
     #print(EtatDico(Dictionnaire))
     
+
+    #Dictionnaire={
+    #    0: {'colonne': 'q1', 'type': '0', 'A': 'q3', 'B': 'q0', 'C': 'q1', 'D': 'q2'}, 
+    #    3: {'colonne': 'q2', 'type': '0', 'A': 'q2', 'B': 'q3', 'C': 'q0', 'D': 'q1'}, 
+    #    2: {'colonne': 'q3', 'type': '0', 'A': 'q1', 'B': 'q2', 'C': 'q3', 'D': 'q0'}
+    #    }
+    print(VerifComplet(Dictionnaire))
+    #print(VerifComplet(CSVToDico("data4.csv")))
+    print(Dictionnaire)
+    print(EvenementDico(Dictionnaire))
+    #Dictionnaire = ChangeToComplet(Dictionnaire)
+    #print(VerifComplet(Dictionnaire))
+    #DicoToCSV(Dictionnaire,FichierSortie)
+    #print(Dictionnaire)
+    #print(VerifTrieDico(Dictionnaire))
+    #Dictionnaire=TrieDicoCle(Dictionnaire)
+    #print(Dictionnaire)
+    #print(VerifTrieDico(Dictionnaire))
+    
+
+    print(Dictionnaire)
+    Dictionnaire=TrieDicoCle(Dictionnaire)
+
+    Dictionnaire=ConvertIndiceDico(Dictionnaire)
+
+
+    ModifDico(Dictionnaire)
+    #print(Dictionnaire)
 
     ARRET = 1
 
@@ -1304,6 +1374,30 @@ while ARRET == 0 :
                     
                     
 
+        #verify if an automaton is complete
+        case 9:
+            print("\nComplete Verification\n")
+
+            if DicoVide(Dictionnaire)==True:    #No automaton in memory
+                print("No Automaton in memory")
+            else:
+                match VerifComplet(Dictionnaire):
+                    case True : #automaton is complete
+                        print("The automaton is complete")
+                    case False :#automaton is not complete
+                        print("The automaton is not complete")
+                    case _: #default case
+                        print("Error: problem with the verification")
+
+        #to complete an automaton
+        case 10:
+            print("\nAutomaton completion\n")
+
+            if DicoVide(Dictionnaire)==True:    #No automaton in memory
+                print("No Automaton in memory")
+            else:
+                Dictionnaire = ChangeToComplet(Dictionnaire)
+                print("done \n")
 
         #cas default
         case _:
