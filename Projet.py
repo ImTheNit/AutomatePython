@@ -1296,6 +1296,30 @@ while ARRET == 0 :
                     
                     
 
+        #verify if an automaton is complete
+        case 9:
+            print("\nComplete Verification\n")
+
+            if DicoVide(Dictionnaire)==True:    #No automaton in memory
+                print("No Automaton in memory")
+            else:
+                match VerifComplet(Dictionnaire):
+                    case True : #automaton is complete
+                        print("The automaton is complete")
+                    case False :#automaton is not complete
+                        print("The automaton is not complete")
+                    case _: #default case
+                        print("Error: problem with the verification")
+
+        #to complete an automaton
+        case 10:
+            print("\nAutomaton completion\n")
+
+            if DicoVide(Dictionnaire)==True:    #No automaton in memory
+                print("No Automaton in memory")
+            else:
+                Dictionnaire = changeToComplet(Dictionnaire)
+                print("done \n")
 
         #cas default
         case _:
