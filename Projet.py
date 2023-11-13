@@ -687,7 +687,7 @@ def modifListeEvenement(ListeEvenement):
     # Retourne la liste modifiée par l'utilisateur
 
     if len(ListeEvenement) == 0:#la liste est de taille 0 --> vide
-        print("La liste est vide")
+        print("The list is empty")
         return -1
 
     else:
@@ -699,7 +699,7 @@ def modifListeEvenement(ListeEvenement):
         while stop == 0:
 
             # On interroge l'utilisateur
-            reponse =input(str(ListeEvenement)+"\nVoulez vous modifier la liste des évènements ci dessus (oui ou non):")
+            reponse =input(str(ListeEvenement)+"\nDo you want to edit the event list above (yes or no):")
             
             # On convertit la chaine en minuscule
             reponse=reponse.lower()
@@ -708,26 +708,26 @@ def modifListeEvenement(ListeEvenement):
             match reponse:
 
                 #on veut modifier
-                case "oui":
+                case "yes":
 
-                    print("Modification")
-                    Reponse2=input("Taper le nom de l'évènement pour le modifier ou le supprimer et taper le nouveau nom pour le rajouter:")
+                    print("Edit")
+                    Reponse2=input("Insert the name of the event to edit or remove it and insert the new name to add it:")
 
                     #Verification que la reponse est correcte:
                     while VerifSaisieEvenement(Reponse2)==False:
-                        print("Le nom de l'évènement ne respecte pas les conditions.\n"+CONDITIONS_EVENEMENT)
-                        Reponse2=input("Nouveau choix:")
+                        print("The name of the event do not respect conditions.\n"+CONDITIONS_EVENEMENT)
+                        Reponse2=input("New choice:")
 
                     #notre champs est désormais conforme 
 
                     if Reponse2 in ListeEvenement:   #l'évènement choisi est dans la liste
 
-                        Choix=input("Evènement sélectionné: "+Reponse2+" Voulez vous le supprimer(0) ou le modifier(1):")
+                        Choix=input("Choosen event: "+Reponse2+" Do you want to remove(0) or edit(1) it:")
 
                         #Verification du champ 'Choix'
                         while VerifEntier(Choix)==False or int(Choix) not in [0,1]:
-                            print("La réponse attendue est 0 ou 1")
-                            Choix=input("Evènement sélectionné: "+Reponse2+" Voulez vous le supprimer(0) ou le modifier(1):")
+                            print("The expected answer is 0 or 1")
+                            Choix=input("Choosen event"+Reponse2+" Do you want to remove(0) or edit(1) it:")
 
                         if int(Choix)==0:
                             #Suppression
@@ -735,12 +735,12 @@ def modifListeEvenement(ListeEvenement):
                         
                         else:
                             #Modification
-                            new=input("Saisissez le nouvel Evènement:")
+                            new=input("Insert the new event:")
 
                             #verification de la saisie
                             while VerifSaisieNewEvenement(new,ListeEvenement)==False:
-                                print("Le nom de l'évènement ne respecte pas les conditions.\n"+CONDITIONS_EVENEMENT)
-                                new=input("Nouveau choix:")
+                                print("The name of the event do not respect conditions.\n"+CONDITIONS_EVENEMENT)
+                                new=input("New choice:")
 
 
                             ListeEvenement=ModifListe(Reponse2,ListeEvenement,new)
@@ -753,9 +753,9 @@ def modifListeEvenement(ListeEvenement):
 
 
                 #On ne veut pas/plus modifier
-                case "non":
+                case "no":
 
-                    print("Fin de modification")
+                    print("End of edit")
                     wait()
                     #changement de la valeur de la variable stop pour s'arreter
                     stop=1
@@ -763,7 +763,7 @@ def modifListeEvenement(ListeEvenement):
 
                 #Autre reponse
                 case _:
-                    print("La réponse attendue est oui ou non")
+                    print("The expected answer is yes or no")
 
         return ListeEvenement
 #
