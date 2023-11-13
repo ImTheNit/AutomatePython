@@ -44,11 +44,11 @@ RESTRICTION_CHOIX_EVENEMENT=[";"," "]
 RESTRICTION_CHOIX_NOUVEL_ETAT=[";"," "]
 
 #STR contenant les messages de conditions des differentes saisies
-CONDITIONS_ETAT="Un Etat ne peut pas contenir "+str(RESTRICTION_CHOIX_ETAT)+" ni être vide"
+CONDITIONS_ETAT="A state can't contain "+str(RESTRICTION_CHOIX_ETAT)+"and be empty"
 
-CONDITIONS_EVENEMENT="Un Evènement ne peut pas contenir "+str(RESTRICTION_CHOIX_EVENEMENT)+" ni être vide"
+CONDITIONS_EVENEMENT="An event can't contain "+str(RESTRICTION_CHOIX_EVENEMENT)+"and be empty"
 
-CONDITIONS_NOUVEL_ETAT="Un Etat ne peut pas contenir "+str(RESTRICTION_CHOIX_ETAT)+" ni être vide.De plus un Etat de destination doit être un état existant"
+CONDITIONS_NOUVEL_ETAT="A state can't contain "+str(RESTRICTION_CHOIX_ETAT)+",be empty and the destination state must exist"
 
 
 #Message des choix de mode
