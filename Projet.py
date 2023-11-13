@@ -75,7 +75,7 @@ def wait(a=0.8):
 
 def AffichageDico(MonDico):
 
-    print("Dictionnaire:")
+    print("Dictionnary:")
 
     for i in range(len(MonDico)):
         print(MonDico[i],"\n")
@@ -88,7 +88,7 @@ def AffichageDico(MonDico):
 def AffichageAutomateFromDico(MonDico):
 
     if DicoVide(MonDico)== True:
-        print("Erreur: le dictionnaire a afficher est vide")     
+        print("Error: the dictionnary to print is empty")     
         return -1
 
     else:
@@ -120,12 +120,12 @@ def AffichageAutomateFromCSV(CSVFILES):
             return 0
         
         else:
-            print("Erreur: le fichier ",CSVFILES," est vide")    
+            print("Error: the file ",CSVFILES," is empty")    
             return -2
             #le fichier est vide
 
     else:
-        print("Erreur: le fichier n'existe pas\n")
+        print("Error: the file do not exist\n")
         return -1
         #le fichier n'existe pas 
 #
