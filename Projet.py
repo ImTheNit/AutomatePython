@@ -1230,7 +1230,7 @@ def ChangeToComplet(Dico): #to do, utiliser la fct pour ajouter un evenement pou
             for j in range(len(Events)): #test every possible transition
                 if Dico[i][Events[j]]=="": #if a transition don't have an output, the automate isn't complete
                     Dico[i][Events[j]]=bin #replace the free transition to a transition to the bin
-        AddState(Dico,bin,0,bin)
+        Dico = AddState(Dico,bin,0,bin)
     return Dico
 
 def AddState(Dico,name,type=0,event=""): #add the state to the list with default "" destination to all events
@@ -1238,14 +1238,18 @@ def AddState(Dico,name,type=0,event=""): #add the state to the list with default
     if name in States:  #the state already exist -> nothing to do
         return Dico
     else:
-        Events = EvenementDico
-        if event  in States :                #case of an invalid event (invalid for "" -> we change "" to "")
-            event =""                                   #event go back to the default case
-        i=len(Dico)                                #the new state is numbered as the size of the actual Dico
-        for i in range(len(Events)):
-            linelist+=";"+str(event)                    #string of destinations after event
-            string =str(name)+";"+str(type)+linelist    #final string with the name of the element; is type;all destinations using all events
-        Dico.setdefault(i+1,{string})              #add the string to the Dico
+        Events = EvenementDico(Dico)
+        print (event)
+        if event not in States and event != name :                #case of an invalid event (invalid for "" -> we change "" to "")
+            event =""                                 #event go back to the default case
+        print(event)
+        i=len(Dico)
+        linelist =""                                #the new state is numbered as the size of the actual Dico
+        for i in Events:
+            linelist+=";"+str(i)+":"+str(event)                    #string of destinations after event
+        string ="colonne"+":"+str(name)+";"+"Type"+":"+str(type)+linelist    #final string with the name of the element; is type;all destinations using all events
+        print(string)
+        Dico.setdefault(int(len(Dico)),{string})              #add the string to the Dico
 
     return Dico
 def ReplaceEvent(Dico,name,elmt1="",elmt2=""): #replace the events elmt2 of the state name to elmt1
@@ -1285,18 +1289,39 @@ if DEBUGG == 1:
         #3:{'colonne':'q3'},
         #4:{'colonne':'q4'}
     #}
-    Dictionnaire={
-        0: {'colonne': 'q1', 'type': '0', 'A': 'q3', 'B': 'q0', 'C': 'q1', 'D': 'q2'}, 
-        3: {'colonne': 'q2', 'type': '0', 'A': 'q2', 'B': 'q3', 'C': 'q0', 'D': 'q1'}, 
-        2: {'colonne': 'q3', 'type': '0', 'A': 'q1', 'B': 'q2', 'C': 'q3', 'D': 'q0'}
-        }
+    #Dictionnaire=CreationDico()
+    #print(VerifEtatInitial(Dictionnaire))
+    #print(VerifMotAEF(Dictionnaire))
+    #print(EtatDico(Dictionnaire))
+    
 
-    Dictionnaire=TrieDicoCle(Dictionnaire)
+    #Dictionnaire={
+    #    0: {'colonne': 'q1', 'type': '0', 'A': 'q3', 'B': 'q0', 'C': 'q1', 'D': 'q2'}, 
+    #    3: {'colonne': 'q2', 'type': '0', 'A': 'q2', 'B': 'q3', 'C': 'q0', 'D': 'q1'}, 
+    #    2: {'colonne': 'q3', 'type': '0', 'A': 'q1', 'B': 'q2', 'C': 'q3', 'D': 'q0'}
+    #    }
+    print(VerifComplet(Dictionnaire))
+    #print(VerifComplet(CSVToDico("data4.csv")))
+    print(Dictionnaire)
+    print(EvenementDico(Dictionnaire))
+    Dictionnaire = ChangeToComplet(Dictionnaire)
+    print(Dictionnaire)
+    #print(VerifComplet(Dictionnaire))
+    #DicoToCSV(Dictionnaire,FichierSortie)
+    #print(Dictionnaire)
+    #print(VerifTrieDico(Dictionnaire))
+    #Dictionnaire=TrieDicoCle(Dictionnaire)
+    #print(Dictionnaire)
+    #print(VerifTrieDico(Dictionnaire))
+    
 
-    Dictionnaire=ConvertIndiceDico(Dictionnaire)
+    #print(Dictionnaire)
+    #Dictionnaire=TrieDicoCle(Dictionnaire)
+
+    #Dictionnaire=ConvertIndiceDico(Dictionnaire)
 
 
-    ModifDico(Dictionnaire)
+    #ModifDico(Dictionnaire)
     #print(Dictionnaire)
 
     ARRET = 1
