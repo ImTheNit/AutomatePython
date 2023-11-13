@@ -554,7 +554,7 @@ def EquilibrageDico(MonDico):
 
 def ConvertIndiceDico(MonDico):
     if DicoVide(MonDico):
-        print("Erreur: le Dictionnaire est vide")
+        print("Error: the dictionnary is empty")
         return -1
     else:
         DicoFinal={}
@@ -596,7 +596,7 @@ def modifListeEtat(ListeEtat):
     # Retourne la liste modifiée par l'utilisateur
 
     if len(ListeEtat) == 0:#la liste est de taille 0 --> vide
-        print("La liste est vide")
+        print("The list is empty")
         return -1
 
     else:
@@ -608,7 +608,7 @@ def modifListeEtat(ListeEtat):
         while stop == 0:
 
             # On interroge l'utilisateur
-            reponse =input(str(ListeEtat)+"\nVoulez vous modifier la liste des états ci dessus (oui ou non):")
+            reponse =input(str(ListeEtat)+"\nDo you want to edit the state's list above (yes or no):")
 
             #On Convertit la chaine en minuscule
             reponse=reponse.lower()
@@ -617,26 +617,26 @@ def modifListeEtat(ListeEtat):
             match reponse:
 
                 #on veut modifier
-                case "oui":
+                case "yes":
 
-                    print("Modification")
-                    Reponse2=input("Taper le nom de l'etat pour le modifier ou le supprimer et taper le nouveau nom pour le rajouter:")
+                    print("Edit")
+                    Reponse2=input("Insert the name of the state to edit or remove it and insert the new name to add it:")
 
                     #Verification que la reponse est correcte:
                     while VerifSaisieEtat(Reponse2)==False:
-                        print("Le nom de l'état ne respecte pas les conditions.\n"+CONDITIONS_ETAT)
-                        Reponse2=input("Nouveau choix:")
+                        print("The name do not respect conditions.\n"+CONDITIONS_ETAT)
+                        Reponse2=input("New choice:")
 
                     #notre champs est désormais conforme 
 
                     if Reponse2 in ListeEtat:   #l'état choisi est dans la liste
 
-                        Choix=input("Etat sélectionné: "+Reponse2+" Voulez vous le supprimer(0) ou le modifier(1):")
+                        Choix=input("Choosen state: "+Reponse2+" Do you want to remove(0) or edi(1) it:")
 
                         #Verification du champ 'Choix'
                         while VerifEntier(Choix)==False or int(Choix) not in [0,1]:
-                            print("La réponse attendue est 0 ou 1")
-                            Choix=input("Etat sélectionné: "+Reponse2+" Voulez vous le supprimer(0) ou le modifier(1):")
+                            print("The expected answer is 0 or 1")
+                            Choix=input("Choosen state: "+Reponse2+" Do you want to remove(0) or edi(1) it:")
 
                         if int(Choix)==0:
                             #Suppression
@@ -644,12 +644,12 @@ def modifListeEtat(ListeEtat):
                         
                         else:
                             #Modification
-                            new=input("Saisissez le nouvel Etat:")
+                            new=input("Insert the new state:")
 
                             #verification de la saisie
                             while VerifSaisieNewEtat(new,ListeEtat)==False:
-                                print("Le nom de l'état ne respecte pas les conditions.\n"+CONDITIONS_ETAT)
-                                new=input("Nouveau choix:")
+                                print("The name do not respect conditions.\n"+CONDITIONS_ETAT)
+                                new=input("New choice:")
 
 
                             ListeEtat=ModifListe(Reponse2,ListeEtat,new)
@@ -662,9 +662,9 @@ def modifListeEtat(ListeEtat):
 
 
                 #On ne veut pas/plus modifier
-                case "non":
+                case "no":
 
-                    print("Fin de modification")
+                    print("End of edit")
                     wait()
                     #changement de la valeur de la variable stop pour s'arreter
                     stop=1
@@ -672,7 +672,7 @@ def modifListeEtat(ListeEtat):
 
                 #Autre reponse
                 case _:
-                    print("La réponse attendue est oui ou non")
+                    print("The expected answer is yes or no")
 
         return ListeEtat
 #
