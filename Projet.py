@@ -788,7 +788,7 @@ def ModifListe(ancien,Liste,nouveau):
 
     else:
 
-        print("Erreur: la liste est vide")
+        print("Error: the list is empty")
         return -1     
 #
 #status
@@ -820,7 +820,7 @@ def FichierVide(CSVFILES):
     # On verifie que le fichier existe
     if FichierExiste(CSVFILES)==False:
 
-        print("Erreur: le ficher n'existe pas ")
+        print("Error: the file do not exist")
         return -1
     
     else:
