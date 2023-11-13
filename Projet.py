@@ -361,7 +361,7 @@ def FIELDNAMES(MonDico):# on renvoi les clés pour les champs du csv
 def ModifDico(MonDico):
 
     if DicoVide(MonDico)==True:
-        print("Erreur: l'automate est vide/inexistant")
+        print("Error: the file do not exist or is empty")
         return -1
     else:
 
@@ -394,7 +394,7 @@ def ModifDico(MonDico):
 
         # Retirons les etats qui ont été supprimés et reorganisons le dicionnaire
         
-        print("Suppresssion des etats indésirables")
+        print("Removing unwanted files")
         wait()
         for i in range(len(AncienneListeEtat)):
             if AncienneListeEtat[i] not in ListeEtat:
@@ -407,7 +407,7 @@ def ModifDico(MonDico):
 
         # Ajoutons les etats qui ont été ajoutés
 
-        print("ajout des nouveaux etats")
+        print("Adding new states")
         wait()
 
 
@@ -436,7 +436,7 @@ def ModifDico(MonDico):
 
         #On retire maintenant les évenement que l'utilisateur ne veut plus garder
 
-        print("Suppresssion des evennements indésirables")
+        print("Removing unwanted events")
         wait()
 
         for i in range(len(AncienneListeEvenement)):
@@ -451,7 +451,7 @@ def ModifDico(MonDico):
 
         # On rajoute les evennements qui ont été rajoutés
 
-        print("Ajout des nouveaux evennements")
+        print("Adding new events")
         wait()
 
         for i in range(len(ListeEvenement)):
@@ -467,8 +467,8 @@ def ModifDico(MonDico):
 
         # On Affiche maintenant l'automate pas à pas et demandant les nouvelles valeurs
 
-        print("Nouvelles valeurs dans notre automate")
-        print("Etat:Evenement-> EtatDeDestination")
+        print("New fields in the automaton")
+        print("State:Event-> destination's state")
 
         for i in range(len(MonDico)):
             field=list(FIELDNAMES(MonDico))
@@ -476,21 +476,21 @@ def ModifDico(MonDico):
             
             # Modification du Type
             print(MonDico[i][field[0]],":",field[1],"-->",MonDico[i][list(FIELDNAMES(MonDico))[1]])
-            rep=input("Saisissez le type de l'état "+MonDico[i][field[0]]+" parmis: quelconque(0), initial(1), final(2) ou initial et final(3) (Entrer pour ignorer):")
+            rep=input("Input the type of the state "+MonDico[i][field[0]]+" among: ordinary(0), initial(1), final(2) or    initial and final(3) (Enter to skip):")
 
             while VerifType(rep)==False and rep!="": # On verifie que le type saisie respecte les conditions ou alors qu'il est vide(dans ce cas on garde l'ancienne valeur)
-                    print("Le type n'est pas valide")
-                    rep=input("Saisissez le type de l'état "+MonDico[i][field[0]]+" parmis: quelconque(0), initial(1), final(2) ou initial et final(3) (Entrer pour ignorer):")
+                    print("The type is not correct")
+                    rep=input("Input the type of the state "+MonDico[i][field[0]]+" among: ordinary(0), initial(1), final(2) or   initial and final(3) (Enter to skip):")
             if rep != "":
                 MonDico[i][list(FIELDNAMES(MonDico))[1]]=rep
 
             # Modification des etat de destination
             for j in range(2,len(field)):
                 print(MonDico[i][field[0]],":",field[j],"-->",MonDico[i][list(FIELDNAMES(MonDico))[j]])
-                rep=input("Saisissez une valeur de destination (Entrer pour ignorer):")
+                rep=input("Enter a new destination state (Enter to skip):")
                 while VerifSaisieNouvelEtat(rep,EtatDico(MonDico))== False:
-                    print("Le nom de l'état ne respecte pas les conditions.\n"+CONDITIONS_NOUVEL_ETAT)
-                    rep=input("Nouvelle saisie:")
+                    print("The name of the state do no respect conditions.\n"+CONDITIONS_NOUVEL_ETAT)
+                    rep=input("New input:")
                 if rep != "":
                     #print("test")
                     MonDico[i][list(FIELDNAMES(MonDico))[j]]=rep
