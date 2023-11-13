@@ -819,7 +819,7 @@ def VerifAEF(MonDico):
         # si on arrive ici --> tous les element sont dans des etats ou alors ils sont vide --> AEF
         return True          
 #
-#status
+#statusFIELDNAMES(
 #OK
 #
 
@@ -990,8 +990,11 @@ def EtatDico(MonDico):
 
     else:
         etat=[]
-        for i in range(len(MonDico)):
-            etat.append(MonDico[i][list(FIELDNAMES(MonDico))[0]])
+
+        for i in range(len(MonDico.keys())):
+            print(MonDico.keys())
+            print(list(MonDico.keys())[i])
+            etat.append(list(MonDico.keys())[i])
         return(etat)
 #
 #status
@@ -1137,16 +1140,18 @@ if DEBUGG == 1:
     #}
     Dictionnaire={
         0: {'colonne': 'q1', 'type': '0', 'A': 'q3', 'B': 'q0', 'C': 'q1', 'D': 'q2'}, 
-        3: {'colonne': 'q2', 'type': '0', 'A': 'q2', 'B': 'q3', 'C': 'q0', 'D': 'q1'}, 
-        2: {'colonne': 'q3', 'type': '0', 'A': 'q1', 'B': 'q2', 'C': 'q3', 'D': 'q0'}
+        6: {'colonne': 'q2', 'type': '0', 'A': 'q2', 'B': 'q3', 'C': 'q0', 'D': 'q1'}, 
+        2: {'colonne': 'q3', 'type': '0', 'A': 'q1', 'B': 'q2', 'C': 'q3', 'D': 'q0'},
+        8: {'colonne': 'q3', 'type': '0', 'A': 'q1', 'B': 'q2', 'C': 'q3', 'D': 'q0'}
         }
-    #print(Dictionnaire)
-    #print(VerifTrieDico(Dictionnaire))
-    #Dictionnaire=TrieDicoCle(Dictionnaire)
-    #print(Dictionnaire)
+
+    print(Dictionnaire)
+    Dictionnaire=TrieDicoCle(Dictionnaire)
+
+
     #print(VerifTrieDico(Dictionnaire))
     
-
+    ModifDico(Dictionnaire)
     
     #ModifDico(Dictionnaire)
     #print(Dictionnaire)
