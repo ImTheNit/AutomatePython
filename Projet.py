@@ -52,7 +52,7 @@ CONDITIONS_NOUVEL_ETAT="Un Etat ne peut pas contenir "+str(RESTRICTION_CHOIX_ETA
 
 
 #Message des choix de mode
-TEXTE_DEMANDE_USER="\n-----------------------------\nChoisissez une action parmis:\n-----------------------------\n(1)Charger un automate depuis un fichier .csv\n(2)Afficher un Automate depuis un fichier .csv\n(3)Afficher l'Automate en mémoire\n(4)Enregistrer l'Automate  en mémoire dans un fichier .csv\n(5)Effacer l'Automate en mémoire\n(6)Créer un Automate\n(7)Modifier un Automate en mémoire\n(8)Verifier si un Automate est un Automate d'état fini\n(0)Arrêter le programme"
+TEXTE_DEMANDE_USER="\n-----------------------------\nChoisissez une action parmis:\n-----------------------------\n(1)Load an automaton from a .csv file\n(2)Display the automaton from a .csv file\n(3)Display the automaton in memory\n(4)Register the automaton in memory in a .csv file\n(5)Erase the automaton in memory\n(6)Create an automaton\n(7)Modify the automaton in memory\n(8)Verify if the automaton is a final state machine\n(9)Verify that the automaton is complete\n(10)Complete the automaton\n(0)Arrêter le programme"
 
 
 
@@ -1125,10 +1125,22 @@ def VerifComplet(Dico):#return TRUE if the automate if complete, FALSE else
                 return end
     return end
                 
-def changeToComplet(Dico):
+def ChangeToComplet(Dico): #to do, utiliser la fct pour ajouter un evenement poubelle et rajouter lorsqu'on trouve un lien manquant un lien vers poubelle pour chaque événement
     if not VerifComplet(Dico):#the automate isn't complete
-        blabla =1
-    return blabla
+        Events = EvenementDico(Dico)
+        bin = "bin"
+        if bin in Events: #if bin is already the name of an event
+            n=0
+            bin=bin.str(n)
+        while bin in Events:
+            n+=1
+            bin = "bin".str(n)
+        Keys = EtatDico(Dico)
+        for i in range(len(Dico)): #test every elmt
+            for j in range(len(Events)): #test every possible transition
+                if Dico[i][Events[j]]=="": #if a transition don't have an output, the automate isn't complete
+                    blabla =1
+    return Dico
 
 #END OF COCOZONE
 
@@ -1165,12 +1177,24 @@ if DEBUGG == 1:
         #3:{'colonne':'q3'},
         #4:{'colonne':'q4'}
     #}
-    Dictionnaire={
-        0: {'colonne': 'q1', 'type': '0', 'A': 'q3', 'B': 'q0', 'C': 'q1', 'D': 'q2'}, 
-        6: {'colonne': 'q2', 'type': '0', 'A': 'q2', 'B': 'q3', 'C': 'q0', 'D': 'q1'}, 
-        2: {'colonne': 'q3', 'type': '0', 'A': 'q1', 'B': 'q2', 'C': 'q3', 'D': 'q0'},
-        8: {'colonne': 'q4', 'type': '0', 'A': 'q1', 'B': 'q2', 'C': 'q3', 'D': 'q0'}
-        }
+    #Dictionnaire={
+    #    0: {'colonne': 'q1', 'type': '0', 'A': 'q3', 'B': 'q0', 'C': 'q1', 'D': 'q2'}, 
+    #    3: {'colonne': 'q2', 'type': '0', 'A': 'q2', 'B': 'q3', 'C': 'q0', 'D': 'q1'}, 
+    #    2: {'colonne': 'q3', 'type': '0', 'A': 'q1', 'B': 'q2', 'C': 'q3', 'D': 'q0'}
+    #    }
+    print(VerifComplet(Dictionnaire))
+    #print(VerifComplet(CSVToDico("data4.csv")))
+    print(Dictionnaire)
+    print(EvenementDico(Dictionnaire))
+    #Dictionnaire = ChangeToComplet(Dictionnaire)
+    #print(VerifComplet(Dictionnaire))
+    #DicoToCSV(Dictionnaire,FichierSortie)
+    #print(Dictionnaire)
+    #print(VerifTrieDico(Dictionnaire))
+    #Dictionnaire=TrieDicoCle(Dictionnaire)
+    #print(Dictionnaire)
+    #print(VerifTrieDico(Dictionnaire))
+    
 
     print(Dictionnaire)
     Dictionnaire=TrieDicoCle(Dictionnaire)
@@ -1321,6 +1345,30 @@ while ARRET == 0 :
                     
                     
 
+        #verify if an automaton is complete
+        case 9:
+            print("\nComplete Verification\n")
+
+            if DicoVide(Dictionnaire)==True:    #No automaton in memory
+                print("No Automaton in memory")
+            else:
+                match VerifComplet(Dictionnaire):
+                    case True : #automaton is complete
+                        print("The automaton is complete")
+                    case False :#automaton is not complete
+                        print("The automaton is not complete")
+                    case _: #default case
+                        print("Error: problem with the verification")
+
+        #to complete an automaton
+        case 10:
+            print("\nAutomaton completion\n")
+
+            if DicoVide(Dictionnaire)==True:    #No automaton in memory
+                print("No Automaton in memory")
+            else:
+                Dictionnaire = ChangeToComplet(Dictionnaire)
+                print("done \n")
 
         #cas default
         case _:
