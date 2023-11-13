@@ -218,7 +218,7 @@ def CreationDico():
     while a != 0:
 
         # On interroge l'utilisateur
-        Rep=input("Saisissez un état (0 pour arrêter):")
+        Rep=input("Input a state (0 to stop):")
 
         if VerifEntier(Rep)==True : #La reponse de l'utilisateur peut etre converti en entier
             if int(Rep)==0:         #L'utilisateur veut arreter la saisie des états
@@ -229,17 +229,17 @@ def CreationDico():
 
                 while VerifSaisieNewEtat(Rep,Etat)==False:  #On verifie que l'etat saisie est conforme aux exigence données
 
-                    print("Le nom de l'état ne respecte pas les conditions.\n"+CONDITIONS_ETAT)
-                    Rep=input("Nouveau choix:")
+                    print("The name of the new state do not respect the conditions.\n"+CONDITIONS_ETAT)
+                    Rep=input("New choice:")
 
                 #on initialise Rep2 en dehors de la liste des types imposées pour entré dans le while    
                 Rep2=-1
                 
                 while VerifType(Rep2)==False :  # On boucle tant que la reponse utilisateur n'est pas dans la liste des type fournie
 
-                    Rep2=input("Saisissez le type de l'état "+Rep+" parmis: quelconque(0), initial(1), final(2) ou initial et final(3):")
+                    Rep2=input("Input the type of the state"+Rep+" among: ordinary(0), initial(1), final(2) or   initial and final(3):")
                     if VerifType(Rep2)==False:
-                        print("Le type n'est pas valide")
+                        print("The type is not correct")
 
                 #A partir d'ici l'etat et le type saisies sont valides donc on peut les ajouter a leur liste respectives
                 Type.append(Rep2)
@@ -250,26 +250,26 @@ def CreationDico():
 
             while VerifSaisieNewEtat(Rep,Etat)==False:  #On verifie que l'etat saisie est conforme aux exigence données
 
-                print("Le nom de l'état ne respecte pas les conditions.\n"+CONDITIONS_ETAT)
-                Rep=input("Nouveau choix:")
+                print("The name of the new state do not respect the conditions.\n"+CONDITIONS_ETAT)
+                Rep=input("New choice:")
 
             #on initialise Rep2 en dehors de la liste des types imposées pour entré dans le while    
             Rep2=-1
             
             while VerifType(Rep2)==False :  # On boucle tant que la reponse utilisateur n'est pas dans la liste des type fournie
 
-                Rep2=input("Saisissez le type de l'état "+Rep+" parmis: quelconque(0), initial(1), final(2) ou initial et final(3):")
+                Rep2=input("Input the type of the state "+Rep+" among: ordinary(0), initial(1), final(2) or   initial and final(3):")
                 if VerifType(Rep2)==False:
-                    print("Le type n'est pas valide")
+                    print("The type is not correct")
 
             #A partir d'ici l'etat et le type saisies sont valides donc on peut les ajouter a leur liste respectives
             Type.append(Rep2)
             Etat.append(Rep)
 
     #Affichages pour controler
-    print("La liste des états saisies:",Etat)
-    print("La liste des type:",Type,"\n")
-
+    print("The list of input's states:",Etat)
+    print("The list of input's state's type:",Type,"\n")
+    wait(0.4)
 
 
     # On recommence la saisie de la meme maniere mais pour les évènement cette fois
@@ -279,7 +279,7 @@ def CreationDico():
     while a != 0:
 
         # On interroge l'utilisateur
-        Rep=input("Saisissez un évènement (0 pour arrêter):")
+        Rep=input("Input an event (0 to stop):")
 
         if VerifEntier(Rep)==True : #La reponse de l'utilisateur peut etre converti en entier
             if int(Rep)==0:         #L'utilisateur veut arreter la saisie des evenements
@@ -289,8 +289,8 @@ def CreationDico():
 
                 while VerifSaisieNewEvenement(Rep,Evenement)==False: #On verifie que l'evenement saisie est conforme aux exigence données
 
-                    print("Le nom de l'évènement ne respecte pas les conditions.\n"+CONDITIONS_EVENEMENT)
-                    Rep=input("Nouveau choix:")
+                    print("The name of the event do not respect conditions.\n"+CONDITIONS_EVENEMENT)
+                    Rep=input("New choice:")
 
                 #A partir d'ici l'évenement saisie est conforme donc on peut l'ajouter a sa liste    
                 Evenement.append(Rep)
@@ -300,20 +300,20 @@ def CreationDico():
             
             while VerifSaisieNewEvenement(Rep,Evenement)==False:    #On verifie que l'evenement saisie est conforme aux exigence données
 
-                print("Le nom de l'évènement ne respecte pas les conditions.\n"+CONDITIONS_EVENEMENT)
-                Rep=input("Nouveau choix:")
+                print("The name of the event do not respect conditions.\n"+CONDITIONS_EVENEMENT)
+                Rep=input("New choice:")
 
             #A partir d'ici l'évenement saisie est conforme donc on peut l'ajouter a sa liste
             Evenement.append(Rep)
 
 
     # Affichage pour controler        
-    print("La liste des évènements saisies:",Evenement,"\n")
+    print("The list of input's events:",Evenement,"\n")
     wait(0.4)
 
 
     #insertion de "l'interieur"
-    print("Insertion des états de destination:\nSynthaxe: Etat de Départ:Evenement-->Etat d'arrivée")
+    print("Inserting destination's states:\nSynthax: State:Event-->destination's state")
 
     for i in range(len(Etat)):  #   =Pour chaque Etat
 
@@ -327,7 +327,7 @@ def CreationDico():
             Rep3=input(Etat[i]+":"+Evenement[j]+"-->")
 
             while VerifSaisieNouvelEtat(Rep3,Etat)==False:  # On verifie que la saisie est conforme
-                print("Le nom de l'état ne respecte pas les conditions.\n"+CONDITIONS_NOUVEL_ETAT)
+                print("The name of the state do not respect conditions.\n"+CONDITIONS_NOUVEL_ETAT)
                 Rep3=input(Etat[i]+":"+Evenement[j]+"-->")
 
             # A partir d'ici la saisie est conforme donc on peut l'ecrire dans notre dictionnaire
