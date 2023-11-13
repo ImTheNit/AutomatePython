@@ -1203,6 +1203,7 @@ def ChangeToComplet(Dico): #to do, utiliser la fct pour ajouter un evenement pou
             for j in range(len(Events)): #test every possible transition
                 if Dico[i][Events[j]]=="": #if a transition don't have an output, the automate isn't complete
                     Dico[i][Events[j]]=bin #replace the free transition to a transition to the bin
+        print(Dico)
         Dico = AddState(Dico,bin,0,bin)
     return Dico
 
@@ -1214,15 +1215,19 @@ def AddState(Dico,name,type=0,event=""): #add the state to the list with default
         Events = EvenementDico(Dico)
         print (event)
         if event not in States and event != name :                #case of an invalid event (invalid for "" -> we change "" to "")
-            event =""                                 #event go back to the default case
-        print(event)
-        i=len(Dico)
-        linelist =""                                #the new state is numbered as the size of the actual Dico
-        for i in Events:
-            linelist+=";"+str(i)+":"+str(event)                    #string of destinations after event
-        string ="colonne"+":"+str(name)+";"+"Type"+":"+str(type)+linelist    #final string with the name of the element; is type;all destinations using all events
-        print(string)
-        Dico.setdefault(int(len(Dico)),{string})              #add the string to the Dico
+            event =""
+        i=len(Dico)                                 #event go back to the default case
+        Dico.setdefault(i,i)              #add the row len(Dico) to the dico
+        print('tjs vivant')
+        print (Dico[i])
+        Dico[i].setdefault("colonne",name)
+        
+        print('tjs vivant')
+        Dico[i].setdefault("Type",str(type))
+        print('tjs vivant')
+        for n in Events:
+            Dico[i].setdefault(n,event)
+        
 
     return Dico
 def ReplaceEvent(Dico,name,elmt1="",elmt2=""): #replace the events elmt2 of the state name to elmt1
