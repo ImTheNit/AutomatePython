@@ -1094,7 +1094,7 @@ def VerifComplet(Dico):#return TRUE if the automate if complete, FALSE else
                 return end
     return end
                 
-def changeToComplet(Dico): #to do, utiliser la fct pour ajouter un evenement poubelle et rajouter lorsqu'on trouve un lien manquant un lien vers poubelle pour chaque événement
+def ChangeToComplet(Dico): #to do, utiliser la fct pour ajouter un evenement poubelle et rajouter lorsqu'on trouve un lien manquant un lien vers poubelle pour chaque événement
     if not VerifComplet(Dico):#the automate isn't complete
         Events = EvenementDico(Dico)
         Keys = EtatDico(Dico)
@@ -1140,11 +1140,16 @@ if DEBUGG == 1:
         #3:{'colonne':'q3'},
         #4:{'colonne':'q4'}
     #}
-    Dictionnaire={
-        0: {'colonne': 'q1', 'type': '0', 'A': 'q3', 'B': 'q0', 'C': 'q1', 'D': 'q2'}, 
-        3: {'colonne': 'q2', 'type': '0', 'A': 'q2', 'B': 'q3', 'C': 'q0', 'D': 'q1'}, 
-        2: {'colonne': 'q3', 'type': '0', 'A': 'q1', 'B': 'q2', 'C': 'q3', 'D': 'q0'}
-        }
+    #Dictionnaire={
+    #    0: {'colonne': 'q1', 'type': '0', 'A': 'q3', 'B': 'q0', 'C': 'q1', 'D': 'q2'}, 
+    #    3: {'colonne': 'q2', 'type': '0', 'A': 'q2', 'B': 'q3', 'C': 'q0', 'D': 'q1'}, 
+    #    2: {'colonne': 'q3', 'type': '0', 'A': 'q1', 'B': 'q2', 'C': 'q3', 'D': 'q0'}
+    #    }
+    print(VerifComplet(Dictionnaire))
+    print(VerifComplet(CSVToDico("data4.csv")))
+    #Dictionnaire = ChangeToComplet(Dictionnaire)
+    #print(VerifComplet(Dictionnaire))
+    #DicoToCSV(Dictionnaire,FichierSortie)
     #print(Dictionnaire)
     #print(VerifTrieDico(Dictionnaire))
     #Dictionnaire=TrieDicoCle(Dictionnaire)
