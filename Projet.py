@@ -1129,19 +1129,38 @@ def ChangeToComplet(Dico): #to do, utiliser la fct pour ajouter un evenement pou
     if not VerifComplet(Dico):#the automate isn't complete
         Events = EvenementDico(Dico)
         bin = "bin"
-        if bin in Events: #if bin is already the name of an event
+        Keys = EtatDico(Dico)
+        if bin in Keys: #if bin is already the name of a state
             n=0
             bin=bin.str(n)
-        while bin in Events:
+        
+        while bin in Keys:
             n+=1
             bin = "bin".str(n)
-        Keys = EtatDico(Dico)
+        
         for i in range(len(Dico)): #test every elmt
             for j in range(len(Events)): #test every possible transition
                 if Dico[i][Events[j]]=="": #if a transition don't have an output, the automate isn't complete
-                    blabla =1
+                    Dico[i][Events[j]]=bin #replace the free transition to a transition to the bin
     return Dico
 
+def AddState(Dico,name,type=0,event=""): #add the state to the list with default "" event to all events
+    States = EtatDico(Dico)
+    if name in States:  #the state already exist -> nothing to do
+        return Dico
+    else:
+        Events = EvenementDico
+        if event is not in Events :#case of an invalid event
+            event ="" #event go back to the default case
+        i=len(Dico)     #the new state is numbered as the size of the actual Dico
+        for i in range(len(Events)):
+            linelist+=";"+str(event)
+            string =str(i)+";"+str(type)+linelist
+        Dico.setdefault(i+1,{string})
+
+    return Dico
+def ReplaceEvent(Dico,name,elmt1="",elmt2=""): #replace the events elmt2 of the state name to elmt1
+    return Dico
 #END OF COCOZONE
 
 
