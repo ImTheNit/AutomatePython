@@ -1097,6 +1097,13 @@ def VerifComplet(Dico):#return TRUE if the automate if complete, FALSE else
 def ChangeToComplet(Dico): #to do, utiliser la fct pour ajouter un evenement poubelle et rajouter lorsqu'on trouve un lien manquant un lien vers poubelle pour chaque événement
     if not VerifComplet(Dico):#the automate isn't complete
         Events = EvenementDico(Dico)
+        bin = "bin"
+        if bin in Events: #if bin is already the name of an event
+            n=0
+            bin=bin.str(n)
+        while bin in Events:
+            n+=1
+            bin = "bin".str(n)
         Keys = EtatDico(Dico)
         for i in range(len(Dico)): #test every elmt
             for j in range(len(Events)): #test every possible transition
@@ -1146,7 +1153,9 @@ if DEBUGG == 1:
     #    2: {'colonne': 'q3', 'type': '0', 'A': 'q1', 'B': 'q2', 'C': 'q3', 'D': 'q0'}
     #    }
     print(VerifComplet(Dictionnaire))
-    print(VerifComplet(CSVToDico("data4.csv")))
+    #print(VerifComplet(CSVToDico("data4.csv")))
+    print(Dictionnaire)
+    print(EvenementDico(Dictionnaire))
     #Dictionnaire = ChangeToComplet(Dictionnaire)
     #print(VerifComplet(Dictionnaire))
     #DicoToCSV(Dictionnaire,FichierSortie)
