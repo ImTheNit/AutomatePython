@@ -993,7 +993,7 @@ def EtatDico(MonDico):
 
         for i in range(len(MonDico.keys())):
 
-            etat.append(list(MonDico.keys())[i])
+            etat.append(MonDico[list(MonDico.keys())[i]]['colonne'])
         return(etat)
 #
 #status
