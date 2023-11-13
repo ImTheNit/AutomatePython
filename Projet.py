@@ -137,7 +137,7 @@ def AffichageAutomateFromCSV(CSVFILES):
 def CSVToDico(CSVFILES):
 
     if FichierExiste(CSVFILES)==False:
-        print("Erreur: le fichier n'existe pas\n")
+        print("Error: the file do not exist\n")
         return -1
         #fichier n'exise pas
 
@@ -159,7 +159,7 @@ def CSVToDico(CSVFILES):
 
 
         else:
-            print("Erreur: le fichier est vide")
+            print("Error: the file is empty")
             return -2
             #fichier Vide
 #
@@ -175,7 +175,7 @@ def DicoToCSV(MonDico,CSVFILES):
     #           -s'il n'existe pas il sera créé
 
     if DicoVide(MonDico)==True:
-        print("Erreur: le dictionnaire est vide")
+        print("Error: the dictionnary is empty")
         return -1
         #le dictionnaire est vide
     
