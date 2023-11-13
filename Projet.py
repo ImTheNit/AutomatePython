@@ -992,8 +992,7 @@ def EtatDico(MonDico):
         etat=[]
 
         for i in range(len(MonDico.keys())):
-            print(MonDico.keys())
-            print(list(MonDico.keys())[i])
+
             etat.append(list(MonDico.keys())[i])
         return(etat)
 #
@@ -1116,7 +1115,6 @@ if DEBUGG != 1:
 
     print("\n-------------------------\nGestionnaire D'Automate\n-------------------------")
 
-#
 #------------------------------------
 #---------------DEBUGG---------------
 #------------------------------------
