@@ -1145,9 +1145,32 @@ def choixFichier(mode,NomFichier):
 #status
 #ok
 #
+
+def VerifEtatInitial(MonDico):
+    l=[]
+    for i in range (len(MonDico)):
+        if (int(list(MonDico[i].values())[1])==1): #or ((list(MonDico[i].values())[1])==3)):
+            print(list(MonDico[i]))
+            l.append(list(MonDico[i])[0])
+    return l
+
+
 def VerifEtatFinal(MonDico):
-    list(MonDico[0].values())[1]
+    liste=[]
+    for i in range (len(MonDico)):
+        if ((list(MonDico[1].values())[i]==2) or (list(MonDico[1].values())[i]==3)):
+            liste.append
+    return liste
+
+
+
+def VerifMotAEF(MonDico):
+    if (MonDico==VerifEtatInitial(MonDico)):
+        if (MonDico==VerifEtatFinal(MonDico)):
+            return True
+    return False
     
+
 
 #COCOZONE
 
@@ -1167,19 +1190,39 @@ def ChangeToComplet(Dico): #to do, utiliser la fct pour ajouter un evenement pou
     if not VerifComplet(Dico):#the automate isn't complete
         Events = EvenementDico(Dico)
         bin = "bin"
-        if bin in Events: #if bin is already the name of an event
+        Keys = EtatDico(Dico)
+        if bin in Keys: #if bin is already the name of a state
             n=0
             bin=bin.str(n)
-        while bin in Events:
+        
+        while bin in Keys:
             n+=1
             bin = "bin".str(n)
-        Keys = EtatDico(Dico)
+        
         for i in range(len(Dico)): #test every elmt
             for j in range(len(Events)): #test every possible transition
                 if Dico[i][Events[j]]=="": #if a transition don't have an output, the automate isn't complete
-                    blabla =1
+                    Dico[i][Events[j]]=bin #replace the free transition to a transition to the bin
+        AddState(Dico,bin,0,bin)
     return Dico
 
+def AddState(Dico,name,type=0,event=""): #add the state to the list with default "" destination to all events
+    States = EtatDico(Dico)
+    if name in States:  #the state already exist -> nothing to do
+        return Dico
+    else:
+        Events = EvenementDico
+        if event  in States :                #case of an invalid event (invalid for "" -> we change "" to "")
+            event =""                                   #event go back to the default case
+        i=len(Dico)                                #the new state is numbered as the size of the actual Dico
+        for i in range(len(Events)):
+            linelist+=";"+str(event)                    #string of destinations after event
+            string =str(name)+";"+str(type)+linelist    #final string with the name of the element; is type;all destinations using all events
+        Dico.setdefault(i+1,{string})              #add the string to the Dico
+
+    return Dico
+def ReplaceEvent(Dico,name,elmt1="",elmt2=""): #replace the events elmt2 of the state name to elmt1
+    return Dico
 #END OF COCOZONE
 
 
