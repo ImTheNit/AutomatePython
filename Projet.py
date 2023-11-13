@@ -64,6 +64,14 @@ TEXTE_DEMANDE_USER="\n-----------------------------\nChoisissez une action parmi
 #
 #
 
+def wait(a=0.8):
+    time.sleep(a)
+    return 0
+#
+#Status
+#OK
+#
+
 
 def AffichageDico(MonDico):
 
@@ -92,6 +100,7 @@ def AffichageAutomateFromDico(MonDico):
             for j in range(1,len(field)):
                 print(MonDico[i][field[0]],":",field[j],"-->",MonDico[i][list(FIELDNAMES(MonDico))[j]])
             print("\n")#pour séparer les affichage de chaque état
+            wait()
         return 0
 #
 #status
@@ -300,6 +309,7 @@ def CreationDico():
 
     # Affichage pour controler        
     print("La liste des évènements saisies:",Evenement,"\n")
+    wait(0.4)
 
 
     #insertion de "l'interieur"
@@ -385,6 +395,7 @@ def ModifDico(MonDico):
         # Retirons les etats qui ont été supprimés et reorganisons le dicionnaire
         
         print("Suppresssion des etats indésirables")
+        wait()
         for i in range(len(AncienneListeEtat)):
             if AncienneListeEtat[i] not in ListeEtat:
                 #l'etat etait là avant mais il n'est plus là
@@ -395,7 +406,11 @@ def ModifDico(MonDico):
 
 
         # Ajoutons les etats qui ont été ajoutés
+
         print("ajout des nouveaux etats")
+        wait()
+
+
         for i in range (len(ListeEtat)):
             Taille=len(MonDico)
             if ListeEtat[i] not in AncienneListeEtat:
@@ -420,7 +435,10 @@ def ModifDico(MonDico):
 
 
         #On retire maintenant les évenement que l'utilisateur ne veut plus garder
+
         print("Suppresssion des evennements indésirables")
+        wait()
+
         for i in range(len(AncienneListeEvenement)):
             if AncienneListeEvenement[i] not in ListeEvenement:
                 #print("Ancienne valeur:",AncienneListeEvenement[i])
@@ -432,7 +450,10 @@ def ModifDico(MonDico):
         #print(MonDico)
 
         # On rajoute les evennements qui ont été rajoutés
+
         print("Ajout des nouveaux evennements")
+        wait()
+
         for i in range(len(ListeEvenement)):
             #Taille=len(ListeEvenement)
             if ListeEvenement[i] not in AncienneListeEvenement:
@@ -445,8 +466,10 @@ def ModifDico(MonDico):
         #print(MonDico)
 
         # On Affiche maintenant l'automate pas à pas et demandant les nouvelles valeurs
+
         print("Nouvelles valeurs dans notre automate")
         print("Etat:Evenement-> EtatDeDestination")
+
         for i in range(len(MonDico)):
             field=list(FIELDNAMES(MonDico))
             
@@ -642,6 +665,7 @@ def modifListeEtat(ListeEtat):
                 case "non":
 
                     print("Fin de modification")
+                    wait()
                     #changement de la valeur de la variable stop pour s'arreter
                     stop=1
                 
@@ -732,6 +756,7 @@ def modifListeEvenement(ListeEvenement):
                 case "non":
 
                     print("Fin de modification")
+                    wait()
                     #changement de la valeur de la variable stop pour s'arreter
                     stop=1
                 
@@ -1136,6 +1161,7 @@ def choixFichier(mode,NomFichier):
 
             else:   #Le fichier existe déjà
                 print("Fichier OK")
+                wait()
             return NomFichier
 
         case _:
@@ -1237,7 +1263,7 @@ def ReplaceEvent(Dico,name,elmt1="",elmt2=""): #replace the events elmt2 of the 
 if DEBUGG != 1:
 
     print("\n-------------------------\nGestionnaire D'Automate\n-------------------------")
-    time.sleep(0.8)
+    wait()
 #------------------------------------
 #---------------DEBUGG---------------
 #------------------------------------
@@ -1297,6 +1323,7 @@ while ARRET == 0 :
         case 1:
 
             print("\nChargement d'un Automate depuis un Fichier\n")
+            wait()
 
             #choix du fichier 
             Fichier=input("Saisissez le nom du fichier:")
@@ -1307,15 +1334,18 @@ while ARRET == 0 :
             Dictionnaire=CSVToDico(FichierEntree)
             if DicoVide(Dictionnaire)==False:
                 print("Automate chargé avec succès")
+                wait()
     
             else:
                 print("Automate vide à l'arrivée, un probleme est apparu")
+                wait()
             
 
         #Affichage Automate depuis .csv    
         case 2:
 
             print("\nAffichage d'un Automate depuis un Fichier\n")
+            wait()
 
             #choix du fichier 
             Fichier=input("Saisissez le nom du fichier:")
@@ -1331,8 +1361,11 @@ while ARRET == 0 :
         case 3:
 
             print("\nAffichage de l'Automate en mémoire\n")
+            wait()
+
             if DicoVide(Dictionnaire)==True:
                 print("Erreur: Aucun Automate n'est chargé en mémoire")
+                wait()
             else:
                 AffichageAutomateFromDico(Dictionnaire)
 
@@ -1342,9 +1375,11 @@ while ARRET == 0 :
         case 4:
 
             print("\nSauvegarde de l'Automate en mémoire vers un fichier\n")
+            wait()
 
             if DicoVide(Dictionnaire)==True:
                 print("Erreur: Aucun Dictionnaire n'est chargé en mémoire")
+                wait()
 
             else:
                 #choix du fichier de destination
@@ -1356,25 +1391,33 @@ while ARRET == 0 :
             #confirmation si non vide ?
                 if DicoToCSV(Dictionnaire,FichierSortie) == 0:
                     print("Sauvegarde réussie")
+                    wait()
                 else:
                     print("Erreur lors de la sauvegarde")
+                    wait()
 
         #Effacer Automate en memoire
         case 5:
 
             print("\nEffacement de l'Automate en mémoire\n")
+            wait()
             Dictionnaire={}#remplacement par dictionnaire vide
             print("Automate effacé")
+            wait()
 
 
         #Créer un nouvel automate
         case 6:
             print("\nCréation d'un nouvel Automate\n")
+            wait()
+
             Dictionnaire=CreationDico()
             if VerifAEF(Dictionnaire)==False:
                 print("Erreur lors de la création")
+                wait()
             else:
                 print("Création de l'automate avec succès")
+                wait()
                 AffichageAutomateFromDico(Dictionnaire)
 
 
@@ -1382,9 +1425,11 @@ while ARRET == 0 :
         case 7:
 
             print("\nModification d'un Automate\n")
+            wait()
 
             if DicoVide(Dictionnaire)==True:
                 print("Aucun Automate en mémoire")
+                wait()
             else:
                 ModifDico(Dictionnaire)
 
@@ -1393,54 +1438,71 @@ while ARRET == 0 :
         case 8:
 
             print("\nVerification AEF\n")
+            wait()
 
             if DicoVide(Dictionnaire)==True:    #il n'y a pas d'Automate en memoire
                 print("Aucun Automate n'est enregisé en mémoire")
+                wait()
             else:       #un automate a bien été trouvé
                 match VerifAEF(Dictionnaire):
             
                     #L'automate est un AEF
                     case True:
                         print("L'automate est un Automate d'état fini")
+                        wait()
                     
                     #L'automate n'est pas un AEF
                     case False:
                         print("L'automate n'est pas un Automate d'état fini")
+                        wait()
 
                     #Cas défaut
                     case _: 
                         print("Erreur: probleme lors de la verification de l'automate")
+                        wait()
                     
                     
 
         #verify if an automaton is complete
         case 9:
             print("\nComplete Verification\n")
+            wait()
 
             if DicoVide(Dictionnaire)==True:    #No automaton in memory
                 print("No Automaton in memory")
+                wait()
             else:
                 match VerifComplet(Dictionnaire):
                     case True : #automaton is complete
                         print("The automaton is complete")
+                        wait()
+
                     case False :#automaton is not complete
                         print("The automaton is not complete")
+                        wait()
+
                     case _: #default case
                         print("Error: problem with the verification")
+                        wait()
 
         #to complete an automaton
         case 10:
             print("\nAutomaton completion\n")
+            wait()
 
             if DicoVide(Dictionnaire)==True:    #No automaton in memory
                 print("No Automaton in memory")
+                wait()
+
             else:
                 Dictionnaire = ChangeToComplet(Dictionnaire)
                 print("done \n")
+                wait()
 
         #cas default
         case _:
             print("Choix non valide\n")
+            wait()
 
 
 
