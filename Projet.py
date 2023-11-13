@@ -427,13 +427,51 @@ def ModifDico(MonDico):
                 for j in range(len(MonDico)):
                         a=MonDico[j].pop(AncienneListeEvenement[i])
                         print("valeur suppr:",a)
-                # Donc on supprime
-        print(MonDico)
+                # Donc on supprimme
+        #print(MonDico)
 
         # On rajoute les evennements qui ont été rajoutés
         print("Ajout des nouveaux evennements")
         for i in range(len(ListeEvenement)):
-            Taille=len(ListeEvenement)
+            #Taille=len(ListeEvenement)
+            if ListeEvenement[i] not in AncienneListeEvenement:
+                #L'evenement n'etait pas là avant
+                print("Nouvel Evenement:",ListeEvenement[i])
+
+                # On ajoute dans le dictionnaire pour chaque etat
+                for j in range(len(MonDico)):
+                    MonDico[j][ListeEvenement[i]]=""
+        #print(MonDico)
+
+        # On Affiche maintenant l'automate pas à pas et demandant les nouvelles valeurs
+        print("Nouvelles valeurs dans notre automate")
+        print("Etat:Evenement-> EtatDeDestination")
+        for i in range(len(MonDico)):
+            field=list(FIELDNAMES(MonDico))
+            
+            
+            # Modification du Type
+            print(MonDico[i][field[0]],":",field[1],"-->",MonDico[i][list(FIELDNAMES(MonDico))[1]])
+            rep=input("Saisissez le type de l'état "+MonDico[i][field[0]]+" parmis: quelconque(0), initial(1), final(2) ou initial et final(3) (Entrer pour ignorer):")
+
+            while VerifType(rep)==False and rep!="": # On verifie que le type saisie respecte les conditions ou alors qu'il est vide(dans ce cas on garde l'ancienne valeur)
+                    print("Le type n'est pas valide")
+                    rep=input("Saisissez le type de l'état "+MonDico[i][field[0]]+" parmis: quelconque(0), initial(1), final(2) ou initial et final(3) (Entrer pour ignorer):")
+            if rep != "":
+                MonDico[i][list(FIELDNAMES(MonDico))[1]]=rep
+
+            # Modification des etat de destination
+            for j in range(2,len(field)):
+                print(MonDico[i][field[0]],":",field[j],"-->",MonDico[i][list(FIELDNAMES(MonDico))[j]])
+                rep=input("Saisissez une valeur de destination (Entrer pour ignorer):")
+                while VerifSaisieNouvelEtat(rep,EtatDico(MonDico))== False:
+                    print("Le nom de l'état ne respecte pas les conditions.\n"+CONDITIONS_NOUVEL_ETAT)
+                    rep=input("Nouvelle saisie:")
+                if rep != "":
+                    print("test")
+                    MonDico[i][list(FIELDNAMES(MonDico))[j]]=rep
+
+        print(MonDico)
         return MonDico
 
 #
@@ -1177,26 +1215,12 @@ if DEBUGG == 1:
         #3:{'colonne':'q3'},
         #4:{'colonne':'q4'}
     #}
-    #Dictionnaire={
-    #    0: {'colonne': 'q1', 'type': '0', 'A': 'q3', 'B': 'q0', 'C': 'q1', 'D': 'q2'}, 
-    #    3: {'colonne': 'q2', 'type': '0', 'A': 'q2', 'B': 'q3', 'C': 'q0', 'D': 'q1'}, 
-    #    2: {'colonne': 'q3', 'type': '0', 'A': 'q1', 'B': 'q2', 'C': 'q3', 'D': 'q0'}
-    #    }
-    print(VerifComplet(Dictionnaire))
-    #print(VerifComplet(CSVToDico("data4.csv")))
-    print(Dictionnaire)
-    print(EvenementDico(Dictionnaire))
-    #Dictionnaire = ChangeToComplet(Dictionnaire)
-    #print(VerifComplet(Dictionnaire))
-    #DicoToCSV(Dictionnaire,FichierSortie)
-    #print(Dictionnaire)
-    #print(VerifTrieDico(Dictionnaire))
-    #Dictionnaire=TrieDicoCle(Dictionnaire)
-    #print(Dictionnaire)
-    #print(VerifTrieDico(Dictionnaire))
-    
+    Dictionnaire={
+        0: {'colonne': 'q1', 'type': '0', 'A': 'q3', 'B': 'q0', 'C': 'q1', 'D': 'q2'}, 
+        3: {'colonne': 'q2', 'type': '0', 'A': 'q2', 'B': 'q3', 'C': 'q0', 'D': 'q1'}, 
+        2: {'colonne': 'q3', 'type': '0', 'A': 'q1', 'B': 'q2', 'C': 'q3', 'D': 'q0'}
+        }
 
-    print(Dictionnaire)
     Dictionnaire=TrieDicoCle(Dictionnaire)
 
     Dictionnaire=ConvertIndiceDico(Dictionnaire)
