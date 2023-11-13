@@ -25,7 +25,7 @@ DELIMITER=";"
 
 ARRET=0 #0 si on veut continuer, 1 sinon
 
-DEBUGG=1 #1 si onveut debugger, 0 sinon --> different de ARRET
+DEBUGG=0 #1 si onveut debugger, 0 sinon --> different de ARRET
 
 Dictionnaire={}
 
@@ -350,7 +350,6 @@ def FIELDNAMES(MonDico):# on renvoi les clés pour les champs du csv
     
 def ModifDico(MonDico):
 
-    DicoFinal={}
     if DicoVide(MonDico)==True:
         print("Erreur: l'automate est vide/inexistant")
         return -1
@@ -382,8 +381,6 @@ def ModifDico(MonDico):
         #   ->(Ou alors créer une fonction pour rééquilibrer le dictionnaire(si un indice n'est plus present on le remplace par le suivant)) //recursif
         #       -> FAIT
 
-        #On reorganise notre Dictionnaire pour que les indices soient successifs
-        MonDico=ConvertIndiceDico(MonDico)
 
         # Retirons les etats qui ont été supprimés et reorganisons le dicionnaire
         
@@ -394,7 +391,7 @@ def ModifDico(MonDico):
                 
                 # Donc on supprime
                 a=MonDico.pop(i)
-                print("valeur suppr:",a)
+                #print("valeur suppr:",a)
 
 
         # Ajoutons les etats qui ont été ajoutés
@@ -403,30 +400,34 @@ def ModifDico(MonDico):
             Taille=len(MonDico)
             if ListeEtat[i] not in AncienneListeEtat:
                 #l'etat n'etait pas là avant 
-                print("Nouvel Etat:",ListeEtat[i],"taille:",Taille)
+                #print("Nouvel Etat:",ListeEtat[i],"taille:",Taille)
 
                 # Ajoutons le dans le dictionnaire
                 MonDico.setdefault(Taille+1,{'colonne':ListeEtat[i]})
 
 
             else:
+                a=1 #bidon
                 #l'etat etait deja là
-                print("Ancien Etat:",ListeEtat[i])
+                #print("Ancien Etat:",ListeEtat[i])
         
         # On verifie que le dictionnaire est trié, si besoin on le trie pour pouvoir l'equilibrer ensuite
         if VerifTrieDico(MonDico)==False:
             MonDico=TrieDicoCle(MonDico)
         
-        
+        #On reorganise notre Dictionnaire pour que les indices soient successifs
+        MonDico=ConvertIndiceDico(MonDico)
+
+
         #On retire maintenant les évenement que l'utilisateur ne veut plus garder
         print("Suppresssion des evennements indésirables")
         for i in range(len(AncienneListeEvenement)):
             if AncienneListeEvenement[i] not in ListeEvenement:
-                print("Ancienne valeur:",AncienneListeEvenement[i])
+                #print("Ancienne valeur:",AncienneListeEvenement[i])
                 #l'evennement etait là avant mais il n'est plus là
                 for j in range(len(MonDico)):
                         a=MonDico[j].pop(AncienneListeEvenement[i])
-                        print("valeur suppr:",a)
+                        #print("valeur suppr:",a)
                 # Donc on supprimme
         #print(MonDico)
 
@@ -436,7 +437,7 @@ def ModifDico(MonDico):
             #Taille=len(ListeEvenement)
             if ListeEvenement[i] not in AncienneListeEvenement:
                 #L'evenement n'etait pas là avant
-                print("Nouvel Evenement:",ListeEvenement[i])
+                #print("Nouvel Evenement:",ListeEvenement[i])
 
                 # On ajoute dans le dictionnaire pour chaque etat
                 for j in range(len(MonDico)):
@@ -468,10 +469,10 @@ def ModifDico(MonDico):
                     print("Le nom de l'état ne respecte pas les conditions.\n"+CONDITIONS_NOUVEL_ETAT)
                     rep=input("Nouvelle saisie:")
                 if rep != "":
-                    print("test")
+                    #print("test")
                     MonDico[i][list(FIELDNAMES(MonDico))[j]]=rep
 
-        print(MonDico)
+
         return MonDico
 
 #
@@ -1236,7 +1237,7 @@ def ReplaceEvent(Dico,name,elmt1="",elmt2=""): #replace the events elmt2 of the 
 if DEBUGG != 1:
 
     print("\n-------------------------\nGestionnaire D'Automate\n-------------------------")
-
+    time.sleep(0.8)
 #------------------------------------
 #---------------DEBUGG---------------
 #------------------------------------
@@ -1283,7 +1284,7 @@ if DEBUGG == 1:
 while ARRET == 0 :
     
     ChoixUser=DemandeUser()
-
+    time.sleep(0.8)
     match ChoixUser:
         
         #Arret
