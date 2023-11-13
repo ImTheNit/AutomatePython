@@ -1119,12 +1119,12 @@ def DemandeUser():
 
     # On inerroge l'utilisateur
     print(TEXTE_DEMANDE_USER)
-    A=input("Votre Choix:")
+    A=input("\nVotre Choix:")
 
     while VerifEntier(A)==False:    # Tant que l réponse n'est pas un entier on boucle sur la question
         print("La réponse attendu doit être un entier")
         print(TEXTE_DEMANDE_USER)
-        A=input("Votre Choix:")
+        A=input("\nVotre Choix:")
     return int(A)
 
 #
@@ -1262,7 +1262,7 @@ def ReplaceEvent(Dico,name,elmt1="",elmt2=""): #replace the events elmt2 of the 
 #
 if DEBUGG != 1:
 
-    print("\n-------------------------\nGestionnaire D'Automate\n-------------------------")
+    print("\n------------------------\nGestionnaire D'Automate\n------------------------")
     wait()
 #------------------------------------
 #---------------DEBUGG---------------
@@ -1315,14 +1315,16 @@ while ARRET == 0 :
         
         #Arret
         case 0:
-
-            print("Fin du programme\n")
+            print("-----------------")
+            print("Fin du programme")
+            print("-----------------")
             ARRET=1
 
         #chargement automate depuis .csv
         case 1:
-
-            print("\nChargement d'un Automate depuis un Fichier\n")
+            print("\n------------------------------------------")
+            print("Chargement d'un Automate depuis un Fichier")
+            print("------------------------------------------\n")
             wait()
 
             #choix du fichier 
@@ -1343,8 +1345,9 @@ while ARRET == 0 :
 
         #Affichage Automate depuis .csv    
         case 2:
-
-            print("\nAffichage d'un Automate depuis un Fichier\n")
+            print("\n-----------------------------------------")
+            print("Affichage d'un Automate depuis un Fichier")
+            print("-----------------------------------------\n")
             wait()
 
             #choix du fichier 
@@ -1359,8 +1362,9 @@ while ARRET == 0 :
 
         #Affichage de l'Automate en mémoire
         case 3:
-
-            print("\nAffichage de l'Automate en mémoire\n")
+            print("\n----------------------------------")
+            print("Affichage de l'Automate en mémoire")
+            print("----------------------------------\n")
             wait()
 
             if DicoVide(Dictionnaire)==True:
@@ -1373,8 +1377,9 @@ while ARRET == 0 :
 
         #Enregistrer l'automate dans un fichier
         case 4:
-
-            print("\nSauvegarde de l'Automate en mémoire vers un fichier\n")
+            print("\n---------------------------------------------------")
+            print("Sauvegarde de l'Automate en mémoire vers un fichier")
+            print("---------------------------------------------------\n")
             wait()
 
             if DicoVide(Dictionnaire)==True:
@@ -1398,8 +1403,9 @@ while ARRET == 0 :
 
         #Effacer Automate en memoire
         case 5:
-
-            print("\nEffacement de l'Automate en mémoire\n")
+            print("\n-----------------------------------")
+            print("Effacement de l'Automate en mémoire")
+            print("-----------------------------------\n")
             wait()
             Dictionnaire={}#remplacement par dictionnaire vide
             print("Automate effacé")
@@ -1408,7 +1414,9 @@ while ARRET == 0 :
 
         #Créer un nouvel automate
         case 6:
-            print("\nCréation d'un nouvel Automate\n")
+            print("\n-----------------------------")
+            print("Création d'un nouvel Automate")
+            print("-----------------------------\n")
             wait()
 
             Dictionnaire=CreationDico()
@@ -1423,8 +1431,9 @@ while ARRET == 0 :
 
         #Modifier un Automate
         case 7:
-
-            print("\nModification d'un Automate\n")
+            print("\n--------------------------")
+            print("Modification d'un Automate")
+            print("--------------------------\n")
             wait()
 
             if DicoVide(Dictionnaire)==True:
@@ -1436,8 +1445,9 @@ while ARRET == 0 :
 
         #verifier si un Automate est un AEF en mémoire uniquement (l'ordre peut changer)
         case 8:
-
-            print("\nVerification AEF\n")
+            print("\n----------------")
+            print("Verification AEF")
+            print("----------------\n")
             wait()
 
             if DicoVide(Dictionnaire)==True:    #il n'y a pas d'Automate en memoire
@@ -1465,7 +1475,9 @@ while ARRET == 0 :
 
         #verify if an automaton is complete
         case 9:
-            print("\nComplete Verification\n")
+            print("\n---------------------")
+            print("Complete Verification")
+            print("---------------------\n")
             wait()
 
             if DicoVide(Dictionnaire)==True:    #No automaton in memory
@@ -1487,7 +1499,9 @@ while ARRET == 0 :
 
         #to complete an automaton
         case 10:
-            print("\nAutomaton completion\n")
+            print("\n--------------------")
+            print("Automaton completion")
+            print("--------------------\n")
             wait()
 
             if DicoVide(Dictionnaire)==True:    #No automaton in memory
