@@ -894,7 +894,7 @@ def VerifAEF(MonDico):
     # Retourne False si le dictionnaire ne decrit pas un AEF
 
     if DicoVide(MonDico)==True:
-        print("L'automate est vide")
+        print("Automaton is empty")
         return False
 
     else:
@@ -927,7 +927,7 @@ def VerifSaisieNewEtat(choix,ListeEtat):#en attente de savoir quels caractères 
 
     else:
         if choix in ListeEtat:                                      #on verifie que l'etat n'existe pas déjà   
-            print("Cet Etat existe déjà")
+            print("This state already exist")
             return False
 
         for i in range(len(RESTRICTION_CHOIX_ETAT)):
@@ -976,7 +976,7 @@ def VerifSaisieNewEvenement(choix,ListeEvenement):#en attente de savoir quels ca
 
     else:
         if choix in ListeEvenement:                                 #on verifie que l'evenement n'existe pas deja  
-            print("Cet Evenement existe déjà")                      
+            print("This event already exist")                      
             return False
 
         for i in range(len(RESTRICTION_CHOIX_EVENEMENT)):       
@@ -1077,7 +1077,7 @@ def EtatDico(MonDico):
     # Retourne une liste contenant l'ensemble des etat de l'AEF -> colonne de gauche(sauf premiere ligne)
 
     if DicoVide(MonDico)==True:
-        print("l'automate est vide")
+        print("Error: the automaton is empty")
         return -1
 
 
@@ -1097,7 +1097,7 @@ def EvenementDico(MonDico):
     # Retourne la liste contenant l'ensemble des evenement de l'AEF -> premiere ligne(sauf premiere colonne)
 
     if DicoVide(MonDico)==True:
-        print("l'automate est vide")
+        print("Error: the automaton is empty")
         return -1
 
 
