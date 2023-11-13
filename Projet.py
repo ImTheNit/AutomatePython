@@ -1266,7 +1266,7 @@ def ReplaceEvent(Dico,name,elmt1="",elmt2=""): #replace the events elmt2 of the 
 #
 if DEBUGG != 1:
 
-    print("\n------------------------\nGestionnaire D'Automate\n------------------------")
+    print("\n--------------------\nAutomaton's manager\n--------------------")
     wait()
 #------------------------------------
 #---------------DEBUGG---------------
