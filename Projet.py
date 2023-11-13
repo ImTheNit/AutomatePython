@@ -1119,12 +1119,12 @@ def DemandeUser():
 
     # On inerroge l'utilisateur
     print(TEXTE_DEMANDE_USER)
-    A=input("\nVotre Choix:")
+    A=input("\nYour choice:")
 
     while VerifEntier(A)==False:    # Tant que l réponse n'est pas un entier on boucle sur la question
-        print("La réponse attendu doit être un entier")
+        print("The expected answer is an integer")
         print(TEXTE_DEMANDE_USER)
-        A=input("\nVotre Choix:")
+        A=input("\Your choice:")
     return int(A)
 
 #
@@ -1148,7 +1148,7 @@ def choixFichier(mode,NomFichier):
             #on verifie que le fichier existe est qu'il n'est pas vide
             while FichierExiste(NomFichier)==False or FichierVide(NomFichier)==True:        
                 NomFichier=input("Fichier vide ou introuvable, réessayer:")
-            print("Fichier OK")
+            print("File OK")
             return NomFichier
 
 
@@ -1156,16 +1156,16 @@ def choixFichier(mode,NomFichier):
         case 2:
 
             if FichierExiste(NomFichier)==False:#Le fichier n'existe pas 
-                print("Aucun fichier correspondant, création d'un nouveau fichier")
+                print("No corresponding file, creating new file")
                     #Pour Créer un fichier en python, on l'ouvre en mode ecriture(et cela sera fait lors de l'ecriture)
 
             else:   #Le fichier existe déjà
-                print("Fichier OK")
+                print("File OK")
                 wait()
             return NomFichier
 
         case _:
-            print("Erreur dans l'appel de choixFichier()")
+            print("Error in the call of choixFichier()")
             return -1
             #erreur appel de choixFichier()
 #
