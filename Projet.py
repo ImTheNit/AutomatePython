@@ -1165,7 +1165,7 @@ def choixFichier(mode,NomFichier):
             return NomFichier
 
         case _:
-            print("Error in the call of choixFichier()")
+            print("Error when calling choixFichier()")
             return -1
             #erreur appel de choixFichier()
 #
