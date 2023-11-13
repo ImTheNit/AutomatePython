@@ -382,25 +382,23 @@ def ModifDico(MonDico):
         #   ->(Ou alors créer une fonction pour rééquilibrer le dictionnaire(si un indice n'est plus present on le remplace par le suivant)) //recursif
         #       -> FAIT
 
+        #On reorganise notre Dictionnaire pour que les indices soient successifs
+        MonDico=ConvertIndiceDico(MonDico)
 
         # Retirons les etats qui ont été supprimés et reorganisons le dicionnaire
-
-        print("Phase de suppression")
+        
+        print("Suppresssion des etats indésirables")
         for i in range(len(AncienneListeEtat)):
-            print(AncienneListeEtat)
-            print(ListeEtat)
             if AncienneListeEtat[i] not in ListeEtat:
                 #l'etat etait là avant mais il n'est plus là
                 
                 # Donc on supprime
-                print(MonDico   )
                 a=MonDico.pop(i)
                 print("valeur suppr:",a)
 
 
-
         # Ajoutons les etats qui ont été ajoutés
-        print(ListeEtat)
+        print("ajout des nouveaux etats")
         for i in range (len(ListeEtat)):
             Taille=len(MonDico)
             if ListeEtat[i] not in AncienneListeEtat:
@@ -414,17 +412,28 @@ def ModifDico(MonDico):
             else:
                 #l'etat etait deja là
                 print("Ancien Etat:",ListeEtat[i])
-
+        
         # On verifie que le dictionnaire est trié, si besoin on le trie pour pouvoir l'equilibrer ensuite
         if VerifTrieDico(MonDico)==False:
             MonDico=TrieDicoCle(MonDico)
         
-        print("test1:",MonDico)
-        MonDico=EquilibrageDico(MonDico)
-        print("test2:",MonDico)
         
+        #On retire maintenant les évenement que l'utilisateur ne veut plus garder
+        print("Suppresssion des evennements indésirables")
+        for i in range(len(AncienneListeEvenement)):
+            if AncienneListeEvenement[i] not in ListeEvenement:
+                print("Ancienne valeur:",AncienneListeEvenement[i])
+                #l'evennement etait là avant mais il n'est plus là
+                for j in range(len(MonDico)):
+                        a=MonDico[j].pop(AncienneListeEvenement[i])
+                        print("valeur suppr:",a)
+                # Donc on supprime
+        print(MonDico)
 
-
+        # On rajoute les evennements qui ont été rajoutés
+        print("Ajout des nouveaux evennements")
+        for i in range(len(ListeEvenement)):
+            Taille=len(ListeEvenement)
         return MonDico
 
 #
@@ -492,7 +501,7 @@ def ConvertIndiceDico(MonDico):
     return DicoFinal
 #
 #Status
-#ko
+#ok
 #
 
 
@@ -1166,12 +1175,10 @@ if DEBUGG == 1:
     print(Dictionnaire)
     Dictionnaire=TrieDicoCle(Dictionnaire)
 
-
-    #print(VerifTrieDico(Dictionnaire))
     Dictionnaire=ConvertIndiceDico(Dictionnaire)
-    #ModifDico(Dictionnaire)
-    
-    #ModifDico(Dictionnaire)
+
+
+    ModifDico(Dictionnaire)
     #print(Dictionnaire)
 
     ARRET = 1
