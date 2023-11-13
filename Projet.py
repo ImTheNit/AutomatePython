@@ -385,11 +385,15 @@ def ModifDico(MonDico):
 
         # Retirons les etats qui ont été supprimés et reorganisons le dicionnaire
 
+        print("Phase de suppression")
         for i in range(len(AncienneListeEtat)):
+            print(AncienneListeEtat)
+            print(ListeEtat)
             if AncienneListeEtat[i] not in ListeEtat:
                 #l'etat etait là avant mais il n'est plus là
                 
                 # Donc on supprime
+                print(MonDico   )
                 a=MonDico.pop(i)
                 print("valeur suppr:",a)
 
@@ -476,6 +480,22 @@ def EquilibrageDico(MonDico):
 #Status
 #OK
 #
+
+def ConvertIndiceDico(MonDico):
+    if DicoVide(MonDico):
+        print("Erreur: le Dictionnaire est vide")
+        return -1
+    else:
+        DicoFinal={}
+        for i in range(len(MonDico.keys())):
+            DicoFinal[i]=MonDico[list(MonDico.keys())[i]]
+    return DicoFinal
+#
+#Status
+#ko
+#
+
+
 
 
 def TrieDicoCle(MonDico):
@@ -1140,7 +1160,7 @@ if DEBUGG == 1:
         0: {'colonne': 'q1', 'type': '0', 'A': 'q3', 'B': 'q0', 'C': 'q1', 'D': 'q2'}, 
         6: {'colonne': 'q2', 'type': '0', 'A': 'q2', 'B': 'q3', 'C': 'q0', 'D': 'q1'}, 
         2: {'colonne': 'q3', 'type': '0', 'A': 'q1', 'B': 'q2', 'C': 'q3', 'D': 'q0'},
-        8: {'colonne': 'q3', 'type': '0', 'A': 'q1', 'B': 'q2', 'C': 'q3', 'D': 'q0'}
+        8: {'colonne': 'q4', 'type': '0', 'A': 'q1', 'B': 'q2', 'C': 'q3', 'D': 'q0'}
         }
 
     print(Dictionnaire)
@@ -1148,8 +1168,8 @@ if DEBUGG == 1:
 
 
     #print(VerifTrieDico(Dictionnaire))
-    
-    ModifDico(Dictionnaire)
+    Dictionnaire=ConvertIndiceDico(Dictionnaire)
+    #ModifDico(Dictionnaire)
     
     #ModifDico(Dictionnaire)
     #print(Dictionnaire)
