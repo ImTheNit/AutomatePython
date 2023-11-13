@@ -52,7 +52,7 @@ CONDITIONS_NOUVEL_ETAT="Un Etat ne peut pas contenir "+str(RESTRICTION_CHOIX_ETA
 
 
 #Message des choix de mode
-TEXTE_DEMANDE_USER="\n-----------------------------\nChoisissez une action parmis:\n-----------------------------\n(1)Charger un automate depuis un fichier .csv\n(2)Afficher un Automate depuis un fichier .csv\n(3)Afficher l'Automate en mémoire\n(4)Enregistrer l'Automate  en mémoire dans un fichier .csv\n(5)Effacer l'Automate en mémoire\n(6)Créer un Automate\n(7)Modifier un Automate en mémoire\n(8)Verifier si un Automate est un Automate d'état fini\n(0)Arrêter le programme"
+TEXTE_DEMANDE_USER="\n-----------------------------\nChoisissez une action parmis:\n-----------------------------\n(1)Charger un automate depuis un fichier .csv\n(2)Afficher un Automate depuis un fichier .csv\n(3)Afficher l'Automate en mémoire\n(4)Enregistrer l'Automate  en mémoire dans un fichier .csv\n(5)Effacer l'Automate en mémoire\n(6)Créer un Automate\n(7)Modifier un Automate en mémoire\n(8)Verifier si un Automate est un Automate d'état fini\n(9)Verify that the automaton is complete\n(10)Complete the automaton\n(0)Arrêter le programme"
 
 
 
