@@ -1107,9 +1107,32 @@ def choixFichier(mode,NomFichier):
 #status
 #ok
 #
+
+def VerifEtatInitial(MonDico):
+    l=[]
+    for i in range (len(MonDico)):
+        if (int(list(MonDico[i].values())[1])==1): #or ((list(MonDico[i].values())[1])==3)):
+            print(list(MonDico[i]))
+            l.append(list(MonDico[i])[0])
+    return l
+
+
 def VerifEtatFinal(MonDico):
-    list(MonDico[0].values())[1]
+    liste=[]
+    for i in range (len(MonDico)):
+        if ((list(MonDico[1].values())[i]==2) or (list(MonDico[1].values())[i]==3)):
+            liste.append
+    return liste
+
+
+
+def VerifMotAEF(MonDico):
+    if (MonDico==VerifEtatInitial(MonDico)):
+        if (MonDico==VerifEtatFinal(MonDico)):
+            return True
+    return False
     
+
 
 #COCOZONE
 
@@ -1196,6 +1219,12 @@ if DEBUGG == 1:
         #3:{'colonne':'q3'},
         #4:{'colonne':'q4'}
     #}
+    Dictionnaire=CreationDico()
+    print(VerifEtatInitial(Dictionnaire))
+    #print(VerifMotAEF(Dictionnaire))
+    #print(EtatDico(Dictionnaire))
+    
+
     #Dictionnaire={
     #    0: {'colonne': 'q1', 'type': '0', 'A': 'q3', 'B': 'q0', 'C': 'q1', 'D': 'q2'}, 
     #    3: {'colonne': 'q2', 'type': '0', 'A': 'q2', 'B': 'q3', 'C': 'q0', 'D': 'q1'}, 
