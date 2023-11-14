@@ -1202,6 +1202,8 @@ def VerifMotAEF(MonDico):
 #COCOZONE
 
 
+
+
 def VerifComplet(Dico):#return TRUE if the automate if complete, FALSE else
     Events = EvenementDico(Dico)
     Keys = EtatDico(Dico)
@@ -1255,6 +1257,9 @@ def AddState(Dico,name,type=0,event=""): #add the state to the list with default
     return Dico
 def ReplaceEvent(Dico,name,elmt1="",elmt2=""): #replace the events elmt2 of the state name to elmt1
     return Dico
+
+
+
 #END OF COCOZONE
 
 
