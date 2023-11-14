@@ -1210,6 +1210,8 @@ def VerifMotAEF(MonDico):
 #COCOZONE
 
 
+
+
 def VerifComplet(Dico):#return TRUE if the automate if complete, FALSE else
     Events = EvenementDico(Dico)
     Keys = EtatDico(Dico)
@@ -1253,20 +1255,19 @@ def AddState(Dico,name,type=0,event=""): #add the state to the list with default
             event =""
         i=len(Dico)                                 #event go back to the default case
         Dico.setdefault(i,i)              #add the row len(Dico) to the dico
-        print('tjs vivant')
-        print (Dico[i])
-        Dico[i].setdefault("colonne",name)
-        
-        print('tjs vivant')
-        Dico[i].setdefault("Type",str(type))
-        print('tjs vivant')
-        for n in Events:
-            Dico[i].setdefault(n,event)
+        Dico[i]={}     #generate the Dico we are going to fill
+        Dico[i]["colonne"]=name #giving a colonne key with the name attribute
+        Dico[i]["Type"]=type #same with the type
+        for j in States: #going throught all existing Event
+            Dico[i][j]=event #giving the event the desired destination
         
 
     return Dico
 def ReplaceEvent(Dico,name,elmt1="",elmt2=""): #replace the events elmt2 of the state name to elmt1
     return Dico
+
+
+
 #END OF COCOZONE
 
 
