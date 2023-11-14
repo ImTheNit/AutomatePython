@@ -1245,15 +1245,11 @@ def AddState(Dico,name,type=0,event=""): #add the state to the list with default
             event =""
         i=len(Dico)                                 #event go back to the default case
         Dico.setdefault(i,i)              #add the row len(Dico) to the dico
-        print('tjs vivant')
-        print (Dico[i])
-        Dico[i].setdefault("colonne",name)
-        
-        print('tjs vivant')
-        Dico[i].setdefault("Type",str(type))
-        print('tjs vivant')
-        for n in Events:
-            Dico[i].setdefault(n,event)
+        Dico[i]={}     #générer un indice pour notre dictionnaire pour pouvoir y acceder ensuite (INDISPENSABLE)
+        Dico[i]["colonne"]=name
+        Dico[i]["Type"]=type
+        for j in States:
+            Dico[i][j]=event
         
 
     return Dico
