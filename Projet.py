@@ -25,7 +25,7 @@ DELIMITER=";"
 
 ARRET=0 #0 si on veut continuer, 1 sinon
 
-DEBUGG=0 #1 si onveut debugger, 0 sinon --> different de ARRET
+DEBUGG=1 #1 si onveut debugger, 0 sinon --> different de ARRET
 
 Dictionnaire={}
 
@@ -153,6 +153,14 @@ def CSVToDico(CSVFILES):
 
                 for row in reader:                  #La i_ème ligne de notre fichier est placée dans le dictionnaire à l'indice i   //#d'office convertit en dictionnaire
                     Dictionnaire[count]=row
+                    
+
+
+                    # We want the programm to convert a multiple choice of state in the csv file into a list of state (separator of state in the file: ",")
+
+                    for i in range(len(EvenementDico(Dictionnaire))):
+                        if "," in row[list(EvenementDico(Dictionnaire))[i]]:
+                            row[list(EvenementDico(Dictionnaire))[i]]=row[list(EvenementDico(Dictionnaire))[i]].split(",") # We split the string if it contain ","
                     count += 1           
 
             return (Dictionnaire)
@@ -1294,40 +1302,18 @@ if DEBUGG == 1:
         #3:{'colonne':'q3'},
         #4:{'colonne':'q4'}
     #}
-    #Dictionnaire=CreationDico()
+    #Dictionnaire=CreationDico(FichierEntree)
     #print(VerifEtatInitial(Dictionnaire))
     #print(VerifMotAEF(Dictionnaire))
     #print(EtatDico(Dictionnaire))
-    
+    print(Dictionnaire)
 
     #Dictionnaire={
     #    0: {'colonne': 'q1', 'type': '0', 'A': 'q3', 'B': 'q0', 'C': 'q1', 'D': 'q2'}, 
     #    3: {'colonne': 'q2', 'type': '0', 'A': 'q2', 'B': 'q3', 'C': 'q0', 'D': 'q1'}, 
     #    2: {'colonne': 'q3', 'type': '0', 'A': 'q1', 'B': 'q2', 'C': 'q3', 'D': 'q0'}
     #    }
-    print(VerifComplet(Dictionnaire))
-    #print(VerifComplet(CSVToDico("data4.csv")))
-    print(Dictionnaire)
-    print(EvenementDico(Dictionnaire))
-    Dictionnaire = ChangeToComplet(Dictionnaire)
-    print(Dictionnaire)
-    #print(VerifComplet(Dictionnaire))
-    #DicoToCSV(Dictionnaire,FichierSortie)
-    #print(Dictionnaire)
-    #print(VerifTrieDico(Dictionnaire))
-    #Dictionnaire=TrieDicoCle(Dictionnaire)
-    #print(Dictionnaire)
-    #print(VerifTrieDico(Dictionnaire))
-    
 
-    #print(Dictionnaire)
-    #Dictionnaire=TrieDicoCle(Dictionnaire)
-
-    #Dictionnaire=ConvertIndiceDico(Dictionnaire)
-
-
-    #ModifDico(Dictionnaire)
-    #print(Dictionnaire)
 
     ARRET = 1
 
