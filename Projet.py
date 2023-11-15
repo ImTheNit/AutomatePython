@@ -330,13 +330,35 @@ def CreationDico():
         MonDico[i]["Type"]=Type[i]
 
         for j in range(len(Evenement)):     #  =Pour chaque evenement
+            check=0
+            while check == 0:
 
-            # Interroge l'utilisateur
-            Rep3=input(Etat[i]+":"+Evenement[j]+"-->")
-
-            while VerifSaisieNouvelEtat(Rep3,Etat)==False:  # On verifie que la saisie est conforme
-                print("The name of the state do not respect conditions.\n"+CONDITIONS_NOUVEL_ETAT)
+                # Interroge l'utilisateur
                 Rep3=input(Etat[i]+":"+Evenement[j]+"-->")
+
+                # Convert the answer into a list if two or more states
+                Rep3=ListState(Rep3)
+
+                if type(Rep3)==str:
+                    if VerifSaisieNouvelEtat(Rep3,Etat)==False:  # On verifie que la saisie est conforme
+                        print(Rep3,": the name of the state do not respect conditions.\n"+CONDITIONS_NOUVEL_ETAT)
+                    else:
+                        check=2
+
+
+                if type(Rep3)==list:
+                    # We have to check if each member of the list is ok
+                    check=1
+                    print("\n")
+                    wait()
+                    for k in range(len(Rep3)):
+
+                        if VerifSaisieNouvelEtat(Rep3[k],Etat)==False and check==1:
+                            print(Rep3[k],": the name of the state do not respect conditions.\n"+CONDITIONS_NOUVEL_ETAT)
+                            check=0
+                            break
+                        else:
+                            print(Rep3[k],"Correct")
 
             # A partir d'ici la saisie est conforme donc on peut l'ecrire dans notre dictionnaire
             MonDico[i][Evenement[j]]=Rep3
@@ -1319,7 +1341,7 @@ if DEBUGG == 1:
         #3:{'colonne':'q3'},
         #4:{'colonne':'q4'}
     #}
-    #Dictionnaire=CreationDico(FichierEntree)
+    Dictionnaire=CreationDico()
     #print(VerifEtatInitial(Dictionnaire))
     #print(VerifMotAEF(Dictionnaire))
     #print(EtatDico(Dictionnaire))
