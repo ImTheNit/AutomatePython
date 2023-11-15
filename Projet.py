@@ -347,6 +347,7 @@ def CreationDico():
 
 
                 if type(Rep3)==list:
+                    Rep3=ClearState(Rep3)
                     # We have to check if each member of the list is ok
                     check=1
                     print("\n")
@@ -635,6 +636,17 @@ def ListState(string):
 #ok
 #
 
+
+def ClearState(State):
+    # Take as parameter a list
+    # Return this list without elements that are twice or more in
+    New=[]
+
+    for i in range(len(State)):
+        if State[i] not in New:
+            New.append(State[i])
+    
+    return(New)
 
 def modifListeEtat(ListeEtat):
     
@@ -1345,7 +1357,9 @@ if DEBUGG == 1:
     #print(VerifEtatInitial(Dictionnaire))
     #print(VerifMotAEF(Dictionnaire))
     #print(EtatDico(Dictionnaire))
-    print(Dictionnaire)
+    
+    
+    #print(Dictionnaire)
     #Dictionnaire={
     #    0: {'colonne': 'q1', 'type': '0', 'A': 'q3', 'B': 'q0', 'C': 'q1', 'D': 'q2'}, 
     #    3: {'colonne': 'q2', 'type': '0', 'A': 'q2', 'B': 'q3', 'C': 'q0', 'D': 'q1'}, 
