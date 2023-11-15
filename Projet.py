@@ -159,7 +159,8 @@ def CSVToDico(CSVFILES):
                     # We want the programm to convert a multiple choice of state in the csv file into a list of state (separator of state in the file: ",")
                     
                     for i in range(len(EvenementDico(Dictionnaire))):
-                        row[list(EvenementDico(Dictionnaire))[i]]=ListState(row[list(EvenementDico(Dictionnaire))[i]])
+                        Value=ListState(row[list(EvenementDico(Dictionnaire))[i]])
+                        row[list(EvenementDico(Dictionnaire))[i]]=ClearState(Value)
    
                     count += 1           
 
@@ -338,7 +339,7 @@ def CreationDico():
 
                 # Convert the answer into a list if two or more states
                 Rep3=ListState(Rep3)
-
+                Rep3=ClearState(Rep3)
                 if type(Rep3)==str:
                     if VerifSaisieNouvelEtat(Rep3,Etat)==False:  # On verifie que la saisie est conforme
                         print(Rep3,": the name of the state do not respect conditions.\n"+CONDITIONS_NOUVEL_ETAT)
@@ -347,7 +348,6 @@ def CreationDico():
 
 
                 if type(Rep3)==list:
-                    Rep3=ClearState(Rep3)
                     # We have to check if each member of the list is ok
                     check=1
                     print("\n")
@@ -640,8 +640,9 @@ def ListState(string):
 def ClearState(State):
     # Take as parameter a list
     # Return this list without elements that are twice or more in
-    # Return -1 if the parameter is not a list
-    
+    # Return the State if there is only one state(no matter how many times) in the list
+    # Return the parameter if the parameter is not a list
+
     if type(State) ==list:
 
         New=[]
@@ -649,11 +650,13 @@ def ClearState(State):
         for i in range(len(State)):
             if State[i] not in New:
                 New.append(State[i])
-        
-        return(New)
+        if len(New)==1:
+            return(New[0])
+        else:
+            return(New)
     else:
 
-        return -1
+        return State
 
 
 #
@@ -1373,7 +1376,7 @@ if DEBUGG == 1:
     #print(EtatDico(Dictionnaire))
     
     
-    #print(Dictionnaire)
+    print(Dictionnaire)
     #Dictionnaire={
     #    0: {'colonne': 'q1', 'type': '0', 'A': 'q3', 'B': 'q0', 'C': 'q1', 'D': 'q2'}, 
     #    3: {'colonne': 'q2', 'type': '0', 'A': 'q2', 'B': 'q3', 'C': 'q0', 'D': 'q1'}, 
