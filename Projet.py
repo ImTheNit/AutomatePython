@@ -157,10 +157,10 @@ def CSVToDico(CSVFILES):
 
 
                     # We want the programm to convert a multiple choice of state in the csv file into a list of state (separator of state in the file: ",")
-
+                    
                     for i in range(len(EvenementDico(Dictionnaire))):
-                        if "," in row[list(EvenementDico(Dictionnaire))[i]]:
-                            row[list(EvenementDico(Dictionnaire))[i]]=row[list(EvenementDico(Dictionnaire))[i]].split(",") # We split the string if it contain ","
+                        row[list(EvenementDico(Dictionnaire))[i]]=ListState(row[list(EvenementDico(Dictionnaire))[i]])
+   
                     count += 1           
 
             return (Dictionnaire)
@@ -597,6 +597,16 @@ def TrieDicoCle(MonDico):
 #Status
 #Pas OK
 #
+
+def ListState(string):
+    if len(string)==0 or "," not in string:
+        #print(string,"\nEmpty or don't contain \",\"")
+        return string
+    else:
+        #print(string,"\nListe with \",\"")
+        return( string.split(","))
+
+
 
 def modifListeEtat(ListeEtat):
     
@@ -1308,7 +1318,6 @@ if DEBUGG == 1:
     #print(VerifMotAEF(Dictionnaire))
     #print(EtatDico(Dictionnaire))
     print(Dictionnaire)
-
     #Dictionnaire={
     #    0: {'colonne': 'q1', 'type': '0', 'A': 'q3', 'B': 'q0', 'C': 'q1', 'D': 'q2'}, 
     #    3: {'colonne': 'q2', 'type': '0', 'A': 'q2', 'B': 'q3', 'C': 'q0', 'D': 'q1'}, 
