@@ -599,13 +599,19 @@ def TrieDicoCle(MonDico):
 #
 
 def ListState(string):
+
+    #Take in parameter, a string of state or a state 
+    # Return the state if there is only one state
+    # Return a list of states if there is more than one 
+
     if len(string)==0 or "," not in string:
-        #print(string,"\nEmpty or don't contain \",\"")
         return string
     else:
-        #print(string,"\nListe with \",\"")
         return( string.split(","))
-
+#
+#Status
+#ok
+#
 
 
 def modifListeEtat(ListeEtat):
