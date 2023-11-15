@@ -25,7 +25,7 @@ DELIMITER=";"
 
 ARRET=0 #0 si on veut continuer, 1 sinon
 
-DEBUGG=1 #1 si onveut debugger, 0 sinon --> different de ARRET
+DEBUGG=0 #1 si onveut debugger, 0 sinon --> different de ARRET
 
 Dictionnaire={}
 
@@ -517,15 +517,37 @@ def ModifDico(MonDico):
 
             # Modification des etat de destination
             for j in range(2,len(field)):
-                print(MonDico[i][field[0]],":",field[j],"-->",MonDico[i][list(FIELDNAMES(MonDico))[j]])
-                rep=input("Enter a new destination state (Enter to skip):")
-                while VerifSaisieNouvelEtat(rep,EtatDico(MonDico))== False:
-                    print("The name of the state do no respect conditions.\n"+CONDITIONS_NOUVEL_ETAT)
-                    rep=input("New input:")
-                if rep != "":
-                    #print("test")
-                    MonDico[i][list(FIELDNAMES(MonDico))[j]]=rep
+                check=0
+                while check==0:
+                    print(MonDico[i][field[0]],":",field[j],"-->",MonDico[i][list(FIELDNAMES(MonDico))[j]])
+                    rep=input("Enter a new destination state (Enter to skip):")
+                    rep=ListState(rep)
+                    rep=ClearState(rep)
 
+                    if type(rep)==str:
+                        if VerifSaisieNouvelEtat(rep,EtatDico(MonDico))== False:
+                            print("The name of the state do no respect conditions.\n"+CONDITIONS_NOUVEL_ETAT)
+                        else:
+                            check=2
+                            if rep != "":
+                                #print("test")
+                                MonDico[i][list(FIELDNAMES(MonDico))[j]]=rep
+
+                    if type(rep)==list:
+                        check=1
+                        print("\n")
+                        wait()
+                        for k in range(len(rep)):
+                            if VerifSaisieNouvelEtat(rep[k],EtatDico(MonDico))==False and check==1:
+                                print(rep[k],": the name of the state do not respect conditions.\n"+CONDITIONS_NOUVEL_ETAT)
+                                check=0
+                                break
+
+                            else:
+                                print(rep[k],"Correct")
+                               
+                if type(rep)==list and rep[k]!="":
+                    MonDico[i][list(FIELDNAMES(MonDico))[j]]=rep
 
         return MonDico
 
@@ -1506,7 +1528,8 @@ while ARRET == 0 :
 
             Dictionnaire=CreationDico()
             if VerifAEF(Dictionnaire)==False:
-                print("Erreur lors de la création")
+                #print("Erreur lors de la création")
+                #->plus valable tant qu'on ne prend pas en compte les listes dans verifAEF()
                 wait()
             else:
                 print("Création de l'automate avec succès")
