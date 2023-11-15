@@ -640,13 +640,27 @@ def ListState(string):
 def ClearState(State):
     # Take as parameter a list
     # Return this list without elements that are twice or more in
-    New=[]
-
-    for i in range(len(State)):
-        if State[i] not in New:
-            New.append(State[i])
+    # Return -1 if the parameter is not a list
     
-    return(New)
+    if type(State) ==list:
+
+        New=[]
+
+        for i in range(len(State)):
+            if State[i] not in New:
+                New.append(State[i])
+        
+        return(New)
+    else:
+
+        return -1
+
+
+#
+#Status
+#OK
+#
+
 
 def modifListeEtat(ListeEtat):
     
