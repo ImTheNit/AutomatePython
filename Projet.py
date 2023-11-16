@@ -1002,9 +1002,17 @@ def VerifAEF(MonDico):
            
         for i in range(len(MonDico)):   # On parcours les etats   
             for j in range(len(Evenement)): #on parcours les evenements 
+                
+                # case of a list of states
+                if type(MonDico[i][Evenement[j]])==list:
+                    for k in range(len(MonDico[i][Evenement[j]])):
+                        if MonDico[i][Evenement[j]][k] not in Etat and MonDico[i][Evenement[j]][k]!="":
+                            return False
 
-                if MonDico[i][Evenement[j]] not in Etat and MonDico[i][Evenement[j]]!="":   #on test si une 'case' est deja un etat ou si elle est vide
-                    return False                    
+                # case of a single state
+                if type(MonDico[i][Evenement[j]])==str:
+                    if MonDico[i][Evenement[j]] not in Etat and MonDico[i][Evenement[j]]!="":   #on test si une 'case' est deja un etat ou si elle est vide
+                        return False                    
 
         # si on arrive ici --> tous les element sont dans des etats ou alors ils sont vide --> AEF
         return True          
@@ -1528,8 +1536,7 @@ while ARRET == 0 :
 
             Dictionnaire=CreationDico()
             if VerifAEF(Dictionnaire)==False:
-                #print("Erreur lors de la création")
-                #->plus valable tant qu'on ne prend pas en compte les listes dans verifAEF()
+                print("Erreur lors de la création")
                 wait()
             else:
                 print("Création de l'automate avec succès")
