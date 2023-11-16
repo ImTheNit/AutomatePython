@@ -1182,8 +1182,8 @@ def VerifDeterminism(Dico):
         return -1
     else:
         #Testing the startingState's list's lenght is 1 ###utiliser la fonction de guillaume
-
-
+        if len(listEtatInitial(Dico))!=1:
+            return False
         
         #Testing there is no list of state 
         Evenement=EvenementDico(Dico)
@@ -1457,11 +1457,11 @@ if DEBUGG == 1:
         #3:{'colonne':'q3'},
         #4:{'colonne':'q4'}
     #}
-    Dictionnaire=CreationDico()
+    #Dictionnaire=CreationDico()
     #print(Dictionnaire)
     #print(listEtatInitial(Dictionnaire))
     #print(listEtatFinal(Dictionnaire))
-    print(VerifMotAEF(Dictionnaire)) 
+    #print(VerifMotAEF(Dictionnaire)) 
     #print(EtatDico(Dictionnaire))
     
     
