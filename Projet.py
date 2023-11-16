@@ -205,7 +205,7 @@ def CreationDico():
     #Variables permettant de savoir quand on doit arreter de demander une saisie de l'utilisateur
     a=1
 
-    #insertion des états
+    #insertion des étatse
     while a != 0:
 
         # On interroge l'utilisateur
@@ -1108,28 +1108,59 @@ def choixFichier(mode,NomFichier):
 #ok
 #
 
-def VerifEtatInitial(MonDico):
+def listEtatInitial(MonDico):
     l=[]
     for i in range (len(MonDico)):
-        if (int(list(MonDico[i].values())[1])==1): #or ((list(MonDico[i].values())[1])==3)):
-            print(list(MonDico[i]))
-            l.append(list(MonDico[i])[0])
+        if ((int(list(MonDico[i].values())[1])==1) or (int(list(MonDico[i].values())[1])==3)):
+            l.append(list(MonDico[i].values())[0])
     return l
 
 
-def VerifEtatFinal(MonDico):
+def listEtatFinal(MonDico):
     liste=[]
     for i in range (len(MonDico)):
-        if ((list(MonDico[1].values())[i]==2) or (list(MonDico[1].values())[i]==3)):
-            liste.append
+        if ((int(list(MonDico[i].values())[1])==2) or (int(list(MonDico[i].values())[1])==3)):
+            liste.append(list(MonDico[i].values())[0])
     return liste
 
+def ExisteTransition(Evenement,Etat1,Etat2):
+    print("test")
+    #A faire
 
 
 def VerifMotAEF(MonDico):
-    if (MonDico==VerifEtatInitial(MonDico)):
-        if (MonDico==VerifEtatFinal(MonDico)):
-            return True
+
+    EtatI=listEtatInitial(MonDico)
+    EtatF=listEtatFinal(MonDico)
+    Evenement=EvenementDico(MonDico)
+    Etat=EtatDico(MonDico)
+    Fin=[]
+
+
+    mot=input("Entrez un mot \n")
+    if DicoVide(MonDico)==True:
+        print("l'automate est vide")
+        return False
+
+    for i in range (len(mot)):#parcours du mot 
+        for j in range (len(Evenement)):
+            if(mot[i]==Evenement[j]):#on verifie que chaque caractère est un evenement existant
+            
+                for k in range (len(Etat)):
+                    for l in range (len(Etat)):
+                        if (ExisteTransition(Evenement[j],Etat[k],Etat[l])==True):
+                            Fin.append(Etat[k])
+                            newEtat=Etat[l]
+                    if (ExisteTransition(Evenement[j],newEtat,Etat[k])==True):
+                        Fin.append(newEtat)
+                        newEtat=Etat[k]
+            #print("else")                       
+    nbEtat=len(Fin)
+    for m in range (len(EtatI)):
+        if (Fin[0]==EtatI[m]):
+            for n in range (len(EtatF)):
+                if(Fin[nbEtat]==EtatF[n]):
+                    return True
     return False
     
 
@@ -1201,8 +1232,10 @@ if DEBUGG == 1:
         #4:{'colonne':'q4'}
     #}
     Dictionnaire=CreationDico()
-    print(VerifEtatInitial(Dictionnaire))
-    #print(VerifMotAEF(Dictionnaire))
+    #print(Dictionnaire)
+    #print(listEtatInitial(Dictionnaire))
+    #print(listEtatFinal(Dictionnaire))
+    print(VerifMotAEF(Dictionnaire))
     #print(EtatDico(Dictionnaire))
     
 
@@ -1211,10 +1244,7 @@ if DEBUGG == 1:
     #    3: {'colonne': 'q2', 'type': '0', 'A': 'q2', 'B': 'q3', 'C': 'q0', 'D': 'q1'}, 
     #    2: {'colonne': 'q3', 'type': '0', 'A': 'q1', 'B': 'q2', 'C': 'q3', 'D': 'q0'}
     #    }
-    print(VerifComplet(Dictionnaire))
-    #print(VerifComplet(CSVToDico("data4.csv")))
-    print(Dictionnaire)
-    print(EvenementDico(Dictionnaire))
+   
     #Dictionnaire = ChangeToComplet(Dictionnaire)
     #print(VerifComplet(Dictionnaire))
     #DicoToCSV(Dictionnaire,FichierSortie)
@@ -1225,13 +1255,8 @@ if DEBUGG == 1:
     #print(VerifTrieDico(Dictionnaire))
     
 
-    print(Dictionnaire)
-    Dictionnaire=TrieDicoCle(Dictionnaire)
+    #print(Dictionnaire)
 
-    Dictionnaire=ConvertIndiceDico(Dictionnaire)
-
-
-    ModifDico(Dictionnaire)
     #print(Dictionnaire)
 
     ARRET = 1
