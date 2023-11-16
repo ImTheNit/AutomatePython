@@ -358,8 +358,6 @@ def CreationDico():
                             print(Rep3[k],": the name of the state do not respect conditions.\n"+CONDITIONS_NOUVEL_ETAT)
                             check=0
                             break
-                        else:
-                            print(Rep3[k],"Correct")
 
             # A partir d'ici la saisie est conforme donc on peut l'ecrire dans notre dictionnaire
             MonDico[i][Evenement[j]]=Rep3
