@@ -25,7 +25,7 @@ DELIMITER=";"
 
 ARRET=0 #0 si on veut continuer, 1 sinon
 
-DEBUGG=0 #1 si onveut debugger, 0 sinon --> different de ARRET
+DEBUGG=1 #1 si onveut debugger, 0 sinon --> different de ARRET
 
 Dictionnaire={}
 
@@ -1175,6 +1175,34 @@ def VerifTrieDico(MonDico):
 #OK
 #
 
+def VerifDeterminism(Dico):
+
+
+    if DicoVide(Dico):
+        return -1
+    else:
+        #Testing the startingState's list's lenght is 1 ###utiliser la fonction de guillaume
+
+
+        
+        #Testing there is no list of state 
+        Evenement=EvenementDico(Dico)
+        for i in range(len(Dico)):
+            for j in range(len(Evenement)):
+                Value=Dico[i][Evenement[j]]
+                if type(Value) == list:
+                    return False
+
+        return True
+    
+#
+#Status
+# KO
+#   
+
+
+
+
 
 def EtatDico(MonDico):
     # Retourne une liste contenant l'ensemble des etat de l'AEF -> colonne de gauche(sauf premiere ligne)
@@ -1398,13 +1426,14 @@ if DEBUGG == 1:
         #3:{'colonne':'q3'},
         #4:{'colonne':'q4'}
     #}
-    Dictionnaire=CreationDico()
+    #Dictionnaire=CreationDico()
     #print(VerifEtatInitial(Dictionnaire))
     #print(VerifMotAEF(Dictionnaire))
     #print(EtatDico(Dictionnaire))
     
     
     print(Dictionnaire)
+    print(VerifDeterminism(Dictionnaire))
     #Dictionnaire={
     #    0: {'colonne': 'q1', 'type': '0', 'A': 'q3', 'B': 'q0', 'C': 'q1', 'D': 'q2'}, 
     #    3: {'colonne': 'q2', 'type': '0', 'A': 'q2', 'B': 'q3', 'C': 'q0', 'D': 'q1'}, 
