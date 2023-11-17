@@ -83,3 +83,14 @@ Configuration du git sur un terminal sous windows:
 	-Il faut utiliser les répertoires propre à votre installation
 
 
+
+Configuration d'un Environnement de travail pour python sur VSCode window:
+	
+	-Télécharger un interpreteur python (https://www.python.org/downloads/)
+
+	-Installer l'interpreteur
+
+	-Sur un environnement window: exécuter les commandes de la forme: py -3 #NomDeMonFichier.py
+
+	Vous pouvez désormais travailler et exécuter votre script python
+
