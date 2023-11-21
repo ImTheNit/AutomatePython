@@ -1199,7 +1199,73 @@ def VerifDeterminism(Dico):
 #Status
 # KO
 #   
+def ChangeToDeterminist(MonDico):
+    
+    # Function that take in parameters a dictionnary
+    # Return an equivalent of the automaton but determinist
+    # Return False if the dictionnary in parameter is empty
+    # Return False if there is no initial state
 
+
+    if DicoVide(MonDico)==True:
+        return False
+    else:
+
+        match len(listEtatInitial(MonDico)):
+
+            case 0:
+                #no initial state
+                return False
+
+            case 1:
+                #only one initial state(what we want)
+                a=0 #for no empty section
+            case _:
+                #more than one 
+                print("A faire")
+                
+                #return True #provisoire
+
+        #loading lists of states and events
+        Etat=EtatDico(MonDico)
+        Evenement=EvenementDico(MonDico)
+        nouveau_dico=CSVToDico("data4.csv")
+        AffichageAutomateFromDico(nouveau_dico)
+        return True
+        for i in range(len(Etat)):
+            for j in range(len(Evenement)):
+
+
+                if type(MonDico[i][Evenement[j]])==list:
+                    # Modification requiered
+                    print(MonDico[i][Evenement[j]],"->A traiter")
+                    mon_etat=""
+
+                    for k in range(len(MonDico[i][Evenement[j]])):
+                        if mon_etat!="":
+                            mon_etat=mon_etat+","
+
+                        mon_etat=mon_etat + MonDico[i][Evenement[j]][k]
+                    print("New etat =",mon_etat)
+                    
+                    
+
+                else:
+                    #no modification requiered
+                    print(MonDico[i][Evenement[j]],"->ok")
+            
+            if mon_etat!= "":
+                AddState(MonDico,mon_etat,type)
+
+
+
+#recursivity for each state
+
+
+#
+#Status
+# KO
+#
 
 
 
