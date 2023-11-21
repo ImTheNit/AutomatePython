@@ -551,7 +551,7 @@ def ModifDico(MonDico):
 
 #
 #Status   
-#En cours
+#OK
 #
 
 
@@ -638,7 +638,7 @@ def TrieDicoCle(MonDico):
         return DicoFinal
 #
 #Status
-#Pas OK
+# OK
 #
 
 def ListState(string):
@@ -1015,7 +1015,7 @@ def VerifAEF(MonDico):
         # si on arrive ici --> tous les element sont dans des etats ou alors ils sont vide --> AEF
         return True          
 #
-#statusFIELDNAMES(
+#status
 #OK
 #
 
@@ -1197,7 +1197,7 @@ def VerifDeterminism(Dico):
     
 #
 #Status
-# KO
+# OK
 #   
 def ChangeToDeterminist(MonDico):
     
@@ -1264,7 +1264,7 @@ def ChangeToDeterminist(MonDico):
 
 #
 #Status
-# KO
+# En cours
 #
 
 
@@ -1376,7 +1376,10 @@ def listEtatInitial(MonDico):
         if ((int(list(MonDico[i].values())[1])==1) or (int(list(MonDico[i].values())[1])==3)):
             l.append(list(MonDico[i].values())[0])
     return l
-
+#
+#status
+#ok
+#
 
 def listEtatFinal(MonDico):
     liste=[]
@@ -1384,11 +1387,18 @@ def listEtatFinal(MonDico):
         if ((int(list(MonDico[i].values())[1])==2) or (int(list(MonDico[i].values())[1])==3)):
             liste.append(list(MonDico[i].values())[0])
     return liste
+#
+#status
+#ok
+#
 
 def ExisteTransition(Evenement,Etat1,Etat2):
     print("test")
     #A faire
-
+#
+#status
+#En cours
+#
 
 def VerifMotAEF(MonDico):
 
@@ -1425,7 +1435,10 @@ def VerifMotAEF(MonDico):
                     return True
     return False
     
-
+#
+#status
+#En cours
+#
 
 #COCOZONE
 
@@ -1442,7 +1455,12 @@ def VerifComplet(Dico):#return TRUE if the automate if complete, FALSE else
                 end = False
                 return end
     return end
-                
+
+#
+#status
+#ok
+#
+              
 def ChangeToComplet(Dico): #to do, utiliser la fct pour ajouter un evenement poubelle et rajouter lorsqu'on trouve un lien manquant un lien vers poubelle pour chaque événement
     if not VerifComplet(Dico):#the automate isn't complete
         Events = EvenementDico(Dico)
@@ -1463,6 +1481,10 @@ def ChangeToComplet(Dico): #to do, utiliser la fct pour ajouter un evenement pou
         print(Dico)
         Dico = AddState(Dico,bin,0,bin)
     return Dico
+#
+#status
+#ok
+#
 
 def AddState(Dico,name,type=0,event=""): #add the state to the list with default "" destination to all events
     States = EtatDico(Dico)
@@ -1483,9 +1505,17 @@ def AddState(Dico,name,type=0,event=""): #add the state to the list with default
         
 
     return Dico
+#
+#status
+#ok
+#
+
 def ReplaceEvent(Dico,name,elmt1="",elmt2=""): #replace the events elmt2 of the state name to elmt1
     return Dico
-
+#
+#status
+#ok
+#
 
 
 #END OF COCOZONE
