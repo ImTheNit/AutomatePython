@@ -1305,14 +1305,52 @@ def indexOfState(MonDico,State):
             return False
 
 #
-
 #Status
-
 # OK
-
 #
 
+def TypeOfState(MonDico,Etat):
 
+    # Take in parameter a Dictionnary and a state
+
+    # Return False if the dictionnary is empty or the state is not in the dictionnary
+
+    # Return the type of the state if it is in the dictionnary
+
+    ETAT=EtatDico(MonDico)
+
+ 
+
+    if DicoVide(MonDico)==True:
+
+        print("Error: Empty dictionnary")
+
+        return False
+
+    else:
+
+        if Etat not in ETAT:
+
+            print("Error: the state is not in this dictionnary")
+
+            return False
+
+        else:
+
+            for i in range(len(MonDico)):
+
+                if MonDico[i]["colonne"]==Etat:
+
+                    return MonDico[i]["type"]
+
+            print("Error: the state is not in this dictionnary")
+
+            return False
+
+#
+#Status
+#
+#
 
 def EtatDico(MonDico):
     # Retourne une liste contenant l'ensemble des etat de l'AEF -> colonne de gauche(sauf premiere ligne)
