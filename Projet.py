@@ -1441,7 +1441,42 @@ def SortList(Mylist):
 # OK
 #
 
+def destination(MonDico,state,Event):
 
+ 
+
+    if DicoVide(MonDico):
+
+        print("Error: empty Dictionnary")
+
+        return False
+
+ 
+
+    Return=[]
+
+    for i in range(len(EtatDico(MonDico))):
+
+        if state == EtatDico(MonDico)[i] and Event in EvenementDico(MonDico):
+
+            Return=MonDico[i][Event]
+
+            return Return
+
+ 
+
+    # unkonwn event or state:
+
+    print("unknonw event or state")
+
+    return False
+
+ 
+
+#
+#Status
+# Ok
+#
 def EtatDico(MonDico):
     # Retourne une liste contenant l'ensemble des etat de l'AEF -> colonne de gauche(sauf premiere ligne)
 
