@@ -1266,7 +1266,51 @@ def ChangeToDeterminist(MonDico):
 #Status
 # En cours
 #
+def indexOfState(MonDico,State):
 
+    # Take in parameter a dictionnary and a state
+
+    # Return Flase if the dictionnary is empty or if the state is not in the dictionnary
+
+    # Return the index of the State if the state is in the dictionnary
+
+    ETAT=EtatDico(MonDico)
+
+ 
+
+    if DicoVide(MonDico)==True:
+
+        print("Error: the dictionnary is empty")
+
+        return False
+
+    else:
+
+        if State not in ETAT:
+
+            print("Error: the state is not in this dictionnary")
+
+            return False
+
+        else:
+
+            for i in range(len(MonDico)):
+
+                if MonDico[i]["colonne"]==State:
+
+                    return i
+
+            print("Error: the state is not in this dictionnary")
+
+            return False
+
+#
+
+#Status
+
+# OK
+
+#
 
 
 
