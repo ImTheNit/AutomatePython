@@ -1352,6 +1352,59 @@ def TypeOfState(MonDico,Etat):
 #
 #
 
+def UpdateType(type1,type2):
+
+    # take in parameter two type
+
+    # Return False if at least one is incorrect(not in TYPE)
+
+    # Return the new type
+
+    type1=int(type1)
+
+    type2=int(type2)
+
+    if VerifType(type1)==False or VerifType(type2)==False:
+
+        print("Error: At least one type is incorrect")
+
+        return False
+
+    else:
+
+        if type1==type2:
+
+            return type1
+
+ 
+
+        if type1==0:    #type2 give more informations
+
+            return type2
+
+ 
+
+        if type2==0:    #type1 give more informations
+
+            return type1
+
+ 
+
+        if type1==3 or type2==3:    #at least one is inital and final
+
+            return 3
+
+       
+
+        if (type1==1 and type2==2)  or (type1==2 and type2==1):   # one final and one initial
+
+            return 3
+
+#
+#Status
+# OK
+#
+
 def EtatDico(MonDico):
     # Retourne une liste contenant l'ensemble des etat de l'AEF -> colonne de gauche(sauf premiere ligne)
 
