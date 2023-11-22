@@ -1199,72 +1199,352 @@ def VerifDeterminism(Dico):
 #Status
 # OK
 #   
+
+
+
 def ChangeToDeterminist(MonDico):
-    
+
+   
+
     # Function that take in parameters a dictionnary
+
     # Return an equivalent of the automaton but determinist
+
     # Return False if the dictionnary in parameter is empty
+
     # Return False if there is no initial state
 
+ 
 
     if DicoVide(MonDico)==True:
+
         return False
+
     else:
+
+        Transition= {}
+
+        Transition[0]={}
 
         match len(listEtatInitial(MonDico)):
 
+ 
+
             case 0:
+
                 #no initial state
+
                 return False
 
+ 
+
             case 1:
+
                 #only one initial state(what we want)
+
                 a=0 #for no empty section
-            case _:
-                #more than one 
-                print("A faire")
-                
-                #return True #provisoire
 
-        #loading lists of states and events
-        Etat=EtatDico(MonDico)
-        Evenement=EvenementDico(MonDico)
-        nouveau_dico=CSVToDico("data4.csv")
-        AffichageAutomateFromDico(nouveau_dico)
-        return True
-        for i in range(len(Etat)):
-            for j in range(len(Evenement)):
+ 
 
+                for i in range(len(MonDico)):
 
-                if type(MonDico[i][Evenement[j]])==list:
-                    # Modification requiered
-                    print(MonDico[i][Evenement[j]],"->A traiter")
-                    mon_etat=""
+                    if MonDico[i]["colonne"]==listEtatInitial(MonDico)[0]:
 
-                    for k in range(len(MonDico[i][Evenement[j]])):
-                        if mon_etat!="":
-                            mon_etat=mon_etat+","
+                        Transition[0]=MonDico[i]
 
-                        mon_etat=mon_etat + MonDico[i][Evenement[j]][k]
-                    print("New etat =",mon_etat)
-                    
-                    
+                if len(Transition[0])!=0:
+
+                    a=0#bidon
 
                 else:
+
+                    return False
+
+               
+
+            case _:
+
+                #more than one
+
+                print("A faire")
+
+ 
+
+                #-------------------------------------garder pour le renommage de nos etats--------------
+
+ 
+
+                #naming the  new initial state
+
+                #Nouvel_Etat=""
+
+                #for i in range(len(listEtatInitial(MonDico))):
+
+                #    if Nouvel_Etat!="":
+
+                #        Nouvel_Etat=Nouvel_Etat + ","
+
+                #    Nouvel_Etat=Nouvel_Etat+listEtatInitial(MonDico)[i]
+
+                #print(Nouvel_Etat)
+
+                #---------------------------------------------------------------------------------------------
+
+
+
+
+                #naming new initial state as list:
+
+                Nouvel_Etat=[]
+
+                for i in range(len(listEtatInitial(MonDico))):
+
+                    Nouvel_Etat.append(listEtatInitial(MonDico)[i])
+
+                print(Nouvel_Etat)
+
+                #adding this state to the dictionnary
+
+               
+
+                #creating a tmp dictionnary of state
+
+                valeur={}
+
+                Initial=listEtatInitial(MonDico)
+
+                Event=EvenementDico(MonDico)
+
+ 
+
+                AddState(MonDico,Nouvel_Etat,1,"")
+
+                print(MonDico,"\nFin Dico")
+
+
+
+
+                Transition[0]["colonne"]=Nouvel_Etat
+
+                Transition[0]["type"]="0"
+
+ 
+
+                for i in range(len(Initial)):
+
+                    for j in range(len(Event)):
+
+                       
+
+                        if Event[j] in Transition[0]:
+
+                            Transition[0][Event[j]].append(destination(MonDico,Initial[i],Event[j]))
+
+                            SortList(Transition[0][Event[j]])
+
+                        else:
+
+                            Transition[0][Event[j]]=[]
+
+                            Transition[0][Event[j]].append(destination(MonDico,Initial[i],Event[j]))
+
+                print(Transition)
+
+                #return True #provisoire
+
+
+
+
+        #TRAITEMENT
+
+ 
+
+        Next=[] # State to process
+
+        Done=[Transition[0]["colonne"]]
+
+ 
+
+        Etat=EtatDico(MonDico)
+
+        Event=EvenementDico(MonDico)
+
+        # adding each state
+
+        for j in range(len(Event)):
+
+            #AddState(Transition,Transition[0][Event[j]],0,"")
+
+            if Transition[0][Event[j]] not in Done:
+
+                Next.append(Transition[0][Event[j]])
+
+        print(Transition)
+
+        print("Next to process:",Next)
+
+        print("Done:",Done)
+
+        #each state was correctly added
+
+ 
+
+        #process next states
+
+        i=0
+
+        while len(Next) != 0 :
+
+            print("\nEn cours",Next[0])
+
+            ETAT=EtatDico(Transition)
+
+            EVENT=EvenementDico(Transition)
+
+           
+
+            if i+1 not in Transition:     #initialising if new index
+
+                Transition[i+1]={"colonne":"","type":""}
+
+
+
+
+            if Next[0] in ETAT:
+
+                print(Next[0]," is already done")
+
+                i=i+1
+
+                break
+
+ 
+
+            print("Event:",EVENT,"\nDeja Faits:",ETAT)
+
+ 
+
+            type1=TypeOfState(MonDico,Next[0][0])
+
+            type2=TypeOfState(MonDico,Next[0][1])
+
+            New_Type=UpdateType(type1,type2)
+
+            print(type1,type2,New_Type)
+
+ 
+
+            Transition[i+1]["colonne"]=Next[0]
+
+            Transition[i+1]["type"]=New_Type
+
+ 
+
+            for I in range(len(Next[0])):
+
+                print("\nstate:",Next[0][I])
+
+
+
+
+               
+
+ 
+
+                for j in range(len(Event)):
+
+                    #print(Event[j])
+
+                    if Event[j] in Transition[i+1]:
+
+ 
+
+                        if type(Transition[i+1][Event[j]])!=list:
+
+                            Transition[i+1][Event[j]]=[Transition[i+1][Event[j]]]
+
+ 
+
+                        else:
+
+                            #print("test2",Transition[i+1][Event[j]])
+
+                            Transition[i+1][Event[j]].append(destination(MonDico,Next[0][I],Event[j]))
+
+                            SortList(Transition[i+1][Event[j]])
+
+                            ClearState(Transition[i+1][Event[j]])
+
+ 
+
+                    else:
+
+                        Transition[i+1][Event[j]]=[]
+
+                        Transition[i+1][Event[j]].append(destination(MonDico,Next[0][I],Event[j]))
+
+            print("New:",Transition[i+1])
+
+            if (Transition[i+1][Event[j]] not in Done) and (Transition[i+1][Event[j]] not in Next):
+
+                print("Ajout:",Transition[i+1][Event[j]])
+
+                #Next.append(Transition[i+1][Event[j]])
+
+            print("Next:",Next)
+
+            Done.append(Next[0])
+
+            del(Next[0])
+
+ 
+
+            i=i+1
+
+        print(Transition)
+
+        #AffichageAutomateFromDico(Transition)
+
+        #il faut aussi comparer avec les autres etats
+
+ 
+
+        return False
+
+        for i in range(len(Etat)):
+
+            for j in range(len(Event)):
+
+ 
+
+                if type(MonDico[i][Event[j]])==list:
+
+                    # Modification requiered
+
+                    print(MonDico[i][Event[j]],"->A traiter")
+
+ 
+
+                   
+
+ 
+
+                else:
+
                     #no modification requiered
-                    print(MonDico[i][Evenement[j]],"->ok")
-            
-            if mon_etat!= "":
-                AddState(MonDico,mon_etat,type)
 
+                    print(MonDico[i][Event[j]],"->ok")
 
+           
 
-#recursivity for each state
+            #if mon_etat!= "":
+
+            #    AddState(MonDico,mon_etat,type)
 
 
 #
 #Status
-# En cours
+# KO
 #
 def indexOfState(MonDico,State):
 
@@ -1706,8 +1986,8 @@ def AddState(Dico,name,type=0,event=""): #add the state to the list with default
         Dico.setdefault(i,i)              #add the row len(Dico) to the dico
         Dico[i]={}     #generate the Dico we are going to fill
         Dico[i]["colonne"]=name #giving a colonne key with the name attribute
-        Dico[i]["Type"]=type #same with the type
-        for j in States: #going throught all existing Event
+        Dico[i]["type"]=type #same with the type
+        for j in EvenementDico(Dico): #going throught all existing Event
             Dico[i][j]=event #giving the event the desired destination
         
 
