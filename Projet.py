@@ -1405,6 +1405,43 @@ def UpdateType(type1,type2):
 # OK
 #
 
+def SortList(Mylist):
+
+    # take in parameter a list
+
+    # return False if the list is empty
+
+ 
+
+    if len(Mylist)==0:
+
+        print("Error: empty list")
+
+        return False
+
+    else:
+
+        for i in range(len(Mylist)):
+
+ 
+
+            if type(Mylist[i])==list:   # if list inside list, split it
+
+                for j in range(len(Mylist[i])):
+
+                    Mylist.append(Mylist[i][j])
+
+                del(Mylist[i])    
+
+ 
+
+        return(Mylist.sort())
+#
+#Status
+# OK
+#
+
+
 def EtatDico(MonDico):
     # Retourne une liste contenant l'ensemble des etat de l'AEF -> colonne de gauche(sauf premiere ligne)
 
