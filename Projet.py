@@ -1495,7 +1495,7 @@ def indexOfState(MonDico,State):
     else:
 
         if State not in ETAT:
-
+            
             print("Error: the state is not in this dictionnary")
 
             return False
@@ -1507,7 +1507,7 @@ def indexOfState(MonDico,State):
                 if MonDico[i]["colonne"]==State:
 
                     return i
-
+            
             print("Error: the state is not in this dictionnary")
 
             return False
@@ -1538,7 +1538,7 @@ def TypeOfState(MonDico,Etat):
     else:
 
         if Etat not in ETAT:
-
+            print("test",Etat,ETAT)
             print("Error: the state is not in this dictionnary")
 
             return False
@@ -1548,7 +1548,7 @@ def TypeOfState(MonDico,Etat):
             for i in range(len(MonDico)):
 
                 if MonDico[i]["colonne"]==Etat:
-
+                    
                     return MonDico[i]["type"]
 
             print("Error: the state is not in this dictionnary")
@@ -1736,7 +1736,6 @@ def SortList(Mylist):
 
                 del(Mylist[i])    
 
- 
         Mylist.sort()
         return(Mylist)
 #
@@ -1831,7 +1830,7 @@ def DemandeUser():
     while VerifEntier(A)==False:    # Tant que l réponse n'est pas un entier on boucle sur la question
         print("The expected answer is an integer")
         print(TEXTE_DEMANDE_USER)
-        A=input("\Your choice:")
+        A=input("Your choice:")
     return int(A)
 
 #
@@ -2081,29 +2080,13 @@ if DEBUGG == 1:
 
 
     Dictionnaire=CSVToDico(FichierEntree)
-    #Dictionnaire={
-     #   0:{"colonne":"q0",'type'},
-      #  1:{'colonne':'q1'},
-       # 2:{'colonne':'q2'},
-        #3:{'colonne':'q3'},
-        #4:{'colonne':'q4'}
-    #}
-    #Dictionnaire=CreationDico()
-    #print(Dictionnaire)
-    #print(listEtatInitial(Dictionnaire))
-    #print(listEtatFinal(Dictionnaire))
-    #print(VerifMotAEF(Dictionnaire)) 
-    #print(EtatDico(Dictionnaire))
-    
+
     
     print(Dictionnaire)
     print(VerifDeterminism(Dictionnaire))
-    #Dictionnaire={
-    #    0: {'colonne': 'q1', 'type': '0', 'A': 'q3', 'B': 'q0', 'C': 'q1', 'D': 'q2'}, 
-    #    3: {'colonne': 'q2', 'type': '0', 'A': 'q2', 'B': 'q3', 'C': 'q0', 'D': 'q1'}, 
-    #    2: {'colonne': 'q3', 'type': '0', 'A': 'q1', 'B': 'q2', 'C': 'q3', 'D': 'q0'}
-    #    }
 
+    Dictionnaire=ChangeToDeterminist(Dictionnaire)
+    AffichageAutomateFromDico(Dictionnaire)
     ARRET = 1
 
 #
