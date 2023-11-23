@@ -2042,9 +2042,16 @@ def ReplaceDestination(Dico,num,event,destination=""): #replace the destination 
     return Dico
 
 def MiroirDico(Dico): #return the mirror Automaton (correspond to a complement with all transition reversed (destination become origin and vice-versa))
-    DicoFinal = Dico #create the dico we are going to fill (with default values all the existing ones)
-    DicoFinal = ComplementDico(DicoFinal) #change all the types, only transitions to go
-#to do, utiliser .index
+    DicoFinal ={}
+    for i in range(len(Dico)-1):
+        DicoFinal.setdefault(i,i)
+        DicoFinal[i]={}
+        DicoFinal[i]["colonne"]=Dico[i]["colonne"]
+        DicoFinal[i]["type"]=Dico[i]["type"]
+    DicoFinal = ComplementDico(DicoFinal) #change all the types, only transitions to go 
+    States = EtatDico(DicoFinal)
+    #to do, utiliser .index
+    
     return DicoFinal
 #
 #status
