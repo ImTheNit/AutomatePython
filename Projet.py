@@ -894,6 +894,11 @@ def ModifListe(ancien,Liste,nouveau):
 def DicoVide(MonDico):
     # Retourne True si le Dictionnaire est vide
     # Retourne False si le Dictionnaire n'est pas vide
+    # Return False if type of parameter is incorrect
+
+    if type(MonDico)!=dict: #type
+        print("Error: the type expected is dictionnary")
+        return False    
 
     if not MonDico:
         
