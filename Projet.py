@@ -1219,13 +1219,18 @@ def ChangeToDeterminist(MonDico):
 
     # Return False if there is no initial state
 
- 
+    # Return the automaton if the automaton is already determinist
 
     if DicoVide(MonDico)==True:
 
         return False
 
     else:
+        
+        if VerifDeterminism(MonDico)==True:     #already determinist
+
+            print("Already determinist")
+            return MonDico
 
         Transition= {}
 
@@ -1235,160 +1240,102 @@ def ChangeToDeterminist(MonDico):
 
  
 
-            case 0:
-
-                #no initial state
+            case 0:     #no initial state
 
                 return False
 
  
 
-            case 1:
-
-                #only one initial state(what we want)
-
-                a=0 #for no empty section
-
+            case 1:     #only one initial state
  
 
                 for i in range(len(MonDico)):
 
-                    if MonDico[i]["colonne"]==listEtatInitial(MonDico)[0]:
+                    if MonDico[i]["colonne"]==listEtatInitial(MonDico)[0]:  #putting initial state in new dictionnary
 
                         Transition[0]=MonDico[i]
 
-                if len(Transition[0])!=0:
-
-                    a=0#bidon
-
-                else:
-
+                if len(Transition[0])==0:   #empty dictionnary created
                     return False
 
                
 
-            case _:
+            case _:     #more than one
 
-                #more than one
+                #initializing new initial state as list:
 
-                print("A faire")
+                New_State=[]
 
- 
+                Type=[]
 
-                #-------------------------------------garder pour le renommage de nos etats--------------
+                for i in range(len(listEtatInitial(MonDico))): #adding this state(and type) to the list
 
- 
+                    New_State.append(listEtatInitial(MonDico)[i])
 
-                #naming the  new initial state
-
-                #Nouvel_Etat=""
-
-                #for i in range(len(listEtatInitial(MonDico))):
-
-                #    if Nouvel_Etat!="":
-
-                #        Nouvel_Etat=Nouvel_Etat + ","
-
-                #    Nouvel_Etat=Nouvel_Etat+listEtatInitial(MonDico)[i]
-
-                #print(Nouvel_Etat)
-
-                #---------------------------------------------------------------------------------------------
+                    Type.append(TypeOfState(MonDico,listEtatInitial(MonDico)[i]))
 
 
+                
+            
 
 
-                #naming new initial state as list:
-
-                Nouvel_Etat=[]
-
-                for i in range(len(listEtatInitial(MonDico))):
-
-                    Nouvel_Etat.append(listEtatInitial(MonDico)[i])
-
-                print(Nouvel_Etat)
-
-                #adding this state to the dictionnary
-
-               
-
-                #creating a tmp dictionnary of state
-
-                valeur={}
-
+                #Initializing variables 
                 Initial=listEtatInitial(MonDico)
 
                 Event=EvenementDico(MonDico)
 
- 
-
-                AddState(MonDico,Nouvel_Etat,1,"")
-
-                print(MonDico,"\nFin Dico")
-
+                AddState(MonDico,New_State,1,"")    #adding the new initial state to the old dictionnary
+                
+                
+                #-----------creating a tmp dictionnary of state--------
 
 
 
-                Transition[0]["colonne"]=Nouvel_Etat
+                Transition[0]["colonne"]=New_State
 
-                Transition[0]["type"]="0"
+                Transition[0]["type"]=UpdateTypeL(Type,0)
 
- 
+                for i in range(len(Initial)):  
 
-                for i in range(len(Initial)):
-
+                    Type.append(TypeOfState(MonDico,Initial[i]))    #adding type to the list
+                    
                     for j in range(len(Event)):
 
-                       
+                        if Event[j] in Transition[0]:       # Event already exist in dictionnary
 
-                        if Event[j] in Transition[0]:
-
-                            Transition[0][Event[j]].append(destination(MonDico,Initial[i],Event[j]))
+                            Transition[0][Event[j]].append(destination(MonDico,Initial[i],Event[j]))    #add new state
 
                             SortList(Transition[0][Event[j]])
 
-                        else:
+                        else:           # new event, create it and add value
 
                             Transition[0][Event[j]]=[]
 
                             Transition[0][Event[j]].append(destination(MonDico,Initial[i],Event[j]))
 
-                print(Transition)
-
-                #return True #provisoire
 
 
 
 
-        #TRAITEMENT
+        #------------------ordinary states---------------------
 
- 
+        #initializing variables
 
         Next=[] # State to process
 
-        Done=[Transition[0]["colonne"]]
-
- 
+        Done=[Transition[0]["colonne"]] # States already processed
 
         Etat=EtatDico(MonDico)
 
         Event=EvenementDico(MonDico)
 
-        # adding each state
 
-        for j in range(len(Event)):
+        for j in range(len(Event)):  
 
-            #AddState(Transition,Transition[0][Event[j]],0,"")
-
-            if Transition[0][Event[j]] not in Done:
+            if Transition[0][Event[j]] not in Done:     # adding states to process
 
                 Next.append(Transition[0][Event[j]])
 
-        print(Transition)
-
-        print("Next to process:",Next)
-
-        print("Done:",Done)
 
         #each state was correctly added
 
@@ -1398,9 +1345,11 @@ def ChangeToDeterminist(MonDico):
 
         i=0
 
-        while len(Next) != 0 :
+        while len(Next) != 0 :      #while a state to process
 
-            print("\nEn cours",Next[0])
+            #initializing variables
+
+            type1=[]
 
             ETAT=EtatDico(Transition)
 
@@ -1408,149 +1357,123 @@ def ChangeToDeterminist(MonDico):
 
            
 
-            if i+1 not in Transition:     #initialising if new index
+            if i+1 not in Transition:     #initializing if new index
 
                 Transition[i+1]={"colonne":"","type":""}
 
 
 
 
-            if Next[0] in ETAT:
+            if Next[0] in ETAT:     # if already process, go to the next one
 
-                print(Next[0]," is already done")
 
                 i=i+1
 
                 break
 
- 
-
-            print("Event:",EVENT,"\nDeja Faits:",ETAT)
-
- 
-
-            type1=TypeOfState(MonDico,Next[0][0])
-
-            type2=TypeOfState(MonDico,Next[0][1])
-
-            New_Type=UpdateType(type1,type2)
-
-            print(type1,type2,New_Type)
-
- 
-
-            Transition[i+1]["colonne"]=Next[0]
-
-            Transition[i+1]["type"]=New_Type
 
  
 
             for I in range(len(Next[0])):
 
-                print("\nstate:",Next[0][I])
-
-
-
-
-               
-
- 
+                type1.append(TypeOfState(MonDico,Next[0][I]))   #add type of each sub-state too the list
 
                 for j in range(len(Event)):
 
-                    #print(Event[j])
-
-                    if Event[j] in Transition[i+1]:
-
- 
-
-                        if type(Transition[i+1][Event[j]])!=list:
-
-                            Transition[i+1][Event[j]]=[Transition[i+1][Event[j]]]
-
- 
-
-                        else:
-
-                            #print("test2",Transition[i+1][Event[j]])
-
-                            Transition[i+1][Event[j]].append(destination(MonDico,Next[0][I],Event[j]))
-
-                            SortList(Transition[i+1][Event[j]])
-
-                            ClearState(Transition[i+1][Event[j]])
-
- 
-
-                    else:
-
+                    if Event[j]  not in Transition[i+1]:     #Event don't exist
                         Transition[i+1][Event[j]]=[]
 
-                        Transition[i+1][Event[j]].append(destination(MonDico,Next[0][I],Event[j]))
+                    if type(Transition[i+1][Event[j]])!=list:   # actual value not a list
 
-            print("New:",Transition[i+1])
+                        Transition[i+1][Event[j]]=[Transition[i+1][Event[j]]]   #Convert into list
 
-            if (Transition[i+1][Event[j]] not in Done) and (Transition[i+1][Event[j]] not in Next):
 
-                print("Ajout:",Transition[i+1][Event[j]])
+                    Transition[i+1][Event[j]].append(destination(MonDico,Next[0][I],Event[j]))#add new state to list
 
-                #Next.append(Transition[i+1][Event[j]])
+                    SortList(Transition[i+1][Event[j]])    
 
-            print("Next:",Next)
+                    Transition[i+1][Event[j]]=ClearState(Transition[i+1][Event[j]])
 
-            Done.append(Next[0])
+
+                    if I == len(Next[0])-1: # last sub state of the state
+
+                        if (Transition[i+1][Event[j]] not in Done) and (Transition[i+1][Event[j]] not in Next):     # New State, add to Next
+
+                            Next.append(Transition[i+1][Event[j]])                       
+
+            New_Type=UpdateTypeL(type1,1)
+
+            Transition[i+1]["colonne"]=Next[0]
+
+            Transition[i+1]["type"]=New_Type
+
+            Done.append(Next[0])   
 
             del(Next[0])
 
- 
-
             i=i+1
 
-        print(Transition)
+        
 
-        #AffichageAutomateFromDico(Transition)
+    #here we have our new dictionnary but all states are registred as list, 
+    #let's convert this with a new function ConvertDictionnaryListToStr() and ConvertListToStr()
 
-        #il faut aussi comparer avec les autres etats
+    Transition=ConvertDictionnaryListToStr(Transition)
 
- 
-
-        return False
-
-        for i in range(len(Etat)):
-
-            for j in range(len(Event)):
-
- 
-
-                if type(MonDico[i][Event[j]])==list:
-
-                    # Modification requiered
-
-                    print(MonDico[i][Event[j]],"->A traiter")
-
- 
-
-                   
-
- 
-
-                else:
-
-                    #no modification requiered
-
-                    print(MonDico[i][Event[j]],"->ok")
-
-           
-
-            #if mon_etat!= "":
-
-            #    AddState(MonDico,mon_etat,type)
-
-
+    return Transition
 #
 #Status
-# KO
+# OK
 #
+
+def ConvertDictionnaryListToStr(Dictionnary):
+    # take in parameter a dictionnary
+    # return False if the dictionnary is empty
+    # return the dictionnary with each state converted as string(Ex:["q0","q1"]->"q0,q1")
+    # use the function ConvertListToStr()
+    
+    if DicoVide(Dictionnary)== True:        #empty
+        print("Error: the dictionnary is empty")
+        return False
+    else:
+        Event=EvenementDico(Dictionnary)
+        for i in range(len(Dictionnary)):
+            for j in range(len(Event)):
+                if type(Dictionnary[i][Event[j]])==list:
+                    Dictionnary[i][Event[j]]=ConvertListToStr(Dictionnary[i][Event[j]])
+            if type(Dictionnary[i]["colonne"])==list:
+                Dictionnary[i]["colonne"]=ConvertListToStr(Dictionnary[i]["colonne"])
+    return Dictionnary
+#
+#Status
+# Ok
+#
+
+def ConvertListToStr(List):
+    #take in parameter a list
+    # Return False if the list is empty
+    # Return False if the parameter is not list
+    # Return the list converted as a string
+
+    if type(List)!=list:
+        print("Error: type not respected")
+        return False
+    else:
+        if len(List)==0:
+            print("Error: the list is empty")
+            return False
+        else:
+            string=""
+            for i in range(len(List)):
+                if string!="":
+                    string=string+"."
+                string=string+List[i]
+            return string
+#
+#Status
+# Ok
+#
+
 def indexOfState(MonDico,State):
 
     # Take in parameter a dictionnary and a state
@@ -1690,6 +1613,101 @@ def UpdateType(type1,type2):
 # OK
 #
 
+def UpdateTypeL(Type,mode=-1):
+    # Take in parameter a list of type and an integer (that determine mode)
+    # Return false if one of them is incorrect
+    # Return False if the list is empty
+    # Return False if the parameter is not a list
+    # Return the equivalent type
+    # Return False if mode is not an integer or not a known mode
+
+    #
+    if type(mode)!= int:
+        if VerifEntier(mode)==True: # we can convert mode into integer
+            mode=int(mode)
+        else:
+            print("Error: invalid mode")
+            return False
+
+
+    match mode:
+        #mode : 0(initial) or 1(ordinary)
+
+
+        case 0: #initial using
+            if type(Type)!=list:        #type
+                print("Error: the parameter must be a list")
+                return False
+            
+            if len(Type)==0:            #empty
+                print("Error: the list is empty")
+                return False
+            
+            for i in range(len(Type)):      #correct
+                if VerifType(Type[i])==False:
+                    print("The type ",Type[i]," is incorrect")
+                    return False
+            
+            
+            j=0
+            while "0" in Type:
+                if int(Type[j])==0: # 0 are useless to determine the type
+                    del(Type[j])    # remove 0's
+                    break
+                else:
+                    j=j+1
+            #Verify there is something else than 0
+            if len(Type)==0:
+                return "0"
+
+            if "3" in Type:     # 3 is the more dominant
+                return "3"
+            
+            if "1"  in Type:
+                if "2"  in Type:  # Both type 1 and 2 -> final+initial ==>3
+                    return "3"
+                else:
+                    return "1"      # type 1 but not 2
+            else:
+                if "2"  in Type:  # Type 2 but not 1
+                    return "2"
+                else:
+                    return "0"      # neither 1  and 2 ==> 0 (impossible to access)
+
+
+        case 1: #ordinary case (can't be initial like in determinist automaton building)
+            
+            
+            if type(Type)!=list:    #type
+                print("Error: the parameter must be a list")
+                return False
+            
+            if len(Type)==0:        #empty
+                print("Error: the list is empty")
+                return False
+
+            for i in range(len(Type)):      #correct
+                if VerifType(Type[i])==False:
+                    print("The type ",Type[i]," is incorrect")
+                    return False            
+            
+            if "2" in Type or "3" in Type: #final
+
+                return "2"
+            else:
+                return "0"   #any
+
+        case _:
+            print("Error: invalid mode")
+            return False
+
+
+
+
+#
+#Status
+#Ok
+#
 def SortList(Mylist):
 
     # take in parameter a list
