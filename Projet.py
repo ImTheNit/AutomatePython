@@ -2013,6 +2013,17 @@ def ReplaceType(Dico,num:int,type:int): #replace the type of the event corespond
 
 def ReplaceEvent(Dico,name,elmt1="",elmt2=""): #replace the events elmt2 of the state name to elmt1
     return Dico
+def ReplaceDestination(Dico,num,event,destination=""): #replace the destination of state number num event event to the destination destination
+    if num < len(Dico):
+        if event in EvenementDico(Dico):
+            Dico[num][event]=destination
+    return Dico
+
+def MiroirDico(Dico): #return the mirror Automaton (correspond to a complement with all transition reversed (destination become origin and vice-versa))
+    DicoFinal = Dico #create the dico we are going to fill (with default values all the existing ones)
+    DicoFinal = ComplementDico(DicoFinal) #change all the types, only transitions to go
+#to do, utiliser .index
+    return DicoFinal
 #
 #status
 #ok
