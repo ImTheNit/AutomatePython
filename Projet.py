@@ -135,7 +135,7 @@ def AffichageAutomateFromCSV(CSVFILES):
 
 
 def CSVToDico(CSVFILES):
-
+    Dictionnaire={}
     if FichierExiste(CSVFILES)==False:
         print("Error: the file do not exist\n")
         return -1
@@ -1714,8 +1714,8 @@ def SortList(Mylist):
                 del(Mylist[i])    
 
  
-
-        return(Mylist.sort())
+        Mylist.sort()
+        return(Mylist)
 #
 #Status
 # OK
