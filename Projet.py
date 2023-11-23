@@ -2043,14 +2043,18 @@ def ReplaceDestination(Dico,num,event,destination=""): #replace the destination 
 
 def MiroirDico(Dico): #return the mirror Automaton (correspond to a complement with all transition reversed (destination become origin and vice-versa))
     DicoFinal ={}
-    for i in range(len(Dico)-1):
-        DicoFinal.setdefault(i,i)
-        DicoFinal[i]={}
-        DicoFinal[i]["colonne"]=Dico[i]["colonne"]
+    for i in range(len(Dico)-1): #creating as many states as the original Automaton
+        DicoFinal.setdefault(i,i) #create the element i in the dico
+        DicoFinal[i]={} #i become a Dico
+        DicoFinal[i]["colonne"]=Dico[i]["colonne"]  
         DicoFinal[i]["type"]=Dico[i]["type"]
     DicoFinal = ComplementDico(DicoFinal) #change all the types, only transitions to go 
     States = EtatDico(DicoFinal)
-    #to do, utiliser .index
+    for i in range(len(Dico)-1):
+        for n in EvenementDico(Dico):
+            if Dico[i][n]!="":
+                DicoFinal[States.index(Dico[i][n])][n]=i
+    #.index give the position of the state we are going to in the list of possible states
     
     return DicoFinal
 #
