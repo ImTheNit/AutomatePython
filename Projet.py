@@ -1997,6 +1997,20 @@ def AddState(Dico,name,type=0,event=""): #add the state to the list with default
 #ok
 #
 
+def ComplementDico(Dico): #return the dico with all types changed from final to non-final and vice-versa
+    #type 0->2, type 1->3 type 2->0 type 3->1
+    for i in range(len(Dico)):
+        type = Dico[i]["type"]
+        if type >=2:
+            ReplaceType(Dico,i,(type-2))
+        else:
+            ReplaceType(Dico,i,(type+2))
+    return Dico
+
+def ReplaceType(Dico,num:int,type:int): #replace the type of the event coresponding to the number num in the dico to the type type
+    Dico[num]["type"]=type
+    return Dico
+
 def ReplaceEvent(Dico,name,elmt1="",elmt2=""): #replace the events elmt2 of the state name to elmt1
     return Dico
 #
