@@ -1319,7 +1319,7 @@ def listEtatFinal(MonDico):
             liste.append(list(MonDico[i].values())[0])
     return liste
 
-def ExisteTransition(Evenement,Etat1,Etat2):
+def ExisteTransition(MonDico,Evenement,Etat1,Etat2):
     print("test")
     #A faire
 
@@ -1337,6 +1337,8 @@ def VerifMotAEF(MonDico):
     if DicoVide(MonDico)==True:
         print("l'automate est vide")
         return False
+    if VerifAEF(MonDico)==False:
+        return False
 
     for i in range (len(mot)):#parcours du mot 
         for j in range (len(Evenement)):
@@ -1344,10 +1346,10 @@ def VerifMotAEF(MonDico):
             
                 for k in range (len(Etat)):
                     for l in range (len(Etat)):
-                        if (ExisteTransition(Evenement[j],Etat[k],Etat[l])==True):
+                        if (ExisteTransition(MonDico,Evenement[j],Etat[k],Etat[l])==True):
                             Fin.append(Etat[k])
                             newEtat=Etat[l]
-                    if (ExisteTransition(Evenement[j],newEtat,Etat[k])==True):
+                    if (ExisteTransition(MonDico,Evenement[j],newEtat,Etat[k])==True):
                         Fin.append(newEtat)
                         newEtat=Etat[k]
             #print("else")                       
