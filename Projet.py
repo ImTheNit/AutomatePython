@@ -1702,8 +1702,6 @@ def UpdateTypeL(Type,mode=-1):
             return False
 
 
-
-
 #
 #Status
 #Ok
@@ -1901,53 +1899,50 @@ def listEtatFinal(MonDico):
 #ok
 #
 
-def ExisteTransition(Evenement,Etat1,Etat2):
-    print("test")
-    #A faire
-#
-#status
-#En cours
-#
 
-def VerifMotAEF(MonDico):
+def VerifMotAEF(Mot,MonDico):
+    #
+    #
+    #
+    #
+
+
+
+    if DicoVide(MonDico)==True:
+
+        return False
+
+    if VerifAEF(MonDico)==False:
+        return False
+
 
     EtatI=listEtatInitial(MonDico)
     EtatF=listEtatFinal(MonDico)
-    Evenement=EvenementDico(MonDico)
-    Etat=EtatDico(MonDico)
-    Fin=[]
 
 
-    mot=input("Entrez un mot \n")
-    if DicoVide(MonDico)==True:
-        print("l'automate est vide")
-        return False
+    Mot=str(Mot)
 
-    for i in range (len(mot)):#parcours du mot 
-        for j in range (len(Evenement)):
-            if(mot[i]==Evenement[j]):#on verifie que chaque caractère est un evenement existant
+        # se placer sur un etat initial
+    for L in range(len(EtatI)): # pour chaque etat on verifie
+            # si mot reconnu pour un des etat, le mot est reconnu donc on peut return True
+        
+        MonEtat=EtatI[L]
+        for i in range(len(Mot)):
+            print("test:",Mot[i])
+            #verifier que le caractère i du mot est accepté pour faire une transition
             
-                for k in range (len(Etat)):
-                    for l in range (len(Etat)):
-                        if (ExisteTransition(Evenement[j],Etat[k],Etat[l])==True):
-                            Fin.append(Etat[k])
-                            newEtat=Etat[l]
-                    if (ExisteTransition(Evenement[j],newEtat,Etat[k])==True):
-                        Fin.append(newEtat)
-                        newEtat=Etat[k]
-            #print("else")                       
-    nbEtat=len(Fin)
-    for m in range (len(EtatI)):
-        if (Fin[0]==EtatI[m]):
-            for n in range (len(EtatF)):
-                if(Fin[nbEtat]==EtatF[n]):
-                    return True
-    return False
-    
-#
-#status
-#En cours
-#
+            if destination(MonDico,MonEtat,Mot[i])!="":
+                MonEtat=destination(MonDico,MonEtat,Mot[i])
+            else:   #pas de destination
+                break 
+
+        if MonEtat in EtatF: #bien un etat final 
+            print("Youpi")
+            return True 
+
+    return False #invalide pour tous les etats initiaux
+
+
 
 #COCOZONE
 
@@ -2022,19 +2017,23 @@ def AddState(Dico,name,type=0,event=""): #add the state to the list with default
 def ComplementDico(Dico): #return the dico with all types changed from final to non-final and vice-versa
     #type 0->2, type 1->3 type 2->0 type 3->1
     for i in range(len(Dico)):
-        type = Dico[i]["type"]
-        if type >=2:
-            ReplaceType(Dico,i,(type-2))
+        Type = int(Dico[i]["type"])
+        if Type >=2:
+            ReplaceType(Dico,i,(Type-2))
         else:
-            ReplaceType(Dico,i,(type+2))
+            ReplaceType(Dico,i,(Type+2))
     return Dico
+
 
 def ReplaceType(Dico,num:int,type:int): #replace the type of the event coresponding to the number num in the dico to the type type
     Dico[num]["type"]=type
     return Dico
 
+
 def ReplaceEvent(Dico,name,elmt1="",elmt2=""): #replace the events elmt2 of the state name to elmt1
     return Dico
+
+
 def ReplaceDestination(Dico,num,event,destination=""): #replace the destination of state number num event event to the destination destination
     if num < len(Dico):
         if event in EvenementDico(Dico):
@@ -2043,17 +2042,17 @@ def ReplaceDestination(Dico,num,event,destination=""): #replace the destination 
 
 def MiroirDico(Dico): #return the mirror Automaton (correspond to a complement with all transition reversed (destination become origin and vice-versa))
     DicoFinal ={}
-    for i in range(len(Dico)-1): #creating as many states as the original Automaton
+    for i in range(len(Dico)): #creating as many states as the original Automaton
         DicoFinal.setdefault(i,i) #create the element i in the dico
         DicoFinal[i]={} #i become a Dico
         DicoFinal[i]["colonne"]=Dico[i]["colonne"]  
         DicoFinal[i]["type"]=Dico[i]["type"]
     DicoFinal = ComplementDico(DicoFinal) #change all the types, only transitions to go 
     States = EtatDico(DicoFinal)
-    for i in range(len(Dico)-1):
+    for i in range(len(Dico)):
         for n in EvenementDico(Dico):
             if Dico[i][n]!="":
-                DicoFinal[States.index(Dico[i][n])][n]=i
+                DicoFinal[States.index(Dico[i][n])][n]=Dico[i]["colonne"]
     #.index give the position of the state we are going to in the list of possible states
     
     return DicoFinal
@@ -2093,11 +2092,7 @@ if DEBUGG == 1:
     Dictionnaire=CSVToDico(FichierEntree)
 
     
-    print(Dictionnaire)
-    print(VerifDeterminism(Dictionnaire))
-
-    Dictionnaire=ChangeToDeterminist(Dictionnaire)
-    AffichageAutomateFromDico(Dictionnaire)
+    print(VerifMotAEF("aba",Dictionnaire))
     ARRET = 1
 
 #
