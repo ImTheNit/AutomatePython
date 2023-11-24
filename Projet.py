@@ -2014,14 +2014,27 @@ def AddState(Dico,name,type=0,event=""): #add the state to the list with default
 #ok
 #
 
-def ComplementDico(Dico): #return the dico with all types changed from final to non-final and vice-versa
-    #type 0->2, type 1->3 type 2->0 type 3->1
-    for i in range(len(Dico)):
-        Type = int(Dico[i]["type"])
-        if Type >=2:
-            ReplaceType(Dico,i,(Type-2))
-        else:
-            ReplaceType(Dico,i,(Type+2))
+def ComplementDico(Dico,mod=0): 
+    if DicoVide(Dico)==True:
+        print("Dictionnaire vide")
+        return Dico
+    if mod ==0:#return the dico with all types changed from final to non-final and vice-versa
+        #type 0->2, type 1->3 type 2->0 type 3->1
+        for i in range(len(Dico)):
+            Type = int(Dico[i]["type"])
+            if Type >=2:
+                ReplaceType(Dico,i,(Type-2))
+            else:
+                ReplaceType(Dico,i,(Type+2))
+    if mod ==1:#change final to initial and initial to final
+        #type 1->2 and type 2->1
+        for i in range(len(Dico)):
+            Type = int(Dico[i]["type"])
+            if Type ==1:
+                ReplaceType(Dico,i,2)
+            else:
+                if Type == 2:
+                    ReplaceType(Dico,i,1)
     return Dico
 
 
@@ -2047,7 +2060,7 @@ def MiroirDico(Dico): #return the mirror Automaton (correspond to a complement w
         DicoFinal[i]={} #i become a Dico
         DicoFinal[i]["colonne"]=Dico[i]["colonne"]  
         DicoFinal[i]["type"]=Dico[i]["type"]
-    DicoFinal = ComplementDico(DicoFinal) #change all the types, only transitions to go 
+    DicoFinal = ComplementDico(DicoFinal,1) #change all the types, only transitions to go 
     States = EtatDico(DicoFinal)
     for i in range(len(Dico)):
         for n in EvenementDico(Dico):
