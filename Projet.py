@@ -2103,9 +2103,12 @@ if DEBUGG == 1:
 
 
     Dictionnaire=CSVToDico(FichierEntree)
+    AffichageDico(Dictionnaire)
+    Dictionnaire = MiroirDico(Dictionnaire)
+    AffichageAutomateFromDico(Dictionnaire)
 
-    
-    print(VerifMotAEF("aba",Dictionnaire))
+    #
+    #print(VerifMotAEF("aba",Dictionnaire))
     ARRET = 1
 
 #
