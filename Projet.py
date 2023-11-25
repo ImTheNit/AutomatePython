@@ -1701,7 +1701,7 @@ def UpdateTypeL(Type,mode=-1):
             print("Error: invalid mode")
             return False
 
-
+ 
 #
 #Status
 #Ok
@@ -2090,9 +2090,11 @@ if DEBUGG == 1:
 
 
     Dictionnaire=CSVToDico(FichierEntree)
-
+    AffichageAutomateFromDico(Dictionnaire)
+    Dictionnaire
+    Dictionnaire=MiroirDico(Dictionnaire)
+    AffichageAutomateFromDico(Dictionnaire)
     
-    print(VerifMotAEF("aba",Dictionnaire))
     ARRET = 1
 
 #
