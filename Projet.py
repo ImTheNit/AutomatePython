@@ -1221,7 +1221,8 @@ def ChangeToDeterminist(MonDico):
 
         return False
 
-    else:
+    else:   
+        Info=0
         
         if VerifDeterminism(MonDico)==True:     #already determinist
 
@@ -1243,18 +1244,18 @@ def ChangeToDeterminist(MonDico):
  
 
             case 1:     #only one initial state
- 
+                
 
                 for i in range(len(MonDico)):
 
                     if MonDico[i]["colonne"]==listEtatInitial(MonDico)[0]:  #putting initial state in new dictionnary
 
                         Transition[0]=MonDico[i]
-
+                        Info=1
                 if len(Transition[0])==0:   #empty dictionnary created
                     return False
 
-               
+
 
             case _:     #more than one
 
@@ -1312,7 +1313,6 @@ def ChangeToDeterminist(MonDico):
 
 
 
-
         #------------------ordinary states---------------------
 
         #initializing variables
@@ -1325,11 +1325,10 @@ def ChangeToDeterminist(MonDico):
 
         Event=EvenementDico(MonDico)
 
-
         for j in range(len(Event)):  
-
+            
             if Transition[0][Event[j]] not in Done:     # adding states to process
-
+            
                 Next.append(Transition[0][Event[j]])
 
 
@@ -1371,9 +1370,13 @@ def ChangeToDeterminist(MonDico):
  
 
             for I in range(len(Next[0])):
+                if type(Next[0])==list:
+                    type1.append(TypeOfState(MonDico,Next[0][I]))   #add type of each sub-state too the list
+                    Info=0
 
-                type1.append(TypeOfState(MonDico,Next[0][I]))   #add type of each sub-state too the list
-
+                else :
+                    type1.append(TypeOfState(MonDico,Next[0]))
+                    Info=1
                 for j in range(len(Event)):
 
                     if Event[j]  not in Transition[i+1]:     #Event don't exist
@@ -1383,9 +1386,10 @@ def ChangeToDeterminist(MonDico):
 
                         Transition[i+1][Event[j]]=[Transition[i+1][Event[j]]]   #Convert into list
 
-
-                    Transition[i+1][Event[j]].append(destination(MonDico,Next[0][I],Event[j]))#add new state to list
-
+                    if Info==0:
+                        Transition[i+1][Event[j]].append(destination(MonDico,Next[0][I],Event[j]))#add new state to list
+                    if Info==1:
+                        Transition[i+1][Event[j]].append(destination(MonDico,Next[0],Event[j]))#add new state to list
                     SortList(Transition[i+1][Event[j]])    
 
                     Transition[i+1][Event[j]]=ClearState(Transition[i+1][Event[j]])
@@ -2013,7 +2017,7 @@ def AddState(Dico,name,type=0,event=""): #add the state to the list with default
 def ComplementDico(Dico,mod=0): 
     if DicoVide(Dico)==True:
         print("Dictionnaire vide")
-        return Dico
+        return False
     if mod ==0:#return the dico with all types changed from final to non-final and vice-versa
         #type 0->2, type 1->3 type 2->0 type 3->1
         for i in range(len(Dico)):
@@ -2031,7 +2035,7 @@ def ComplementDico(Dico,mod=0):
             else:
                 if Type == 2:
                     ReplaceType(Dico,i,1)
-    return Dico
+    return -1
 
 
 def ReplaceType(Dico,num:int,type:int): #replace the type of the event coresponding to the number num in the dico to the type type
@@ -2316,6 +2320,95 @@ while ARRET == 0 :
                 Dictionnaire = ChangeToComplet(Dictionnaire)
                 print("done \n")
                 wait()
+
+
+        #Check word is admit
+        case 11:
+            print("\n-------------")
+            print("Checking word")
+            print("-------------\n")
+            wait()
+
+            if DicoVide(Dictionnaire)==True:
+                print("No Automaton in memory")
+                wait()
+            else:
+                word=input("Input a word:")
+                if VerifMotAEF(word,Dictionnaire) == False:
+                    print("The word",word," is not admitted by the dictionnary")
+                else:
+                    print("The word",word,"is not admitted by the dictionnary")
+                wait()
+
+        #check determinist
+        case 12:
+            print("\n-----------------")
+            print("Check determinist")
+            print("-----------------\n")
+            wait()
+
+            if DicoVide(Dictionnaire)==True:
+                print("No Automaton in memory")
+                wait()
+            else:
+                if VerifDeterminism(Dictionnaire)==True:
+                    print("The automaton is determinist")
+                    wait()
+                else:
+                    print("The automaton is not determinist")
+                    wait()
+
+        #Make determinist
+        case 13:
+            print("\n---------------")
+            print("Determinisation")
+            print("---------------\n")
+            wait()
+
+            if DicoVide(Dictionnaire)==True:
+                print("No Automaton in memory")
+                wait()
+            else:
+                if VerifDeterminism(Dictionnaire)==True:
+                    print("The automaton is already determinist")
+                    wait()
+                else:
+                    Dictionnaire=ChangeToDeterminist(Dictionnaire)
+                    if Dictionnaire!= False:
+                        print("Automaton succesfully determinised")
+                        AffichageAutomateFromDico(Dictionnaire)
+                    wait()
+        
+        #Find Complement
+        case 14:
+            print("\n----------")
+            print("Complement")
+            print("----------\n")  
+            wait()
+
+            if DicoVide(Dictionnaire)==True:
+                print("No Automaton in memory")
+                wait()
+            else:
+                Dictionnaire=ComplementDico(Dictionnaire)
+                AffichageAutomateFromDico(Dictionnaire)
+                wait()
+
+        # Find Mirror
+        case 15:
+            print("\n------")
+            print("Mirror")
+            print("------\n")  
+            wait()
+
+            if DicoVide(Dictionnaire)==True:
+                print("No Automaton in memory")
+                wait()
+            else:
+                Dictionnaire=MiroirDico(Dictionnaire)
+                AffichageAutomateFromDico(Dictionnaire)
+                wait()           
+
 
         #cas default
         case _:
