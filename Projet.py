@@ -1339,9 +1339,8 @@ def ChangeToDeterminist(MonDico):
         #process next states
 
         i=0
-
         while len(Next) != 0 :      #while a state to process
-
+            
             #initializing variables
 
             type1=[]
@@ -1349,69 +1348,62 @@ def ChangeToDeterminist(MonDico):
             ETAT=EtatDico(Transition)
 
             EVENT=EvenementDico(Transition)
-
-           
-
-            if i+1 not in Transition:     #initializing if new index
-
-                Transition[i+1]={"colonne":"","type":""}
-
-
-
-
             if Next[0] in ETAT:     # if already process, go to the next one
-
 
                 i=i+1
 
-                break
+                
+            else:
+
+                if i+1 not in Transition:     #initializing if new index
+
+                    Transition[i+1]={"colonne":"","type":""}
 
 
- 
+                for I in range(len(Next[0])):
+                    if type(Next[0])==list:
+                        type1.append(TypeOfState(MonDico,Next[0][I]))   #add type of each sub-state too the list
+                        INFO=0
 
-            for I in range(len(Next[0])):
-                if type(Next[0])==list:
-                    type1.append(TypeOfState(MonDico,Next[0][I]))   #add type of each sub-state too the list
-                    Info=0
+                    else :
+                        type1.append(TypeOfState(MonDico,Next[0]))
+                        INFO=1
+                    for j in range(len(Event)):
 
-                else :
-                    type1.append(TypeOfState(MonDico,Next[0]))
-                    Info=1
-                for j in range(len(Event)):
+                        if Event[j]  not in Transition[i+1]:     #Event don't exist
+                            Transition[i+1][Event[j]]=[]
 
-                    if Event[j]  not in Transition[i+1]:     #Event don't exist
-                        Transition[i+1][Event[j]]=[]
+                        if type(Transition[i+1][Event[j]])!=list:   # actual value not a list
 
-                    if type(Transition[i+1][Event[j]])!=list:   # actual value not a list
+                            Transition[i+1][Event[j]]=[Transition[i+1][Event[j]]]   #Convert into list
 
-                        Transition[i+1][Event[j]]=[Transition[i+1][Event[j]]]   #Convert into list
+                        if INFO==0:
+                            Transition[i+1][Event[j]].append(destination(MonDico,Next[0][I],Event[j]))#add new state to list
+                        if INFO==1:
+                            Transition[i+1][Event[j]].append(destination(MonDico,Next[0],Event[j]))#add new state to list
+                        SortList(Transition[i+1][Event[j]])    
 
-                    if Info==0:
-                        Transition[i+1][Event[j]].append(destination(MonDico,Next[0][I],Event[j]))#add new state to list
-                    if Info==1:
-                        Transition[i+1][Event[j]].append(destination(MonDico,Next[0],Event[j]))#add new state to list
-                    SortList(Transition[i+1][Event[j]])    
-
-                    Transition[i+1][Event[j]]=ClearState(Transition[i+1][Event[j]])
+                        Transition[i+1][Event[j]]=ClearState(Transition[i+1][Event[j]])
 
 
-                    if I == len(Next[0])-1: # last sub state of the state
+                        if I == len(Next[0])-1: # last sub state of the state
 
-                        if (Transition[i+1][Event[j]] not in Done) and (Transition[i+1][Event[j]] not in Next):     # New State, add to Next
+                            if (Transition[i+1][Event[j]] not in Done) and (Transition[i+1][Event[j]] not in Next):     # New State, add to Next
+                                if Transition[i+1][Event[j]] != "":
+                                    Next.append(Transition[i+1][Event[j]])                       
 
-                            Next.append(Transition[i+1][Event[j]])                       
+                New_Type=UpdateTypeL(type1,1)
 
-            New_Type=UpdateTypeL(type1,1)
+                Transition[i+1]["colonne"]=Next[0]
 
-            Transition[i+1]["colonne"]=Next[0]
+                Transition[i+1]["type"]=New_Type
 
-            Transition[i+1]["type"]=New_Type
+                Done.append(Next[0])   
 
-            Done.append(Next[0])   
+                del(Next[0])
 
-            del(Next[0])
-
-            i=i+1
+                i=i+1
+                
 
         
 
@@ -1437,10 +1429,14 @@ def ConvertDictionnaryListToStr(Dictionnary):
         return False
     else:
         Event=EvenementDico(Dictionnary)
-        for i in range(len(Dictionnary)):
+        Etat=EtatDico(Dictionnary)
+        for i in range(len(Etat)):
+            
+
             for j in range(len(Event)):
                 if type(Dictionnary[i][Event[j]])==list:
                     Dictionnary[i][Event[j]]=ConvertListToStr(Dictionnary[i][Event[j]])
+
             if type(Dictionnary[i]["colonne"])==list:
                 Dictionnary[i]["colonne"]=ConvertListToStr(Dictionnary[i]["colonne"])
     return Dictionnary
@@ -1459,9 +1455,9 @@ def ConvertListToStr(List):
         print("Error: type not respected")
         return False
     else:
-        if len(List)==0:
-            print("Error: the list is empty")
-            return False
+        if len(List)==0:    # list empty -> no destination : ""
+            #print("Error: the list is empty")
+            return ""
         else:
             string=""
             for i in range(len(List)):
@@ -2133,7 +2129,7 @@ while ARRET == 0 :
             print("\n------------------------------------------")
             print("Chargement d'un Automate depuis un Fichier")
             print("------------------------------------------\n")
-            wait()
+            
 
             #choix du fichier 
             Fichier=input("Saisissez le nom du fichier:")
@@ -2351,12 +2347,15 @@ while ARRET == 0 :
                 print("No Automaton in memory")
                 wait()
             else:
-                if VerifDeterminism(Dictionnaire)==True:
-                    print("The automaton is determinist")
-                    wait()
+                if VerifAEF(Dictionnaire)==True:    
+                    if VerifDeterminism(Dictionnaire)==True:
+                        print("The automaton is determinist")
+                        wait()
+                    else:
+                        print("The automaton is not determinist")
+                        wait()
                 else:
-                    print("The automaton is not determinist")
-                    wait()
+                    print("The Automaton is not a final state machine")
 
         #Make determinist
         case 13:
@@ -2369,15 +2368,18 @@ while ARRET == 0 :
                 print("No Automaton in memory")
                 wait()
             else:
-                if VerifDeterminism(Dictionnaire)==True:
-                    print("The automaton is already determinist")
-                    wait()
+                if VerifAEF(Dictionnaire)==True:
+                    if VerifDeterminism(Dictionnaire)==True:
+                        print("The automaton is already determinist")
+                        wait()
+                    else:
+                        Dictionnaire=ChangeToDeterminist(Dictionnaire)
+                        if Dictionnaire!= False:
+                            print("Automaton succesfully determinised")
+                            AffichageAutomateFromDico(Dictionnaire)
+                        wait()
                 else:
-                    Dictionnaire=ChangeToDeterminist(Dictionnaire)
-                    if Dictionnaire!= False:
-                        print("Automaton succesfully determinised")
-                        AffichageAutomateFromDico(Dictionnaire)
-                    wait()
+                    print("The Automaton is not a final state machine")
         
         #Find Complement
         case 14:
