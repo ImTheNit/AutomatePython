@@ -569,9 +569,13 @@ def EquilibrageDico(MonDico):
 #
 
 def ConvertIndiceDico(MonDico):
-    if DicoVide(MonDico):
+    # Take as parameter a dictionnarie
+    # return False if the dictionnary is empty
+    # return the dictionnary with index converted successively
+
+    if DicoVide(MonDico)==True:
         print("Error: the dictionnary is empty")
-        return -1
+        return False
     else:
         DicoFinal={}
         for i in range(len(MonDico.keys())):
