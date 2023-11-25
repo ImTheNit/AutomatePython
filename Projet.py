@@ -20,6 +20,7 @@ import time #To use sleep() function, to make the programm having short waiting 
 #Files and separator
 FichierEntree="data.csv"
 FichierSortie="data2.csv"
+FileChoice="ChoiceFile.txt" # File containing choices
 DELIMITER=";"
 
 ARRET=0 #0 if we want to continue, 1 else
@@ -48,7 +49,7 @@ CONDITIONS_EVENEMENT="An event can't contain "+str(RESTRICTION_CHOIX_EVENEMENT)+
 
 CONDITIONS_NOUVEL_ETAT="A state can't contain "+str(RESTRICTION_CHOIX_ETAT)+",be empty and the destination state must exist"
 
-FileChoice="ChoiceFile.txt" # File containing choices
+
 
 
 
@@ -424,14 +425,14 @@ def ModifDico(MonDico):
 
         # Delete unwanted states
         
-        print("Removing unwanted files")
+        print("Removing unwanted states")
         wait()
         for i in range(len(AncienneListeEtat)):
-            if AncienneListeEtat[i] not in ListeEtat:                
+            if AncienneListeEtat[i] not in ListeEtat:      # state was here before, but not anymore          
                 a=MonDico.pop(i)
 
 
-        # Ajoutons les etats qui ont été ajoutés
+        # Add wanted states
 
         print("Adding new states")
         wait()
@@ -439,58 +440,37 @@ def ModifDico(MonDico):
 
         for i in range (len(ListeEtat)):
             Taille=len(MonDico)
-            if ListeEtat[i] not in AncienneListeEtat:
-                #l'etat n'etait pas là avant 
-                #print("Nouvel Etat:",ListeEtat[i],"taille:",Taille)
-
-                # Ajoutons le dans le dictionnaire
-                MonDico.setdefault(Taille+1,{'colonne':ListeEtat[i]})
-
-
-            else:
-                a=1 #bidon
-                #l'etat etait deja là
-                #print("Ancien Etat:",ListeEtat[i])
+            if ListeEtat[i] not in AncienneListeEtat:   # state was not here before 
+                MonDico.setdefault(Taille+1,{'colonne':ListeEtat[i]}) # add it to the dictionnary
         
-        # On verifie que le dictionnaire est trié, si besoin on le trie pour pouvoir l'equilibrer ensuite
+        # Check if the dictionnary is sorted, if not sort it, in order to balance it 
         if VerifTrieDico(MonDico)==False:
             MonDico=TrieDicoCle(MonDico)
-        
-        #On reorganise notre Dictionnaire pour que les indices soient successifs
-        MonDico=ConvertIndiceDico(MonDico)
+    
+        MonDico=ConvertIndiceDico(MonDico)  # Edit dictionnary to make index been succesives integers
 
 
-        #On retire maintenant les évenement que l'utilisateur ne veut plus garder
+        #Delete unwanted events
 
         print("Removing unwanted events")
         wait()
 
         for i in range(len(AncienneListeEvenement)):
-            if AncienneListeEvenement[i] not in ListeEvenement:
-                #print("Ancienne valeur:",AncienneListeEvenement[i])
-                #l'evennement etait là avant mais il n'est plus là
+            if AncienneListeEvenement[i] not in ListeEvenement: # event was here before, but not anymore
                 for j in range(len(MonDico)):
-                        a=MonDico[j].pop(AncienneListeEvenement[i])
-                # Donc on supprimme
-        
+                        a=MonDico[j].pop(AncienneListeEvenement[i]) # delete it   
 
-        # On rajoute les evennements qui ont été rajoutés
+        # Add wanted events
 
         print("Adding new events")
         wait()
 
         for i in range(len(ListeEvenement)):
-            #Taille=len(ListeEvenement)
-            if ListeEvenement[i] not in AncienneListeEvenement:
-                #L'evenement n'etait pas là avant
-                #print("Nouvel Evenement:",ListeEvenement[i])
-
-                # On ajoute dans le dictionnaire pour chaque etat
-                for j in range(len(MonDico)):
+            if ListeEvenement[i] not in AncienneListeEvenement: # event was not here before
+                for j in range(len(MonDico)): # add the event in each state of the dictionnary
                     MonDico[j][ListeEvenement[i]]=""
-        #print(MonDico)
 
-        # On Affiche maintenant l'automate pas à pas et demandant les nouvelles valeurs
+        # Display the automaton and ask input for each destination state
 
         print("New fields in the automaton")
         print("State:Event-> destination's state")
@@ -499,17 +479,17 @@ def ModifDico(MonDico):
             field=list(FIELDNAMES(MonDico))
             
             
-            # Modification du Type
+            # Edit type 
             print(MonDico[i][field[0]],":",field[1],"-->",MonDico[i][list(FIELDNAMES(MonDico))[1]])
             rep=input("Input the type of the state "+MonDico[i][field[0]]+" among: ordinary(0), initial(1), final(2) or    initial and final(3) (Enter to skip):")
 
-            while VerifType(rep)==False and rep!="": # On verifie que le type saisie respecte les conditions ou alors qu'il est vide(dans ce cas on garde l'ancienne valeur)
+            while VerifType(rep)==False and rep!="": # We check if the type respect conditions, if empty keep the old value
                     print("The type is not correct")
                     rep=input("Input the type of the state "+MonDico[i][field[0]]+" among: ordinary(0), initial(1), final(2) or   initial and final(3) (Enter to skip):")
             if rep != "":
                 MonDico[i][list(FIELDNAMES(MonDico))[1]]=rep
 
-            # Modification des etat de destination
+            # Edit destination state
             for j in range(2,len(field)):
                 check=0
                 while check==0:
@@ -552,12 +532,13 @@ def ModifDico(MonDico):
 
 
 def EquilibrageDico(MonDico):
-    # Retourne -1 si le dictionnaire est vide
-    # Retourne le dictionnaire avec les indices réarangés
-    
-    # On doit s'assurer avant que les clé du dictionnaire sont triées(fonction VerifTrieDico() et TriDicoCle() )
+    # take as parameter a dictionnary
+    # return - if the dictionnary is empty
+    # return the dictionarry with reorganized index 
+    #
+    #Need to check if the keys of the dictionnary are sorted (function VeriTrieDico() and TriDicoCle())
 
-    # Suppr est une liste contenant les indices devant etre supprimés dans notre dictionnaire
+    # Suppr is a list containing index that must be delete from our dictionnary
     Suppr=[]
 
     
@@ -565,32 +546,20 @@ def EquilibrageDico(MonDico):
         return -1
 
     else:
+        if VerifTrieDico(MonDico)==False:
+            MonDico=TrieDicoCle(MonDico)
         
-        for i in range(len(list(MonDico.keys()))):   # On parcours les etats
-            if list(MonDico.keys())[i]!=i:   #verifions si chaque indice de noter dictionnaire est bien nommé correctement sinon le renommé 
-                #print("C'est pas OK pour ",i,"car on a ",list(MonDico.keys())[i])
+        for i in range(len(list(MonDico.keys()))):   
+            if list(MonDico.keys())[i]!=i:   # Check if each index is correctly named, else named it correctly 
+ 
+                AncienneValeur=list(MonDico.values())[i] # identify which index we have to remove
 
-                # On identifie quel indice on devra retirer 
-                AncienneValeur=list(MonDico.values())[i]
+                MonDico.setdefault(i,AncienneValeur) # add new key et attribute the corresponding value, careful: index added at the end
 
-                # On rajoute une nouvelle clé et on lui assigne la valeur correspondanteattention elle est rajoutée a la fin du diictionnaire
-                MonDico.setdefault(i,AncienneValeur)
-
-                #on ajoute l'indice dans la liste des indice a supprimer
-
-                # On ajoute l'indice dans la liste a supprimer seulement si cet indice n'est pas deja attribué
-                if i not in Suppr:
+                if i not in Suppr: # we add the index only if this index is not attributed
                     Suppr.append(list(MonDico.keys())[i])
-                
 
-
-            #else:
-                #rien a faire car l'indice est deja correct
-
-
-        #on supprime les indices superflus:
-        for i in range(len(Suppr)):
-            #print("On supprime la clé ",Suppr[i])
+        for i in range(len(Suppr)): # delete unwanted index
             a=MonDico.pop(Suppr[i])
 
     return MonDico
