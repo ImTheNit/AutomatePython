@@ -23,7 +23,7 @@ FichierSortie="data2.csv"
 DELIMITER=";"
 
 ARRET=0 #0 if we want to continue, 1 else
-DEBUGG=1 #1 if we want to debugg, 0 else
+DEBUGG=0 #1 if we want to debugg, 0 else
 Dictionnaire={}
 
 #Type of state
@@ -48,9 +48,8 @@ CONDITIONS_EVENEMENT="An event can't contain "+str(RESTRICTION_CHOIX_EVENEMENT)+
 
 CONDITIONS_NOUVEL_ETAT="A state can't contain "+str(RESTRICTION_CHOIX_ETAT)+",be empty and the destination state must exist"
 
+FileChoice="ChoiceFile.txt" # File containing choices
 
-#Message of choosing mode/action
-TEXTE_DEMANDE_USER="\n-----------------------------\nChoose an action:\n-----------------------------\n(1)Load an automaton from a .csv file\n(2)Display the automaton from a .csv file\n(3)Display the automaton in memory\n(4)Register the automaton in memory in a .csv file\n(5)Erase the automaton in memory\n(6)Create an automaton\n(7)Modify the automaton in memory\n(8)Verify if the automaton is a final state machine\n(9)Verify that the automaton is complete\n(10)Complete the automaton\n(0)Arrêter le programme"
 
 
 
@@ -61,6 +60,17 @@ TEXTE_DEMANDE_USER="\n-----------------------------\nChoose an action:\n--------
 #------------------------------------------------------------------------------------------------------------------------------------
 #
 #
+
+def DisplayChoices():
+
+    if os.path.exists(FileChoice):
+        File=open(FileChoice,"r")
+        print(File.read())
+        File.close()
+        return True
+    else:
+        print("Missing File:",FileChoice)
+        return False
 
 def wait(a=0.8):
     # take in parameter a time to wait, default time:0.8s
@@ -461,9 +471,8 @@ def ModifDico(MonDico):
                 #l'evennement etait là avant mais il n'est plus là
                 for j in range(len(MonDico)):
                         a=MonDico[j].pop(AncienneListeEvenement[i])
-                        #print("valeur suppr:",a)
                 # Donc on supprimme
-        #print(MonDico)
+        
 
         # On rajoute les evennements qui ont été rajoutés
 
@@ -1809,12 +1818,12 @@ def DemandeUser():
     # Retourne le choix de l'utilisateur qui doit impérativement etre un entier
 
     # On inerroge l'utilisateur
-    print(TEXTE_DEMANDE_USER)
+    DisplayChoices()
     A=input("\nYour choice:")
 
     while VerifEntier(A)==False:    # Tant que l réponse n'est pas un entier on boucle sur la question
         print("The expected answer is an integer")
-        print(TEXTE_DEMANDE_USER)
+        DisplayChoices()
         A=input("Your choice:")
     return int(A)
 
@@ -2089,12 +2098,10 @@ if DEBUGG == 1:
 #-------------------------------
 
 
-    Dictionnaire=CSVToDico(FichierEntree)
-    AffichageDico(Dictionnaire)
-    Dictionnaire = MiroirDico(Dictionnaire)
-    AffichageAutomateFromDico(Dictionnaire)
-
-    #
+    #Dictionnaire=CSVToDico(FichierEntree)
+    #AffichageDico(Dictionnaire)
+    #Dictionnaire = MiroirDico(Dictionnaire)
+    #AffichageAutomateFromDico(Dictionnaire)
     #print(VerifMotAEF("aba",Dictionnaire))
     ARRET = 1
 

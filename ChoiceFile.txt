@@ -1,0 +1,14 @@
+-----------------------------\nChoose an action:\n-----------------------------
+(1)Load an automaton from a .csv file
+(2)Display the automaton from a .csv file
+(3)Display the automaton in memory
+(4)Register the automaton in memory in a .csv file
+(5)Erase the automaton in memory
+(6)Create an automaton
+(7)Modify the automaton in memory
+(8)Verify if the automaton is a final state machine
+(9)Verify that the automaton is complete
+(10)Complete the automaton
+(11)Verify if a word is admitted by an Automaton
+(12)
+(0)Stop the programm
