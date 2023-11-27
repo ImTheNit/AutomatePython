@@ -1785,7 +1785,84 @@ def EvenementDico(MonDico):
 #ok
 #  
 
+def ProductAutomatons(Dico1,Dico2):
+    # Take as parameter two ditionnary
+    # return False if at least one of them is empty
+    # return False if they haven't the same aplhabet(list of event)
+    # return the product of them if no error
 
+    if DicoVide(Dico1)== True or DicoVide(Dico2)==True: # empty
+        print("Error: at least one of the dictionnary is empty")
+        return False
+    
+    EventDico1=EvenementDico(Dico1)
+    EventDico2=EvenementDico(Dico2)
+    EtatDico1=EtatDico(Dico1)
+    EtatDico2=EtatDico(Dico2)
+    Product={}
+
+    if EventDico1 != EventDico2:    # Alphabet
+        print("Error: automatons do not have the same alphabet")
+        return False
+    
+    Event=EventDico1
+    I=0
+
+    # Create States
+    for i in range(len(EtatDico1)): # Create States
+        for j in range(len(EtatDico2)):
+            Product[I]={}
+            Product[I]["colonne"]=[]
+            Product[I]["colonne"].append(EtatDico1[i])
+            Product[I]["colonne"].append(EtatDico2[j])
+            
+
+
+            # Attribute type
+
+            listEtatInitial1=listEtatInitial(Dico1)
+            listEtatInitial2=listEtatInitial(Dico2)
+            listEtatFinal1=listEtatFinal(Dico1)
+            listEtatFinal2=listEtatFinal(Dico2)
+
+            var=0
+            State1=Product[I]["colonne"][0]
+            State2=Product[I]["colonne"][1]
+
+            if State1 in listEtatInitial1 and State2 in listEtatInitial2 and State1 in listEtatFinal1 and State2 in listEtatFinal2:
+                Product[I]["type"]=3
+            else:
+
+                if State1 in listEtatInitial1 and State2 in listEtatInitial2:
+                    Product[I]["type"]=1
+                    var=1
+                if State1 in listEtatFinal1 and State2 in listEtatFinal2:
+                    Product[I]["type"]=2
+                    var=1
+                if var==0:
+                    Product[I]["type"]=0
+    
+            # Destination state:
+            for k in range(len(Event)):
+                destination1=destination(Dico1,State1,Event[k])
+                destination2=destination(Dico2,State2,Event[k])
+                if destination1=="" or destination2=="":
+                    Product[I][Event[k]]=""
+                else:
+                    Product[I][Event[k]]=[]
+                    Product[I][Event[k]].append(destination1)
+                    Product[I][Event[k]].append(destination2)
+
+
+
+            I=I+1
+    Product=ConvertDictionnaryListToStr(Product)
+    AffichageAutomateFromDico(Product)
+    return Product
+#
+#Status
+# ok
+#
 
 def DemandeUser():
     # Retourne le choix de l'utilisateur qui doit impérativement etre un entier
