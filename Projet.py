@@ -1864,6 +1864,143 @@ def ProductAutomatons(Dico1,Dico2):
 # ok
 #
 
+def ConcatenationAutomatons(Dico1,Dico2):
+    # take as parameters two dictionnary
+    # return False if at least one of them is empty
+    # return False if alphabets are differnt(to confirm)
+    # return False if automatons have a common state
+    # return False if the second automaton is not standard(cf VerifStatndard)
+    # ask for confirmation before delete destination of finals states of the first automaton, return False if do not want to delete
+    # return the concatenation of automatons 
+
+    if DicoVide(Dico1)== True or DicoVide(Dico2)==True: # empty
+        print("Error: at least one of the dictionnary is empty")
+        return False
+    
+    EventDico1=EvenementDico(Dico1)
+    EventDico2=EvenementDico(Dico2)
+    EtatDico1=EtatDico(Dico1)
+    EtatDico2=EtatDico(Dico2)
+    Concatenation={}
+
+    if EventDico1 != EventDico2:    # Alphabet
+        print("Error: automatons do not have the same alphabet")
+        return False
+
+    if VerifNoCommonStates(Dico1,Dico2) == False : # CommonStates
+        print("Error: state in both automatons")
+        return False
+    
+    if VerifStandard(Dico2)==False:
+        return False
+    EtatFinal=listEtatFinal(Dico1)
+    EtatInitial=listEtatInitial(Dico2)
+    Event=EventDico1
+
+    for i in range(len(Dico1)):
+        if Dico1[i]["colonne"] in EtatFinal:
+            WHILE=0
+            while WHILE==0:
+                print(Dico1[i]["colonne"]," already has destination state, do you want to delete them?\n Warning, not delete them will stop the concatenation")
+                a=input("(Yes/No):")
+                match a.lower():
+                    
+                    #Yes
+                    case "yes":
+                        print("Deleted")
+                        WHILE=1
+
+                    case "No":
+                        b=input("Are you sure? ")
+                        if b.lower()=="yes":
+                            return False
+                    case _:
+                        print("Expected answer is yes or no")
+
+    for i in range(len(Dico1)):
+        Concatenation[i]={}
+        if Dico1[i]["colonne"] not in EtatFinal:
+            Concatenation[i]=Dico1[i]
+        else:
+            Concatenation[i]["colonne"]=Dico1[i]["colonne"] #state
+
+            if Dico2[indexOfState(Dico2,EtatInitial[0])]['type'] == 3:    #type
+                Concatenation[i]["type"]=2
+            else:
+                Concatenation[i]["type"]=0
+            
+            for j in range(len(Event)):     #destination
+                Concatenation[i][Event[j]]=destination(Dico2,EtatInitial[0],Event[j])
+
+
+    for i in range(len(Dico2)):
+
+        if Dico2[i]["colonne"] not in EtatInitial:
+            J=len(Concatenation)
+            Concatenation[J]={}
+            Concatenation[J]=Dico2[i]
+
+            
+    AffichageAutomateFromDico(Concatenation)
+    return 0
+#
+#Status
+#OK
+#
+def VerifNoCommonStates(Dico1,Dico2):
+    # Take as parameter two dicitonnary
+    # return False if at least one is empty
+    # return False if at least one states is in both dictionnary
+    # return True if none of states of 1st dictionnary is equal to an states of the 2nd dictionnary
+
+    if DicoVide(Dico1)== True or DicoVide(Dico2)==True: # empty
+        print("Error: at least one of the dictionnary is empty")
+        return False
+    
+    Etat1=EtatDico(Dico1)
+    Etat2=EtatDico(Dico2)
+    
+    for i in range(len(Etat1)):
+        if Etat1[i] in Etat2:
+            return False
+    
+    return True
+
+#
+#Status
+# OK
+#
+
+def VerifStandard(Dico):
+    # take as parameter a dicitonnary
+    # return False if the dictionnary is empty
+    # return False if the Automaton is not standard
+    # return True if the Automaton is standard
+
+# a standard automaton is a automaton with only one initial state and where is it impossible to access to this state with a transition
+
+    if DicoVide(Dico) == True:  # empty
+        print("Error: empty dictionnary")
+        return False
+    
+    if len(listEtatInitial(Dico)) > 1:  #multiple initial state
+        print("Error: multiple initial states")
+        return False
+    
+
+    for j in range(len(Dico)):
+        for i in range(len(EvenementDico(Dico))):
+            if Dico[j][EvenementDico(Dico)[i]] == listEtatInitial(Dico)[0] and Dico[j]["colonne"]==listEtatInitial(Dico)[0]:
+                print("Error: existing transition to initial state")
+                return False
+
+    return True
+
+#
+#Status
+# OK
+#
+
 def DemandeUser():
     # Retourne le choix de l'utilisateur qui doit impérativement etre un entier
 
