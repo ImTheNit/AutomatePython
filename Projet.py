@@ -10,6 +10,10 @@ import csv #To manage transfert between python script and csv file
 import os   #To verify if the size of a file(test if it is emmpty)
 import time #To use sleep() function, to make the programm having short waiting time
 
+#needed to resolve linear system(For regular expression)
+#import numpy as np
+#import matplotlib.pyplot as plt
+#from scipy import linalg
 #
 #
 #Variables
@@ -1999,6 +2003,35 @@ def VerifStandard(Dico):
 #
 #Status
 # OK
+#
+
+
+def RegularExpression(Dico):
+    # take as parameter a dctionnary
+    # return False if the dictionnary is empty
+    # return the regular expression from the automaton
+
+    if DicoVide(Dico)==True:
+        print("Error: empty automaton")
+    
+    # etablished system of equations
+    Equation={}
+    Final=listEtatFinal(Dico)
+    for i in range(len(Dico)):
+        Equation[i]=[]
+        for j in range(len(EvenementDico(Dico))):
+            Equation[i].append(Dico[i][EvenementDico(Dico)[j]])
+        if Dico[i]["colonne"] in Final:
+            final=1
+        else:
+            final=0
+        Equation[i].append(final)
+
+    print(Equation)
+    #resolve system
+#
+#Status
+# In progress
 #
 
 def DemandeUser():
