@@ -2034,6 +2034,115 @@ def RegularExpression(Dico):
 # In progress
 #
 
+
+def ChangeToExcised(Dico):
+    # take as parameter a dictionnary
+    # return false if the dictionnary is empty, or not a final state machine
+    # return the excised dictionnary
+
+    if DicoVide(Dico)==True:
+        print("Error: empty dictionnary")
+        return False
+    if VerifAEF(Dico)==False:
+        print("Error: the automaton is not a final state machine")
+        return False
+    dictionnary={}
+    size=0
+    for i in range(len(Dico)):
+        if VerifAccess(Dico,Dico[i]["colonne"])==True and VerifCoAccess(Dico,Dico[i]["colonne"])==True:
+            dictionnary[size]=Dico[i]
+            size=size+1
+
+    return dictionnary
+#   
+#Status
+# In progress
+#
+
+def VerifAccess(Dico,State):
+    # take as parameter a dictionnary and a state
+    # return false if empty dictionnary, state not in dictionnary
+    # return False if not accessible state
+    # return True if accessible state
+
+    #Warning recursivity
+
+    if DicoVide(Dico) == True:      # empty
+        print("Error: empty Dictionnary")
+        return False
+    
+    if State not in EtatDico(Dico):     #State in
+        print("Error: state",State,"not in the automaton")
+        return False
+
+    Initial=listEtatInitial(Dico)
+    Liste={}
+    parents=[]
+
+    if State in Initial:    # initial => Accessible
+        return True
+
+    for i in range(len(Dico)):  #find parents of the state
+        for j in range(len(EvenementDico(Dico))):
+            #####################deterministe###########################
+            if Dico[i][EvenementDico(Dico)[j]]==State and Dico[i]["colonne"]!=State:    # not include state itself as parent
+                parents.append(Dico[i]["colonne"])    
+
+    for i in range(len(parents)):   # check if at least one parent is accessible
+        if VerifAccess(Dico,parents[i])==True: # one parent is accessible
+            return True
+
+    return False # None parent is Accessible
+
+
+#    
+#Status
+# OK
+#
+
+
+def VerifCoAccess(Dico,State):
+    # take as parameter a dictionnary and a state
+    # return false if empty dictionnary, state not in dictionnary
+    # return False if not coaccessible state
+    # return True if coaccessible state
+
+    #Warning recursivity
+
+    if DicoVide(Dico) == True:      # empty
+        print("Error: empty Dictionnary")
+        return False
+    
+    if State not in EtatDico(Dico):     #State in
+        print("Error: state",State,"not in the automaton")
+        return False
+
+    Final=listEtatFinal(Dico)
+    Liste={}
+    dest=[]
+
+    if State in Final:    # final => CoAccessible
+        return True
+
+
+    for j in range(len(EvenementDico(Dico))): #find destinations of the state
+    #####################deterministe###########################
+        if Dico[indexOfState(Dico,State)][EvenementDico(Dico)[j]]!="" and Dico[indexOfState(Dico,State)][EvenementDico(Dico)[j]]!=State: # not include state itself as destination
+            dest.append(Dico[indexOfState(Dico,State)][EvenementDico(Dico)[j]])    
+
+    for i in range(len(dest)):   # check if at least one destination is CoAccessible
+        if VerifCoAccess(Dico,dest[i])==True:   # one destination is CoAccessible
+            return True
+
+    return False    # none destination is CoAccessible
+
+
+#    
+#Status
+# OK
+#
+
+
 def DemandeUser():
     # Retourne le choix de l'utilisateur qui doit impérativement etre un entier
 
