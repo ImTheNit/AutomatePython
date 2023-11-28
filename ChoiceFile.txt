@@ -16,4 +16,10 @@
 (13)Determinise the automaton
 (14)Find the Complement of the automaton
 (15)Find the mirror of the automaton
+(16)Product of two automatons
+(17)Concatenate two automatons
+(18)
+(19)
+(20)
+(21)Excise an automaton
 (0)Stop the programm

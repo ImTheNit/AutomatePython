@@ -2631,6 +2631,43 @@ while ARRET == 0 :
                 AffichageAutomateFromDico(Dictionnaire)
                 wait()           
 
+        # product
+        case 16:
+            print("\n-------")
+            print("Product")
+            print("-------\n")
+            wait()
+
+        #######################ENVIRONNEMENT DEUX AUTOMATES +verif##############
+            Dictionnaire1={}
+            Dictionnaire2={}
+
+            Dictionnaire=ProductAutomatons(Dictionnaire1,Dictionnaire2)
+            AffichageAutomateFromDico(Dictionnaire)
+            wait()
+        
+
+        # concatenation
+        case 17:
+            print("\n-------------")
+            print("Concatenation")
+            print("-------------\n")
+            wait()
+
+        #######################ENVIRONNEMENT DEUX AUTOMATES +verif##############
+            Dictionnaire1={}
+            Dictionnaire2={}
+
+            Dictionnaire=ConcatenationAutomatons(Dictionnaire1,Dictionnaire2)
+            AffichageAutomateFromDico(Dictionnaire)
+            wait()
+        
+        #############################(18)-(19)-(20)
+
+
+
+
+
 
         #cas default
         case _:
