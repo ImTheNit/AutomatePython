@@ -2774,7 +2774,16 @@ while ARRET == 0 :
         #############################(18)-(19)-(20)
 
 
+        # Excising
+        case 17:
+            print("\n-------------")
+            print("Excising mode")
+            print("-------------\n")
+            wait()
 
+            Dictionnaire=ChangeToExcised(Dictionnaire)
+            AffichageAutomateFromDico(Dictionnaire)
+            wait()
 
 
 
