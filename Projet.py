@@ -2721,10 +2721,12 @@ while ARRET == 0 :
                 print("No Automaton in memory")
                 wait()
             else:
-                Dictionnaire=ComplementDico(Dictionnaire)
-                AffichageAutomateFromDico(Dictionnaire)
-                wait()
-
+                if VerifDeterminism(Dictionnaire)==True:
+                    Dictionnaire=ComplementDico(Dictionnaire)
+                    AffichageAutomateFromDico(Dictionnaire)
+                    wait()
+                else:
+                    print("Error: non determinist automaton are not allowed")
         # Find Mirror
         case 15:
             print("\n------")
@@ -2736,9 +2738,12 @@ while ARRET == 0 :
                 print("No Automaton in memory")
                 wait()
             else:
-                Dictionnaire=MiroirDico(Dictionnaire)
-                AffichageAutomateFromDico(Dictionnaire)
-                wait()           
+                if VerifDeterminism(Dictionnaire)==True:
+                    Dictionnaire=MiroirDico(Dictionnaire)
+                    AffichageAutomateFromDico(Dictionnaire)
+                    wait()     
+                else:
+                    print("Error: non determinist automaton are not allowed")                      
 
         # product
         case 16:
