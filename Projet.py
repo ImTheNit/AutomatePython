@@ -2966,9 +2966,3 @@ while ARRET == 0 :
 
 
 
-
-#REFLEXION:
-
-#CAS d'un AEF non-deterministe:(deux etat possible avec le meme évènement/transition)
-# Comment on l'ecrit dans le fichier?
-#   -> ";" va poser des probleme pour lire le fichier
