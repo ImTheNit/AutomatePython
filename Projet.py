@@ -2126,9 +2126,18 @@ def VerifAccess(Dico,State):
 
     for i in range(len(Dico)):  #find parents of the state
         for j in range(len(EvenementDico(Dico))):
-            #####################deterministe###########################
-            if Dico[i][EvenementDico(Dico)[j]]==State and Dico[i]["colonne"]!=State:    # not include state itself as parent
-                parents.append(Dico[i]["colonne"])    
+
+            if type(Dico[i][EvenementDico(Dico)[j]])==str:          #case str
+                if Dico[i][EvenementDico(Dico)[j]]==State and Dico[i]["colonne"]!=State:    # not include state itself as parent
+                    parents.append(Dico[i]["colonne"])    
+
+
+            if type(Dico[i][EvenementDico(Dico)[j]])==list:     # case list
+                for k in range(len(Dico[i][EvenementDico(Dico)[j]])):
+                    if Dico[i][EvenementDico(Dico)[j]][k]==State and Dico[i]["colonne"]!=State:     # not include state itself as parent
+                        parents.append(Dico[i]["colonne"])
+
+
 
     for i in range(len(parents)):   # check if at least one parent is accessible
         if VerifAccess(Dico,parents[i])==True: # one parent is accessible
@@ -2168,9 +2177,16 @@ def VerifCoAccess(Dico,State):
 
 
     for j in range(len(EvenementDico(Dico))): #find destinations of the state
-    #####################deterministe###########################
-        if Dico[indexOfState(Dico,State)][EvenementDico(Dico)[j]]!="" and Dico[indexOfState(Dico,State)][EvenementDico(Dico)[j]]!=State: # not include state itself as destination
-            dest.append(Dico[indexOfState(Dico,State)][EvenementDico(Dico)[j]])    
+
+        if type(Dico[indexOfState(Dico,State)][EvenementDico(Dico)[j]])==str:       # case str
+            if Dico[indexOfState(Dico,State)][EvenementDico(Dico)[j]]!="" and Dico[indexOfState(Dico,State)][EvenementDico(Dico)[j]]!=State: # not include state itself as destination
+                dest.append(Dico[indexOfState(Dico,State)][EvenementDico(Dico)[j]])    
+
+        if type(Dico[indexOfState(Dico,State)][EvenementDico(Dico)[j]])==list:          # case list
+            for k in range(len(Dico[indexOfState(Dico,State)][EvenementDico(Dico)[j]])):        
+                if Dico[indexOfState(Dico,State)][EvenementDico(Dico)[j]][k]!="" and Dico[indexOfState(Dico,State)][EvenementDico(Dico)[j]][k]!=State: # not include state itself as destination
+                    dest.append(Dico[indexOfState(Dico,State)][EvenementDico(Dico)[j]][k])
+                    
 
     for i in range(len(dest)):   # check if at least one destination is CoAccessible
         if VerifCoAccess(Dico,dest[i])==True:   # one destination is CoAccessible
