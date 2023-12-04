@@ -1871,25 +1871,31 @@ def ProductAutomatons(Dico1,Dico2):
 def ConcatenationAutomatons(Dico1,Dico2):
     # take as parameters two dictionnary
     # return False if at least one of them is empty
-    # return False if alphabets are differnt(to confirm)
     # return False if automatons have a common state
     # return False if the second automaton is not standard(cf VerifStatndard)
     # ask for confirmation before delete destination of finals states of the first automaton, return False if do not want to delete
+    # if a state type is 3, in the first Dictionnary, return False( not sure)
     # return the concatenation of automatons 
 
     if DicoVide(Dico1)== True or DicoVide(Dico2)==True: # empty
         print("Error: at least one of the dictionnary is empty")
         return False
     
+    if VerifAEF(Dico1)==False or VerifAEF(Dico2)==False:
+        print("Error: automatons must be final state machine")
+        return False
+
+
     EventDico1=EvenementDico(Dico1)
     EventDico2=EvenementDico(Dico2)
     EtatDico1=EtatDico(Dico1)
     EtatDico2=EtatDico(Dico2)
     Concatenation={}
-
-    if EventDico1 != EventDico2:    # Alphabet
-        print("Error: automatons do not have the same alphabet")
-        return False
+    #check if no type 3 state in 1st dictionnary
+    for i in range(len(Dico1)):
+        if Dico1[i]["type"]==str(3):
+            print("Error: invalid type for ",Dico1[i]["colonne"],"(3 not supported)")
+            return False
 
     if VerifNoCommonStates(Dico1,Dico2) == False : # CommonStates
         print("Error: state in both automatons")
@@ -1899,10 +1905,21 @@ def ConcatenationAutomatons(Dico1,Dico2):
         return False
     EtatFinal=listEtatFinal(Dico1)
     EtatInitial=listEtatInitial(Dico2)
-    Event=EventDico1
+
+
+    ######################EVENT
+    Event=[]
+    for i in range(len(EventDico1)):
+        Event.append(EventDico1[i])
+    
+    for i in range(len(EventDico2)):
+        if EventDico2[i] not in Event:
+            Event.append(EventDico2[i])
+    ###################
+
 
     for i in range(len(Dico1)):
-        if Dico1[i]["colonne"] in EtatFinal:
+        if Dico1[i]["colonne"] in EtatFinal:        
             WHILE=0
             while WHILE==0:
                 print(Dico1[i]["colonne"]," already has destination state, do you want to delete them?\n Warning, not delete them will stop the concatenation")
@@ -1914,18 +1931,35 @@ def ConcatenationAutomatons(Dico1,Dico2):
                         print("Deleted")
                         WHILE=1
 
-                    case "No":
+                    case "no":
                         b=input("Are you sure? ")
                         if b.lower()=="yes":
                             return False
                     case _:
                         print("Expected answer is yes or no")
-
+    
     for i in range(len(Dico1)):
+
+        #initializing values
         Concatenation[i]={}
-        if Dico1[i]["colonne"] not in EtatFinal:
+        Concatenation[i]["colonne"]=""
+        Concatenation[i]["type"]=""
+
+        for j in range(len(Event)):
+            Concatenation[i][Event[j]]=""
+
+
+        if Dico1[i]["colonne"] not in EtatFinal:        #not FinalState
+
             Concatenation[i]=Dico1[i]
-        else:
+            for k in range(len(Event)):
+
+                if Event[k] not in EventDico1:
+
+                    Concatenation[i][Event[k]]=""
+
+        
+        else:               #  Final State
             Concatenation[i]["colonne"]=Dico1[i]["colonne"] #state
 
             if Dico2[indexOfState(Dico2,EtatInitial[0])]['type'] == 3:    #type
@@ -1934,19 +1968,27 @@ def ConcatenationAutomatons(Dico1,Dico2):
                 Concatenation[i]["type"]=0
             
             for j in range(len(Event)):     #destination
-                Concatenation[i][Event[j]]=destination(Dico2,EtatInitial[0],Event[j])
-
-
+                if Event[j] in EventDico2:
+                    Concatenation[i][Event[j]]=destination(Dico2,EtatInitial[0],Event[j])
+                else:
+                    Concatenation[i][Event[j]]=""
+  
     for i in range(len(Dico2)):
 
         if Dico2[i]["colonne"] not in EtatInitial:
             J=len(Concatenation)
             Concatenation[J]={}
-            Concatenation[J]=Dico2[i]
+            Concatenation[J]["colonne"]=Dico2[i]["colonne"]
+            Concatenation[J]["type"]=Dico2[i]["type"]
+            for j in range(len(Event)):
+                if Event[j] in EventDico2:
+                    Concatenation[J][Event[j]]=Dico2[i][Event[j]]
+                else:
+                    Concatenation[J][Event[j]]=""
 
             
-    AffichageAutomateFromDico(Concatenation)
-    return 0
+    
+    return Concatenation
 #
 #Status
 #OK
@@ -2084,9 +2126,18 @@ def VerifAccess(Dico,State):
 
     for i in range(len(Dico)):  #find parents of the state
         for j in range(len(EvenementDico(Dico))):
-            #####################deterministe###########################
-            if Dico[i][EvenementDico(Dico)[j]]==State and Dico[i]["colonne"]!=State:    # not include state itself as parent
-                parents.append(Dico[i]["colonne"])    
+
+            if type(Dico[i][EvenementDico(Dico)[j]])==str:          #case str
+                if Dico[i][EvenementDico(Dico)[j]]==State and Dico[i]["colonne"]!=State:    # not include state itself as parent
+                    parents.append(Dico[i]["colonne"])    
+
+
+            if type(Dico[i][EvenementDico(Dico)[j]])==list:     # case list
+                for k in range(len(Dico[i][EvenementDico(Dico)[j]])):
+                    if Dico[i][EvenementDico(Dico)[j]][k]==State and Dico[i]["colonne"]!=State:     # not include state itself as parent
+                        parents.append(Dico[i]["colonne"])
+
+
 
     for i in range(len(parents)):   # check if at least one parent is accessible
         if VerifAccess(Dico,parents[i])==True: # one parent is accessible
@@ -2126,9 +2177,16 @@ def VerifCoAccess(Dico,State):
 
 
     for j in range(len(EvenementDico(Dico))): #find destinations of the state
-    #####################deterministe###########################
-        if Dico[indexOfState(Dico,State)][EvenementDico(Dico)[j]]!="" and Dico[indexOfState(Dico,State)][EvenementDico(Dico)[j]]!=State: # not include state itself as destination
-            dest.append(Dico[indexOfState(Dico,State)][EvenementDico(Dico)[j]])    
+
+        if type(Dico[indexOfState(Dico,State)][EvenementDico(Dico)[j]])==str:       # case str
+            if Dico[indexOfState(Dico,State)][EvenementDico(Dico)[j]]!="" and Dico[indexOfState(Dico,State)][EvenementDico(Dico)[j]]!=State: # not include state itself as destination
+                dest.append(Dico[indexOfState(Dico,State)][EvenementDico(Dico)[j]])    
+
+        if type(Dico[indexOfState(Dico,State)][EvenementDico(Dico)[j]])==list:          # case list
+            for k in range(len(Dico[indexOfState(Dico,State)][EvenementDico(Dico)[j]])):        
+                if Dico[indexOfState(Dico,State)][EvenementDico(Dico)[j]][k]!="" and Dico[indexOfState(Dico,State)][EvenementDico(Dico)[j]][k]!=State: # not include state itself as destination
+                    dest.append(Dico[indexOfState(Dico,State)][EvenementDico(Dico)[j]][k])
+                    
 
     for i in range(len(dest)):   # check if at least one destination is CoAccessible
         if VerifCoAccess(Dico,dest[i])==True:   # one destination is CoAccessible
@@ -2724,10 +2782,12 @@ while ARRET == 0 :
                 print("No Automaton in memory")
                 wait()
             else:
-                Dictionnaire=ComplementDico(Dictionnaire)
-                AffichageAutomateFromDico(Dictionnaire)
-                wait()
-
+                if VerifDeterminism(Dictionnaire)==True:
+                    Dictionnaire=ComplementDico(Dictionnaire)
+                    AffichageAutomateFromDico(Dictionnaire)
+                    wait()
+                else:
+                    print("Error: non determinist automaton are not allowed")
         # Find Mirror
         case 15:
             print("\n------")
@@ -2739,9 +2799,12 @@ while ARRET == 0 :
                 print("No Automaton in memory")
                 wait()
             else:
-                Dictionnaire=MiroirDico(Dictionnaire)
-                AffichageAutomateFromDico(Dictionnaire)
-                wait()           
+                if VerifDeterminism(Dictionnaire)==True:
+                    Dictionnaire=MiroirDico(Dictionnaire)
+                    AffichageAutomateFromDico(Dictionnaire)
+                    wait()     
+                else:
+                    print("Error: non determinist automaton are not allowed")                      
 
         # product
         case 16:
@@ -2906,9 +2969,3 @@ while ARRET == 0 :
 
 
 
-
-#REFLEXION:
-
-#CAS d'un AEF non-deterministe:(deux etat possible avec le meme évènement/transition)
-# Comment on l'ecrit dans le fichier?
-#   -> ";" va poser des probleme pour lire le fichier
