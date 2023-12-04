@@ -1,6 +1,5 @@
-colonne;Type;A;B;C;D;E;
-q0;0;a;b;c;d;e;f
-1;0;g;h;i;j;k;
-q2;0;m;n;o;p;q;r
-q3;0;s;t;u;v;w;x
-q4;0;y;z;A1;A2;A3;A4
+colonne;type;a;b
+q1;1;q1,q3;q2
+q2;2;;q1,q4
+q3;0;q4;q2
+q4;0;q4;q2
