@@ -2320,7 +2320,7 @@ def VerifMotAEF(Mot,MonDico):
             # si mot reconnu pour un des etat, le mot est reconnu donc on peut return True
         
         MonEtat=EtatI[L]
-        if Mot=='':
+        if (Mot=='' and MonEtat in EtatF):
             return True
         for i in range(len(Mot)):
             print("test:",Mot[i])
@@ -2358,30 +2358,30 @@ def VerifMotAEF(Mot,MonDico):
 
 
 def ChoixAutomate(Dico1,Dico2):
-    print("Deux automates sont stockés dans le programme.\nVoici l'automate 1 :")
+    print("Two automatons are stored in the program.\nHere is the first automaton :")
     if DicoVide(Dico1)==True:
-        print("L'automate est vide.")
+        print("The automaton is empty.")
     else:
         AffichageAutomateFromDico(Dico1)
-    print("\nVoici l'automate 2 :")
+    print("\nHere is the second automaton :")
     if DicoVide(Dico2)==True:
-        print("L'automate est vide.")
+        print("THe automaton is empty.")
     else:
         AffichageAutomateFromDico(Dico2)
-    a=input("Quel automate voulez-vous choisir ?\n")
+    a=input("What automaton would you like to choose ? (automaton1 or automaton2)\n")
     p=0
     while p==0:
         match a:
 
-            case 'automate1':
-                print("Vous avez choisi l'automate 1")
+            case 'automaton1':
+                print("You choose the first automaton")
                 return Dico1
-            case 'automate2':
-                print("Vous avez choisi l'automate 2")
+            case 'automaton2':
+                print("You choose the second automaton")
                 return Dico2
             case _:
-                print("L'automate n'existe pas")
-                a=input("Veuillez choisir automate1 ou automate2.\n")
+                print("The automaton don't exist")
+                a=input("Could you choose automaton1 or automaton2 ?\n")
 
 
 #COCOZONE
@@ -2913,7 +2913,7 @@ while ARRET == 0:
 
         #cas default
         case _:
-            print("Choix non valide\n")
+            print("Invalid choice\n")
             wait()
 
 
