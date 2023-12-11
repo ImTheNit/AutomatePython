@@ -1739,8 +1739,7 @@ def destination(MonDico,state,Event):
  
 
     # unkonwn event or state:
-
-    print("unknonw event or state")
+    print("unknown event or state",state,"event:",Event)
 
     return False
 
@@ -2302,7 +2301,7 @@ def VerifMotAEF(Mot,MonDico):
     #
 
 
-
+    b=0
     if DicoVide(MonDico)==True:
         return False
 
@@ -2326,7 +2325,7 @@ def VerifMotAEF(Mot,MonDico):
         for i in range(len(Mot)):
             print("test:",Mot[i])
             #verifier que le caractère i du mot est accepté pour faire une transition
-            
+            print("destination",destination(MonDico,MonEtat,Mot[i]))
             if type(destination(MonDico,MonEtat,Mot[i]))==str:      #case str
                 if destination(MonDico,MonEtat,Mot[i])!="":
                     MonEtat=destination(MonDico,MonEtat,Mot[i])
@@ -2338,9 +2337,10 @@ def VerifMotAEF(Mot,MonDico):
             if type(destination(MonDico,MonEtat,Mot[i]))==list:     #case list
                 
                 for k in range(len(destination(MonDico,MonEtat,Mot[i]))):
-                    print(MonDico)
+                    #print(MonDico)
+                    print("len:",len(destination(MonDico,MonEtat,Mot[i])),(destination(MonDico,MonEtat,Mot[i])))
                     if destination(MonDico,MonEtat,Mot[i])[k]!="":
-                        print("esai:",destination(MonDico,MonEtat,Mot[i]))
+                        print("essai:",destination(MonDico,MonEtat,Mot[i]))
                         MonEtat=destination(MonDico,MonEtat,Mot[i])[k]
                         b=0
                         print("Mon état :",MonEtat)
@@ -2516,22 +2516,11 @@ if DEBUGG == 1:
 #-------------------------------
 
 
-    Dictionnaire=CSVToDico("data3.csv")
-    Dictionnaire2=CSVToDico(FichierSortie)
+    Dictionnaire1=CSVToDico("data3.csv")
+    Dictionnaire2=CSVToDico("data4.csv")
 
-
-    print(VerifMotAEF("aba",Dictionnaire))
-    #print(VerifAccess(Dictionnaire1,"q0"))
-    #print(VerifAccess(Dictionnaire1,"q1"))
-    #print(VerifAccess(Dictionnaire1,"q2"))
-    #print(VerifAccess(Dictionnaire1,"q3"))
-
-    Dictionnaire=ChangeToExcised(Dictionnaire1)
-    #AffichageDico(Dictionnaire)
-    #Dictionnaire = MiroirDico(Dictionnaire)
-    #AffichageAutomateFromDico(Dictionnaire)
-    Dictionnaire=CSVToDico("data4.csv")
-    print(VerifMotAEF("ab",Dictionnaire))
+    Dictionnaire=ConcatenationAutomatons(Dictionnaire1,Dictionnaire2)
+    AffichageAutomateFromDico(Dictionnaire)
     ARRET = 1
 
 #
@@ -2540,7 +2529,7 @@ if DEBUGG == 1:
 #------------------------------------
 #
 
-while ARRET == 0 :
+while ARRET == 0:
     
     ChoixUser=DemandeUser()
     time.sleep(0.8)
