@@ -28,7 +28,7 @@ FileChoice="ChoiceFile.txt" # File containing choices
 DELIMITER=";"
 
 ARRET=0 #0 if we want to continue, 1 else
-DEBUGG=1 #1 if we want to debugg, 0 else
+DEBUGG=0 #1 if we want to debugg, 0 else
 Dictionnaire={}
 automaton={}
 #Type of state
@@ -2357,6 +2357,32 @@ def VerifMotAEF(Mot,MonDico):
     return False #invalide pour tous les etats initiaux
 
 
+def ChoixAutomate(Dico1,Dico2):
+    print("Deux automates sont stockés dans le programme.\nVoici l'automate 1 :")
+    if DicoVide(Dico1)==True:
+        print("L'automate est vide.")
+    else:
+        automate1=AffichageAutomateFromDico(Dico1)
+    print("\nVoici l'automate 2 :")
+    if DicoVide(Dico2)==True:
+        print("L'automate est vide.")
+    else:
+        automate2=AffichageAutomateFromDico(Dico2)
+    a=input("Quel automate voulez-vous choisir ?\n")
+    p=0
+    while p==0:
+        match a:
+
+            case 'automate1':
+                print("Vous avez choisi l'automate 1")
+                return Dico1
+            case 'automate2':
+                print("Vous avez choisi l'automate 2")
+                return Dico2
+            case _:
+                print("L'automate n'existe pas")
+                a=input("Veuillez choisir automate1 ou automate2.\n")
+
 
 #COCOZONE
 
@@ -2589,11 +2615,12 @@ while ARRET == 0:
             print("----------------------------------\n")
             wait()
 
-            if DicoVide(Dictionnaire)==True:
+            Dictionnary=ChoixAutomate(Dictionnaire,automaton)
+            if DicoVide(Dictionnary)==True:
                 print("Erreur: Aucun Automate n'est chargé en mémoire")
                 wait()
             else:
-                AffichageAutomateFromDico(Dictionnaire)
+                AffichageAutomateFromDico(Dictionnary)
 
 
 
