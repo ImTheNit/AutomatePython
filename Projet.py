@@ -2200,7 +2200,7 @@ def VerifCoAccess(Dico,State):
 
     for i in range(len(dest)):   # check if at least one destination is CoAccessible
 
-        if VerifCoAccess(Dico,dest[i])==True:   # one destination is CoAccessible
+        if dest[i] in State_CoAccess or VerifCoAccess(Dico,dest[i])==True:   # one destination is CoAccessible
             #print(State,"CoAccessible")
             State_CoAccess.append(State)
             return True
@@ -2496,19 +2496,11 @@ if DEBUGG == 1:
 #-------------------------------
 
 
-    Dictionnaire1=CSVToDico(FichierEntree)
+    Dictionnaire=CSVToDico("data3.csv")
     Dictionnaire2=CSVToDico(FichierSortie)
 
-    #print(VerifAccess(Dictionnaire1,"q0"))
-    #print(VerifAccess(Dictionnaire1,"q1"))
-    #print(VerifAccess(Dictionnaire1,"q2"))
-    #print(VerifAccess(Dictionnaire1,"q3"))
 
-    Dictionnaire=ChangeToExcised(Dictionnaire1)
-    #AffichageDico(Dictionnaire)
-    #Dictionnaire = MiroirDico(Dictionnaire)
-    AffichageAutomateFromDico(Dictionnaire)
-    #print(VerifMotAEF("aba",Dictionnaire))
+    print(VerifMotAEF("aba",Dictionnaire))
     ARRET = 1
 
 #

@@ -94,3 +94,12 @@ Configuration d'un Environnement de travail pour python sur VSCode window:
 
 	Vous pouvez désormais travailler et exécuter votre script python
 
+
+Ajout d'une bibliothèque python dans windows: // attention, il semble que l'interpréteur python soit différent dans le terminal a la racine que dans le repertoire du projet
+Dans le terminal:
+	-Saisissez: "py -m pip install requests" qui verifieras s'il y a besoin de mettre a jour pip
+	
+	-Saisissez: "H:\python.exe -m pip install --upgrade pip" qui mettras à jour pip (cette commande ou un equivalent sera donné a la fin de l'exécution de la précédente)
+pip est maintenant à jour, il ne reste plus qu'à installer les librairies concernées avec une commande du type:
+	"pip install numpy"
+	
