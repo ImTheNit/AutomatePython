@@ -23,7 +23,7 @@ import time #To use sleep() function, to make the programm having short waiting 
 
 #Files and separator
 FichierEntree="data.csv"
-FichierSortie="data2.csv"
+FichierSortie="data3.csv"
 FileChoice="ChoiceFile.txt" # File containing choices
 DELIMITER=";"
 
@@ -53,9 +53,9 @@ CONDITIONS_EVENEMENT="An event can't contain "+str(RESTRICTION_CHOIX_EVENEMENT)+
 
 CONDITIONS_NOUVEL_ETAT="A state can't contain "+str(RESTRICTION_CHOIX_ETAT)+",be empty and the destination state must exist"
 
+Done_State=[]
 
-
-
+State_CoAccess=[]
 
 
 #
@@ -2089,9 +2089,12 @@ def ChangeToExcised(Dico):
         print("Error: the automaton is not a final state machine")
         return False
     dictionnary={}
+    State_CoAccess=[]
     size=0
     for i in range(len(Dico)):
+        Done_State=[]
         if VerifAccess(Dico,Dico[i]["colonne"])==True and VerifCoAccess(Dico,Dico[i]["colonne"])==True:
+            #print("State kept: ",Dico[i]["colonne"])
             dictionnary[size]=Dico[i]
             size=size+1
 
@@ -2118,10 +2121,10 @@ def VerifAccess(Dico,State):
         return False
 
     Initial=listEtatInitial(Dico)
-    Liste={}
     parents=[]
 
     if State in Initial:    # initial => Accessible
+        #print(State,"Accessible")
         return True
 
     for i in range(len(Dico)):  #find parents of the state
@@ -2141,10 +2144,10 @@ def VerifAccess(Dico,State):
 
     for i in range(len(parents)):   # check if at least one parent is accessible
         if VerifAccess(Dico,parents[i])==True: # one parent is accessible
+            #print(State,"Accessible")
             return True
 
     return False # None parent is Accessible
-
 
 #    
 #Status
@@ -2169,10 +2172,14 @@ def VerifCoAccess(Dico,State):
         return False
 
     Final=listEtatFinal(Dico)
-    Liste={}
     dest=[]
 
+    if State not in Done_State:
+        Done_State.append(State)
+
     if State in Final:    # final => CoAccessible
+        #print(State,"CoAccessible")
+        State_CoAccess.append(State)
         return True
 
 
@@ -2180,20 +2187,25 @@ def VerifCoAccess(Dico,State):
 
         if type(Dico[indexOfState(Dico,State)][EvenementDico(Dico)[j]])==str:       # case str
             if Dico[indexOfState(Dico,State)][EvenementDico(Dico)[j]]!="" and Dico[indexOfState(Dico,State)][EvenementDico(Dico)[j]]!=State: # not include state itself as destination
-                dest.append(Dico[indexOfState(Dico,State)][EvenementDico(Dico)[j]])    
+                if Dico[indexOfState(Dico,State)][EvenementDico(Dico)[j]] not in Done_State or Dico[indexOfState(Dico,State)][EvenementDico(Dico)[j]] in State_CoAccess: # add condition with a global variable that contains list of coAccessible states
+                    dest.append(Dico[indexOfState(Dico,State)][EvenementDico(Dico)[j]])
+
 
         if type(Dico[indexOfState(Dico,State)][EvenementDico(Dico)[j]])==list:          # case list
             for k in range(len(Dico[indexOfState(Dico,State)][EvenementDico(Dico)[j]])):        
                 if Dico[indexOfState(Dico,State)][EvenementDico(Dico)[j]][k]!="" and Dico[indexOfState(Dico,State)][EvenementDico(Dico)[j]][k]!=State: # not include state itself as destination
-                    dest.append(Dico[indexOfState(Dico,State)][EvenementDico(Dico)[j]][k])
+                    if Dico[indexOfState(Dico,State)][EvenementDico(Dico)[j]][k] not in Done_State or Dico[indexOfState(Dico,State)][EvenementDico(Dico)[j]] in State_CoAccess: # add condition with a global variable that contains list of coAccessible states
+                        dest.append(Dico[indexOfState(Dico,State)][EvenementDico(Dico)[j]][k])
                     
 
     for i in range(len(dest)):   # check if at least one destination is CoAccessible
+
         if VerifCoAccess(Dico,dest[i])==True:   # one destination is CoAccessible
+            #print(State,"CoAccessible")
+            State_CoAccess.append(State)
             return True
-
+    #print(State,"not coaccessible",len(dest))
     return False    # none destination is CoAccessible
-
 
 #    
 #Status
@@ -2292,7 +2304,6 @@ def VerifMotAEF(Mot,MonDico):
 
 
     if DicoVide(MonDico)==True:
-
         return False
 
     if VerifAEF(MonDico)==False:
@@ -2306,7 +2317,7 @@ def VerifMotAEF(Mot,MonDico):
     Mot=str(Mot)
 
         # se placer sur un etat initial
-    for L in range(len(EtatI)): # pour chaque etat initial on verifie
+    for L in range(len(EtatI)): # pour chaque etat on verifie
             # si mot reconnu pour un des etat, le mot est reconnu donc on peut return True
         
         MonEtat=EtatI[L]
@@ -2316,12 +2327,10 @@ def VerifMotAEF(Mot,MonDico):
             
             if destination(MonDico,MonEtat,Mot[i])!="":
                 MonEtat=destination(MonDico,MonEtat,Mot[i])
-                b=0
             else:   #pas de destination
-                b=1
                 break 
 
-        if (MonEtat in EtatF and b==0): #bien un etat final 
+        if MonEtat in EtatF: #bien un etat final 
             print("Youpi")
             return True 
 
@@ -2487,12 +2496,19 @@ if DEBUGG == 1:
 #-------------------------------
 
 
-    #Dictionnaire=CSVToDico(FichierEntree)
+    Dictionnaire1=CSVToDico(FichierEntree)
+    Dictionnaire2=CSVToDico(FichierSortie)
+
+    #print(VerifAccess(Dictionnaire1,"q0"))
+    #print(VerifAccess(Dictionnaire1,"q1"))
+    #print(VerifAccess(Dictionnaire1,"q2"))
+    #print(VerifAccess(Dictionnaire1,"q3"))
+
+    Dictionnaire=ChangeToExcised(Dictionnaire1)
     #AffichageDico(Dictionnaire)
     #Dictionnaire = MiroirDico(Dictionnaire)
-    #AffichageAutomateFromDico(Dictionnaire)
-    Dictionnaire=CreationDico()
-    print(VerifMotAEF("ab",Dictionnaire))
+    AffichageAutomateFromDico(Dictionnaire)
+    #print(VerifMotAEF("aba",Dictionnaire))
     ARRET = 1
 
 #
