@@ -30,7 +30,7 @@ DELIMITER=";"
 ARRET=0 #0 if we want to continue, 1 else
 DEBUGG=1 #1 if we want to debugg, 0 else
 Dictionnaire={}
-
+automaton={}
 #Type of state
 #   0-> any
 #   1-> initial
@@ -2296,7 +2296,7 @@ def listEtatFinal(MonDico):
 
 
 def VerifMotAEF(Mot,MonDico):
-    #
+    #Don't accept events with more than one character
     #
     #
     #
@@ -2321,16 +2321,36 @@ def VerifMotAEF(Mot,MonDico):
             # si mot reconnu pour un des etat, le mot est reconnu donc on peut return True
         
         MonEtat=EtatI[L]
+        if Mot=='':
+            return True
         for i in range(len(Mot)):
             print("test:",Mot[i])
             #verifier que le caractère i du mot est accepté pour faire une transition
             
-            if destination(MonDico,MonEtat,Mot[i])!="":
-                MonEtat=destination(MonDico,MonEtat,Mot[i])
-            else:   #pas de destination
-                break 
-
-        if MonEtat in EtatF: #bien un etat final 
+            if type(destination(MonDico,MonEtat,Mot[i]))==str:      #case str
+                if destination(MonDico,MonEtat,Mot[i])!="":
+                    MonEtat=destination(MonDico,MonEtat,Mot[i])
+                    b=0
+                else:   #pas de destination
+                    b=1
+                    break
+                print("test")
+            if type(destination(MonDico,MonEtat,Mot[i]))==list:     #case list
+                
+                for k in range(len(destination(MonDico,MonEtat,Mot[i]))):
+                    print(MonDico)
+                    if destination(MonDico,MonEtat,Mot[i])[k]!="":
+                        print("esai:",destination(MonDico,MonEtat,Mot[i]))
+                        MonEtat=destination(MonDico,MonEtat,Mot[i])[k]
+                        b=0
+                        print("Mon état :",MonEtat)
+                    else:   #pas de destination
+                        b=1
+                        
+                        break
+                    print("test2")
+            
+        if (MonEtat in EtatF and b==0): #bien un etat final 
             print("Youpi")
             return True 
 
@@ -2501,6 +2521,17 @@ if DEBUGG == 1:
 
 
     print(VerifMotAEF("aba",Dictionnaire))
+    #print(VerifAccess(Dictionnaire1,"q0"))
+    #print(VerifAccess(Dictionnaire1,"q1"))
+    #print(VerifAccess(Dictionnaire1,"q2"))
+    #print(VerifAccess(Dictionnaire1,"q3"))
+
+    Dictionnaire=ChangeToExcised(Dictionnaire1)
+    #AffichageDico(Dictionnaire)
+    #Dictionnaire = MiroirDico(Dictionnaire)
+    #AffichageAutomateFromDico(Dictionnaire)
+    Dictionnaire=CSVToDico("data4.csv")
+    print(VerifMotAEF("ab",Dictionnaire))
     ARRET = 1
 
 #
