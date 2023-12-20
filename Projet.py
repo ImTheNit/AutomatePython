@@ -826,43 +826,43 @@ def modifListeEvenement(ListeEvent):
 
 
 
-def ModifListe(ancien,Liste,nouveau):
+def ModifListe(old,List,new):
+    # Take as parameter list and two variables, one already in the list and one to replace the old one
+    # Return the edited list
 
-    # Prend en parametre un liste et deux variable, une deja presente que l'on va remplacer et la nouvelle valeur
-    # Retourne la liste modifiée
+    if len(List)!= 0:      # Check empty list
 
-    if len(Liste)!= 0:      # On verifie que la liste est non vide
-
-        for i in range(len(Liste)): 
-            if Liste[i]==ancien:    # On parcours la liste jusqu'à trouver l'indice de la valeur a remplacer
-                Liste[i]=nouveau    # On remplace par la nouvelle valeur
-                return  Liste 
+        for i in range(len(List)): 
+            if List[i]==old:    # Cross list to find the old value
+                List[i]=new    # Replace by new value
+                return  List
 
     else:
 
         print("Error: the list is empty")
-        return -1     
+        return False     
 #
 #status
 #OK
 #
 
 
-def DicoVide(MonDico):
-    # Retourne True si le Dictionnaire est vide
-    # Retourne False si le Dictionnaire n'est pas vide
-    # Return False if type of parameter is incorrect
+def DicoVide(Dico):
+    # Take as parameter a Dictionnary
+    # Return True if the Dictionnary is empty
+    # Return False if the Dictionnary is not empty
+    # Return -1 if type of parameter is incorrect
 
-    if type(MonDico)!=dict: #type
+    if type(Dico)!=dict: # type
         print("Error: the type expected is dictionnary")
-        return False    
+        return -1    
 
-    if not MonDico:
+    if not Dico:
         
-        return True     #Dictionnaire vide
+        return True     # Empty Dictionnary
 
     else:
-        return False    #Dictionnaire non-vide
+        return False    # Not empty Dictionnary
 #
 #status
 #ok
@@ -870,11 +870,12 @@ def DicoVide(MonDico):
 
 
 def FichierVide(CSVFILES):
-    # Retourne true si le fichier est vide
-    # Retourne False si le fichier n'est pas vide
-    # Retourne -1 si le fichier n'existe pas
+    # Take as parameter a file name
+    # Return True if the file is empty
+    # Return False if the file is not empty
+    # Return -1 if the file does not exist
 
-    # On verifie que le fichier existe
+    # Check existing file
     if FichierExiste(CSVFILES)==False:
 
         print("Error: the file do not exist")
@@ -882,14 +883,14 @@ def FichierVide(CSVFILES):
     
     else:
             
-        # On s'interesse à la taille de notre fichier
+        # Look at size of the file
         size=os.stat(CSVFILES).st_size
         if size == 0:
             
-            return True     #Fichier Vide
+            return True     # Empty file
 
         else:
-            return False    #Fichier non-Vide
+            return False    # File not empty
 #
 #status
 #ok
