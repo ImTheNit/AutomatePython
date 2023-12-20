@@ -1667,33 +1667,20 @@ def UpdateTypeL(Type,mode=-1):
 #Ok
 #
 def SortList(Mylist):
-
     # take in parameter a list
-
     # return False if the list is empty
 
- 
-
     if len(Mylist)==0:
-
         print("Error: empty list")
-
         return False
 
     else:
-
         for i in range(len(Mylist)):
-
- 
-
             if type(Mylist[i])==list:   # if list inside list, split it
-
                 for j in range(len(Mylist[i])):
-
                     Mylist.append(Mylist[i][j])
 
                 del(Mylist[i])    
-
         Mylist.sort()
         return(Mylist)
 #
@@ -1701,75 +1688,65 @@ def SortList(Mylist):
 # OK
 #
 
-def destination(MonDico,state,Event):
-
+def destination(Dico,state,Event):
+    # Take as parameter a dictionnary, a state and an event
+    # Return the destination state of the state with the event in the automaton
+    # Return False if empty Dictionnary or unexistant state or event
  
 
-    if DicoVide(MonDico):
-
+    if DicoVide(Dico):
         print("Error: empty Dictionnary")
-
         return False
-
- 
-
+        
     Return=[]
-
-    for i in range(len(EtatDico(MonDico))):
-
-        if state == EtatDico(MonDico)[i] and Event in EvenementDico(MonDico):
-
-            Return=MonDico[i][Event]
-
+    for i in range(len(EtatDico(Dico))):
+        if state == EtatDico(Dico)[i] and Event in EvenementDico(Dico):
+            Return=Dico[i][Event]
+            
             return Return
-
- 
 
     # unkonwn event or state:
     print("unknown event or state",state,"event:",Event)
-
     return False
-
- 
-
 #
 #Status
 # Ok
 #
-def EtatDico(MonDico):
-    # Retourne une liste contenant l'ensemble des etat de l'AEF -> colonne de gauche(sauf premiere ligne)
 
-    if DicoVide(MonDico)==True:
+def EtatDico(Dico):
+    # Take as parameter a dictionnary
+    # Return list of state
+    # Return False if empty Dictionnary
+
+    if DicoVide(Dico)==True:
         print("Error: the automaton is empty")
-        return -1
-
-
+        return False
+        
     else:
-        etat=[]
-
-        for i in range(len(MonDico.keys())):
-
-            etat.append(MonDico[list(MonDico.keys())[i]]['colonne'])
-        return(etat)
+        state=[]
+        for i in range(len(Dico.keys())):
+            state.append(Dico[list(Dico.keys())[i]]['colonne'])
+        return(state)
 #
 #status
 #ok
 #     
 
-def EvenementDico(MonDico):
-    # Retourne la liste contenant l'ensemble des evenement de l'AEF -> premiere ligne(sauf premiere colonne)
-
-    if DicoVide(MonDico)==True:
+def EvenementDico(Dico):
+    # Take as parameter a dictionnary
+    # Return list of event
+    # Return False if empty Dictionnary
+    
+    if DicoVide(Dico)==True:
         print("Error: the automaton is empty")
-        return -1
-
-
+        return False
+        
     else:
-        evenement=list(MonDico[0].keys()) # la premiere ligne, il faut retirer la premiere valeur de la liste
-        Evenement=[]
-        for i in range(2,len(evenement)):   #on commence à deux pour ne pas ajouter  "colonne" ni "type"
-            Evenement.append(evenement[i])
-        return Evenement
+        event=list(Dico[0].keys()) # First ligne, without first value
+        Event=[]
+        for i in range(2,len(event)):   # Start at 2 to not add 'colonne' and 'type'
+            Event.append(event[i])
+        return Event
 #
 #status
 #ok
