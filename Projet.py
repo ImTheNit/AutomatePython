@@ -2200,59 +2200,60 @@ def VerifCoAccess(Dico,State):
 
 
 def DemandeUser():
-    # Retourne le choix de l'utilisateur qui doit impérativement etre un entier
+    # Return user choice , as en integer
 
-    # On inerroge l'utilisateur
+    # Ask user
     DisplayChoices()
-    A=input("\nYour choice:")
+    Choice=input("\nYour choice:")
 
-    while VerifEntier(A)==False:    # Tant que l réponse n'est pas un entier on boucle sur la question
+    while VerifEntier(Choice)==False:    # While answer incorrect, try again
         print("The expected answer is an integer")
         DisplayChoices()
-        A=input("Your choice:")
-    return int(A)
+        Choice=input("Your choice:")
+    return int(Choice)
 
 #
 #status
 #ok
 #
 
-def choixFichier(mode,NomFichier): 
-    # verif fichier entrée : mode=1
-    # verif fichier sortie : mode=2
+def choixFichier(mode,FileName): 
+    # Check entry file: mode=1
+    # Check exit file: mode=2
 
-    # Retourne le nom du fichier saisie
-    # Retourne -1 si la fonction est mal appelée(valeur de a anormale)
+    # Take as parameter the mode(1 or 2) and the file name
+    # Return the file name after checkings
+    # Return -1 if parameters are incorrects
 
-    #pas besoin de verifier si on 'peut' convertir mode en entier car il n'est pas saisie par l'utilisateur
+    # No need to check if we can convert var 'mode' because not set by user
     match int(mode):
         
-        #Mode Choix fichier d'entrée
+        #entry file mode
         case 1:
             
-            #on verifie que le fichier existe est qu'il n'est pas vide
-            while FichierExiste(NomFichier)==False or FichierVide(NomFichier)==True:        
-                NomFichier=input("Fichier vide ou introuvable, réessayer:")
+            # Check file exist and not empty
+            while FichierExiste(FileName)==False or FichierVide(FileName)==True:        
+                NomFichier=input("Empty file or unexisting file, try another:")
             print("File OK")
-            return NomFichier
+            return FileName
 
 
-        #Mode Choix fichier de sortie
+        # exit file mode
         case 2:
 
-            if FichierExiste(NomFichier)==False:#Le fichier n'existe pas 
+            if FichierExiste(FileName)==False:    # unexisting file 
                 print("No corresponding file, creating new file")
-                    #Pour Créer un fichier en python, on l'ouvre en mode ecriture(et cela sera fait lors de l'ecriture)
+                    # To create a file using python, open it in writing mode
 
-            else:   #Le fichier existe déjà
+            else:   #File already exist, content will be deleted
                 print("File OK")
                 wait()
-            return NomFichier
+            return FileName
 
         case _:
             print("Error when calling choixFichier()")
             return -1
-            #erreur appel de choixFichier()
+            # Error call function
 #
 #status
 #ok
