@@ -2456,7 +2456,7 @@ def AddState(Dico,name,type=0,event=""): #add the state to the list with default
 
 def ComplementDico(Dico,mod=0): 
     if DicoVide(Dico)==True:
-        print("Dictionnaire vide")
+        print("Error: empty dictionnary")
         return False
     if mod ==0:#return the dico with all types changed from final to non-final and vice-versa
         #type 0->2, type 1->3 type 2->0 type 3->1
