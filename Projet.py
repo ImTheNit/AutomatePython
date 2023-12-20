@@ -2694,32 +2694,32 @@ while ARRET == 0:
                 ModifDico(Dictionnary)
 
 
-        #verifier si un Automate est un AEF en mémoire uniquement (l'ordre peut changer)
+        #Check if an Automaton is a FSM(final state machine) 
         case 8:
-            print("\n----------------")
-            print("Verification AEF")
-            print("----------------\n")
+            print("\n---------")
+            print("Check FSM")
+            print("---------\n")
             wait()
             Dictionnary=ChoixAutomate(Dictionnary1,Dictionnary2)
-            if DicoVide(Dictionnary)==True:    #il n'y a pas d'Automate en memoire
-                print("Aucun Automate n'est enregisé en mémoire")
+            if DicoVide(Dictionnary)==True:    #Empty
+                print("No Automaton in memory")
                 wait()
-            else:       #un automate a bien été trouvé
+            else:       #existing Automaton
                 match VerifAEF(Dictionnary):
             
-                    #L'automate est un AEF
+                    #Automaton is FSM
                     case True:
-                        print("L'automate est un Automate d'état fini")
+                        print("The Automaton is a Final State Machine")
                         wait()
                     
-                    #L'automate n'est pas un AEF
+                    #Automaton is not FSM
                     case False:
-                        print("L'automate n'est pas un Automate d'état fini")
+                        print("The Automaton is not a Final State Machine")
                         wait()
 
-                    #Cas défaut
+                    #default case
                     case _: 
-                        print("Erreur: probleme lors de la verification de l'automate")
+                        print("Error: probleme occurend while checking")
                         wait()
                     
                     
