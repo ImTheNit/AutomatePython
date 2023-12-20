@@ -2561,94 +2561,94 @@ while ARRET == 0:
     time.sleep(0.8)
     match ChoixUser:
         
-        #Arret
+        #Stop
         case 0:
             print("-----------------")
             print("Fin du programme")
             print("-----------------")
             ARRET=1
 
-        #chargement automate depuis .csv
+        #Loading automaton from .csv
         case 1:
-            print("\n------------------------------------------")
-            print("Chargement d'un Automate depuis un Fichier")
-            print("------------------------------------------\n")
+            print("\n---------------------------")
+            print("Loading automaton from file")
+            print("---------------------------\n")
             
 
-            #choix du fichier 
-            Fichier=input("Saisissez le nom du fichier:")
+            #choose file 
+            Fichier=input("Choose a file name:")
 
-            #verif fichier existe
+            #check existing file
             FichierEntree=choixFichier(1,Fichier)
 
             Dictionnaire=CSVToDico(FichierEntree)
             if DicoVide(Dictionnaire)==False:
-                print("Automate chargé avec succès")
+                print("Automaton successfully loaded")
                 wait()
     
             else:
-                print("Automate vide à l'arrivée, un probleme est apparu")
+                print("Empty automaton, an error occured")
                 wait()
             
 
-        #Affichage Automate depuis .csv    
+        #Display automaton from .csv    
         case 2:
-            print("\n-----------------------------------------")
-            print("Affichage d'un Automate depuis un Fichier")
-            print("-----------------------------------------\n")
+            print("\n---------------------------")
+            print("Display automaton from file")
+            print("---------------------------\n")
             wait()
 
-            #choix du fichier 
-            Fichier=input("Saisissez le nom du fichier:")
+            #choose file 
+            Fichier=input("Input file name:")
 
-            #verif fichier existe
+            #check existing file
             FichierEntree=choixFichier(1,Fichier)
 
             AffichageAutomateFromCSV(FichierEntree)
             
 
 
-        #Affichage de l'Automate en mémoire
+        #Display automaton in memory
         case 3:
-            print("\n----------------------------------")
-            print("Affichage de l'Automate en mémoire")
-            print("----------------------------------\n")
+            print("\n---------------------------")
+            print("Display automaton in memory")
+            print("---------------------------\n")
             wait()
 
             Dictionnary=ChoixAutomate(Dictionnary1,Dictionnary2)
             if DicoVide(Dictionnary)==True:
-                print("Erreur: Aucun Automate n'est chargé en mémoire")
+                print("Error: no automaton in memory")
                 wait()
             else:
                 AffichageAutomateFromDico(Dictionnary)
 
 
 
-        #Enregistrer l'automate dans un fichier
+        #Register automaton as csv
         case 4:
-            print("\n---------------------------------------------------")
-            print("Sauvegarde de l'Automate en mémoire vers un fichier")
-            print("---------------------------------------------------\n")
+            print("\n------------------------------------------")
+            print("Register automaton in memory in a csv file")
+            print("------------------------------------------\n")
             wait()
 
             Dictionnary=ChoixAutomate(Dictionnary1,Dictionnary2)
             if DicoVide(Dictionnary)==True:
-                print("Erreur: Aucun Dictionnaire n'est chargé en mémoire")
+                print("Error: no automaton in memory")
                 wait()
 
             else:
-                #choix du fichier de destination
-                Fichier=input("Saisissez le nom du fichier:")
+                #Choose destination file
+                Fichier=input("Input file name:")
 
-                #verif fichier existe
+                #Check existing file
                 FichierSortie=choixFichier(2,Fichier)
             
-            #confirmation si non vide ?
+            #confirmation if not empty ?
                 if DicoToCSV(Dictionnaire,FichierSortie) == 0:
-                    print("Sauvegarde réussie")
+                    print("Successfully registered")
                     wait()
                 else:
-                    print("Erreur lors de la sauvegarde")
+                    print("Error while registering")
                     wait()
 
         #Effacer Automate en memoire
