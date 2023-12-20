@@ -658,182 +658,166 @@ def ClearState(State):
 #
 
 
-def modifListeEtat(ListeEtat):
-    
-    # Prend en parametre la liste des etat de notre Automate 
-    # Retourne la liste modifiée par l'utilisateur
+def modifListeEtat(ListeState):
+    # Take as parameter liste of state 
+    # Return the new new, edited by user
 
-    if len(ListeEtat) == 0:#la liste est de taille 0 --> vide
+    if len(ListeState) == 0:    #Empty list
         print("The list is empty")
-        return -1
+        return False
 
-    else:
-        #print("Liste OK")
-        
-        #Variable permettant de savoir quand s'arreter
+    else:        
+        #Variables to know when stop
         stop = 0
 
         while stop == 0:
 
-            # On interroge l'utilisateur
-            reponse =input(str(ListeEtat)+"\nDo you want to edit the state's list above (yes or no):")
+            # Ask user
+            answer =input(str(ListeState)+"\nDo you want to edit the state's list above (yes or no):")
+            # Convert to lower
+            answer=answer.lower()
 
-            #On Convertit la chaine en minuscule
-            reponse=reponse.lower()
+            # many case depending of answer
+            match answer:
 
-            #On distingue les cas selon la reponse
-            match reponse:
-
-                #on veut modifier
+                # User want to edit
                 case "yes":
 
                     print("Edit")
-                    Reponse2=input("Insert the name of the state to edit or remove it and insert the new name to add it:")
+                    answer2=input("Insert the name of the state to edit or remove it and insert the new name to add it:")
 
-                    #Verification que la reponse est correcte:
-                    while VerifSaisieEtat(Reponse2)==False:
+                    # Check answer is correct:
+                    while VerifSaisieEtat(answer2)==False:
                         print("The name do not respect conditions.\n"+CONDITIONS_ETAT)
-                        Reponse2=input("New choice:")
+                        answer2=input("New choice:")
+                    # Answer is now correct 
 
-                    #notre champs est désormais conforme 
+                    if Answer2 in ListeState:   # State already exist
+                        Choice=input("Choosen state: "+answer2+" Do you want to remove(0) or edi(1) it:")
 
-                    if Reponse2 in ListeEtat:   #l'état choisi est dans la liste
-
-                        Choix=input("Choosen state: "+Reponse2+" Do you want to remove(0) or edi(1) it:")
-
-                        #Verification du champ 'Choix'
-                        while VerifEntier(Choix)==False or int(Choix) not in [0,1]:
+                        # Check field 'Choice'
+                        while VerifEntier(Choice)==False or int(Choice) not in [0,1]:
                             print("The expected answer is 0 or 1")
-                            Choix=input("Choosen state: "+Reponse2+" Do you want to remove(0) or edi(1) it:")
+                            Choice=input("Choosen state: "+answer2+" Do you want to remove(0) or edit(1) it:")
 
-                        if int(Choix)==0:
-                            #Suppression
-                            ListeEtat.remove(Reponse2)
+                        if int(Choice)==0:
+                            # Erasing
+                            ListeState.remove(answer2)
                         
                         else:
-                            #Modification
+                            # Edit
                             new=input("Insert the new state:")
 
-                            #verification de la saisie
-                            while VerifSaisieNewEtat(new,ListeEtat)==False:
+                            # Check field 'new'
+                            while VerifSaisieNewEtat(new,ListeState)==False:
                                 print("The name do not respect conditions.\n"+CONDITIONS_ETAT)
                                 new=input("New choice:")
-
-
-                            ListeEtat=ModifListe(Reponse2,ListeEtat,new)
-
-
+    
+                            ListeState=ModifListe(answer2,ListeState,new)
                     else:
-                        #Ajout
-                        ListeEtat.append(Reponse2)
+                        # Adding
+                        ListeState.append(answer2)
 
 
 
-                #On ne veut pas/plus modifier
+                # No more changes
                 case "no":
 
                     print("End of edit")
                     wait()
-                    #changement de la valeur de la variable stop pour s'arreter
+                    # edit value of stop variable to exit
                     stop=1
                 
-
-                #Autre reponse
+                # other answer
                 case _:
                     print("The expected answer is yes or no")
 
-        return ListeEtat
+        return ListeState
 #
 #Status
 #OK
 #
 
 
-def modifListeEvenement(ListeEvenement):
+def modifListeEvenement(ListeEvent):
+    # Take as parameter list of event
+    # Return the new list, edited by user
 
-    # Prend en parametre la liste des evenement de notre Automate
-    # Retourne la liste modifiée par l'utilisateur
-
-    if len(ListeEvenement) == 0:#la liste est de taille 0 --> vide
+    if len(ListeEvent) == 0:    # Empty list
         print("The list is empty")
-        return -1
+        return False
 
-    else:
-        #print("Liste OK")
-        
-        #Varaiable permettant de savoir quand s'arreter
+    else:        
+        # Varaiables to know when stop
         stop = 0
 
         while stop == 0:
-
-            # On interroge l'utilisateur
-            reponse =input(str(ListeEvenement)+"\nDo you want to edit the event list above (yes or no):")
+            # Ask user
+            answer =input(str(ListeEvent)+"\nDo you want to edit the event list above (yes or no):")
             
-            # On convertit la chaine en minuscule
-            reponse=reponse.lower()
+            # Convert to lower
+            answer=answer.lower()
 
-            # On distingue les cas selon la reponse 
-            match reponse:
+            # Many case depending on th answer 
+            match answer:
 
-                #on veut modifier
+                # user want to edit
                 case "yes":
 
                     print("Edit")
-                    Reponse2=input("Insert the name of the event to edit or remove it and insert the new name to add it:")
+                    answer2=input("Insert the name of the event to edit or remove it and insert the new name to add it:")
 
-                    #Verification que la reponse est correcte:
-                    while VerifSaisieEvenement(Reponse2)==False:
+                    # Check answer is correct:
+                    while VerifSaisieEvenement(answer2)==False:
                         print("The name of the event do not respect conditions.\n"+CONDITIONS_EVENEMENT)
-                        Reponse2=input("New choice:")
+                        answer2=input("New choice:")
+                    # field is now correct 
+                    
+                    if Reponse2 in ListeEvent:   # Event already exist
+                        Choice=input("Choosen event: "+answer2+" Do you want to remove(0) or edit(1) it:")
 
-                    #notre champs est désormais conforme 
-
-                    if Reponse2 in ListeEvenement:   #l'évènement choisi est dans la liste
-
-                        Choix=input("Choosen event: "+Reponse2+" Do you want to remove(0) or edit(1) it:")
-
-                        #Verification du champ 'Choix'
-                        while VerifEntier(Choix)==False or int(Choix) not in [0,1]:
+                        # Check field 'Choice' is correct
+                        while VerifEntier(Choice)==False or int(Choice) not in [0,1]:
                             print("The expected answer is 0 or 1")
-                            Choix=input("Choosen event"+Reponse2+" Do you want to remove(0) or edit(1) it:")
+                            Choice=input("Choosen event"+answer2+" Do you want to remove(0) or edit(1) it:")
 
-                        if int(Choix)==0:
-                            #Suppression
-                            ListeEvenement.remove(Reponse2)
+                        if int(Choice)==0:
+                            # Erasing
+                            ListeEvent.remove(answer2)
                         
                         else:
-                            #Modification
+                            # Edit
                             new=input("Insert the new event:")
 
-                            #verification de la saisie
-                            while VerifSaisieNewEvenement(new,ListeEvenement)==False:
+                            # Check field 'new' is correct
+                            while VerifSaisieNewEvenement(new,ListeEvent)==False:
                                 print("The name of the event do not respect conditions.\n"+CONDITIONS_EVENEMENT)
                                 new=input("New choice:")
 
 
-                            ListeEvenement=ModifListe(Reponse2,ListeEvenement,new)
+                            ListeEvent=ModifListe(answer2,ListeEvent,new)
 
 
                     else:
                         #Ajout
-                        ListeEvenement.append(Reponse2)
+                        ListeEvent.append(answer2)
 
 
 
-                #On ne veut pas/plus modifier
+                # No more edit
                 case "no":
 
                     print("End of edit")
                     wait()
-                    #changement de la valeur de la variable stop pour s'arreter
+                    # Change value of variable stop to exit
                     stop=1
                 
 
-                #Autre reponse
+                # Other answer
                 case _:
                     print("The expected answer is yes or no")
 
-        return ListeEvenement
+        return ListeEvent
 #
 #Status
 #OK
