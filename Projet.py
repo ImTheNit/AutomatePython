@@ -2563,15 +2563,15 @@ while ARRET == 0:
         
         #Stop
         case 0:
-            print("-----------------")
-            print("Fin du programme")
-            print("-----------------")
+            print("----------")
+            print("Shutdown")
+            print("----------")
             ARRET=1
 
         #Loading automaton from .csv
         case 1:
             print("\n---------------------------")
-            print("Loading automaton from file")
+            print("Loading Automaton from file")
             print("---------------------------\n")
             
 
@@ -2587,14 +2587,14 @@ while ARRET == 0:
                 wait()
     
             else:
-                print("Empty automaton, an error occured")
+                print("Empty Automaton, an error occured")
                 wait()
             
 
         #Display automaton from .csv    
         case 2:
             print("\n---------------------------")
-            print("Display automaton from file")
+            print("Display Automaton from file")
             print("---------------------------\n")
             wait()
 
@@ -2611,13 +2611,13 @@ while ARRET == 0:
         #Display automaton in memory
         case 3:
             print("\n---------------------------")
-            print("Display automaton in memory")
+            print("Display Automaton in memory")
             print("---------------------------\n")
             wait()
 
             Dictionnary=ChoixAutomate(Dictionnary1,Dictionnary2)
             if DicoVide(Dictionnary)==True:
-                print("Error: no automaton in memory")
+                print("Error: no Automaton in memory")
                 wait()
             else:
                 AffichageAutomateFromDico(Dictionnary)
@@ -2627,13 +2627,13 @@ while ARRET == 0:
         #Register automaton as csv
         case 4:
             print("\n------------------------------------------")
-            print("Register automaton in memory in a csv file")
+            print("Register Automaton in memory in a csv file")
             print("------------------------------------------\n")
             wait()
 
             Dictionnary=ChoixAutomate(Dictionnary1,Dictionnary2)
             if DicoVide(Dictionnary)==True:
-                print("Error: no automaton in memory")
+                print("Error: no Automaton in memory")
                 wait()
 
             else:
@@ -2651,44 +2651,44 @@ while ARRET == 0:
                     print("Error while registering")
                     wait()
 
-        #Effacer Automate en memoire
+        #Delete automaton in memory
         case 5:
-            print("\n-----------------------------------")
-            print("Effacement de l'Automate en mémoire")
-            print("-----------------------------------\n")
+            print("\n---------------------------")
+            print("Erasing Automaton in memory")
+            print("---------------------------\n")
             wait()
             Dictionnary=ChoixAutomate(Dictionnary1,Dictionnary2)
-            Dictionnary={}#remplacement par dictionnaire vide
-            print("Automate effacé")
+            Dictionnary={}#Replace by empty dictionnary
+            print("Automaton erase")
             wait()
 
 
-        #Créer un nouvel automate
+        #Create a new automaton
         case 6:
-            print("\n-----------------------------")
-            print("Création d'un nouvel Automate")
-            print("-----------------------------\n")
+            print("\n----------------------")
+            print("Create a new Automaton")
+            print("----------------------\n")
             wait()
 
             Dictionnary=CreationDico()
             if VerifAEF(Dictionnary)==False:
-                print("Erreur lors de la création")
+                print("Error while creating")
                 wait()
             else:
-                print("Création de l'automate avec succès")
+                print("Automaton successfully created")
                 wait()
                 AffichageAutomateFromDico(Dictionnary)
 
 
-        #Modifier un Automate
+        #Edit an automaton
         case 7:
             print("\n--------------------------")
-            print("Modification d'un Automate")
+            print("Edit an Automaton")
             print("--------------------------\n")
             wait()
             Dictionnary=ChoixAutomate(Dictionnary1,Dictionnary2)
             if DicoVide(Dictionnary)==True:
-                print("Aucun Automate en mémoire")
+                print("No Automaton in memory")
                 wait()
             else:
                 ModifDico(Dictionnary)
