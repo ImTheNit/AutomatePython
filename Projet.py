@@ -898,84 +898,86 @@ def FichierVide(CSVFILES):
 
 
 def FichierExiste(CSVFILES):
-    # Retourne True si le fichier existe
-    # Retourne False si le fichier n'existe pas
+    # Take as parameter a file name
+    # Return True if the file do exist
+    # Return False if the file do not exist
 
-    if os.path.exists(CSVFILES):    #on cherche si le chemin du fichier est valide
-        return True     #Fichier existe
+    if os.path.exists(CSVFILES):    # look for path where file is valide
+        return True     # File exist
 
     else:
         
-        return False    #Fichier n'existe pas
+        return False    # File not exist
 #
 #status
 #ok
 #
 
-def VerifType(a):
-    # Retourne True si le Type est incorrect
-    # Retourne False si le Type est incorrect
+def VerifType(Type):
+    # Take as parameter a type (0,1,2,3) of state
+    # Return True if the Type is correct
+    # Return False if the Type is incorrect
 
-    if VerifEntier(a)==True:    #Le type est bien un entier
+    if VerifEntier(Type)==True:    # Type var is an integer
 
-        if int(a) in TYPE:      #le type est correct         #TYPE est déclarée au debut du fichier
+        if int(Type) in TYPE:      # Type is correct         #TYPE is global var defined before
 
             return True
 
-    return False     #le type est incorrect
+    return False     # Type incorrect
 #
 #status
 #ok
 #
 
-def VerifEntier(a):
-    # Retourne True si le parametre peut etre convertit en entier
-    # Retourne False si le parametre ne peut pas etre convertit en entier
+def VerifEntier(var):
+    # Take as parameter a variable
+    # Return True if parameter can be converted to integer
+    # Return False if parameter cannot be converted to integer
 
-    try:    #Essaie de convertir a en entier
-        int(a)
+    try:    # Try to convert to integer
+        int(var)
 
-    except ValueError:  # Si Erreur lors de la conversion -> a ne peut pas etre convertit en entier
-        return False
-        #pas un entier
+    except ValueError:  # If error while convertion -> var can't be converted
+        return False    # Cannot be converted
 
-    else:               # Si pas d'erreur --> a peut etre converti en entier
-        return True
-        #entier
+    else:               # If no error -> var can be converted safely
+        return True # Can be converted
 #
 #status
 #ok
 #
 
-def VerifAEF(MonDico):
-    # Retourne True si le dictionnaire decrit un AEF
-    # Retourne False si le dictionnaire ne decrit pas un AEF
-
-    if DicoVide(MonDico)==True:
+def VerifAEF(Dico):
+    # Take as parameter a dictionnary
+    # Return True if the dictionnary do show a Final State Machine(FSM)
+    # Return False if the dictionnary do not show a Final State Machine(FSM)
+    # Return -1 if empty of incorrect parameter
+    
+    if DicoVide(Dico)==True:    #empty
         print("Automaton is empty")
-        return False
+        return -1
 
     else:
-
-        #Definition des liste des etats et evenement de notre Automate
-        Etat=EtatDico(MonDico)
-        Evenement=EvenementDico(MonDico) 
+        # Define list of states and events
+        State=EtatDico(Dico)
+        Event=EvenementDico(Dico) 
            
-        for i in range(len(MonDico)):   # On parcours les etats   
-            for j in range(len(Evenement)): #on parcours les evenements 
+        for i in range(len(Dico)):   # Cross states   
+            for j in range(len(Event)): # Cross events 
                 
                 # case of a list of states
-                if type(MonDico[i][Evenement[j]])==list:
-                    for k in range(len(MonDico[i][Evenement[j]])):
-                        if MonDico[i][Evenement[j]][k] not in Etat and MonDico[i][Evenement[j]][k]!="":
+                if type(Dico[i][Event[j]])==list:
+                    for k in range(len(Dico[i][Event[j]])):
+                        if Dico[i][Event[j]][k] not in State and Dico[i][Event[j]][k]!="":
                             return False
 
                 # case of a single state
-                if type(MonDico[i][Evenement[j]])==str:
-                    if MonDico[i][Evenement[j]] not in Etat and MonDico[i][Evenement[j]]!="":   #on test si une 'case' est deja un etat ou si elle est vide
+                if type(Dico[i][Event[j]])==str:
+                    if Dico[i][Event[j]] not in State and Dico[i][Event[j]]!="":   # Check if a field already has a state or is empty
                         return False                    
 
-        # si on arrive ici --> tous les element sont dans des etats ou alors ils sont vide --> AEF
+        # If arrive here: every fields are state or empty --> FSM
         return True          
 #
 #status
