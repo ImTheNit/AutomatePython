@@ -1114,28 +1114,25 @@ def VerifSaisieNouvelEtat(Choice,listState):
 #OK
 #
 
-def VerifTrieDico(MonDico):
-    # Retourne True si les clées sont triées
-    # Retourne False si les clées ne sont pas triées
-    # Retourne -1 si les clées du dictionnaire sont triées
+def VerifTrieDico(Dico):
+    # Take as parameter a dictionnary
+    # Return True if keys are sorted
+    # Return False if keys are not sorted
+    # Return -1 if error with dictionnary(empty or wrong type)
 
-    if DicoVide(MonDico):
+    if DicoVide(Dico):  
         return -1
 
     else:
 
-        # On manipule la liste des clés de notre dictionnaire
-        maListe=list(MonDico.keys())
+        # use keys of dictionnary
+        Mylist=list(Dico.keys())
 
-        # On Definit la version triée de cette liste
-        ListeTriee=sorted(maListe)
+        # define a sorted list
+        SortedList=sorted(Mylist)
         
-        
-        #print("New:",ListeTriee)
-        #print("Old:",maListe)
-        
-        # On compare les deuxpour savoir si la liste initiale bien triée
-        if maListe==ListeTriee: 
+        # Compare 
+        if Mylist==SortedList: 
             return True
 
         else:
@@ -1146,7 +1143,10 @@ def VerifTrieDico(MonDico):
 #
 
 def VerifDeterminism(Dico):
-
+    # Take as parameter a dictionnary
+    # return True if the automaton is determinist
+    # return False if the automaton is not determinist
+    # Return -1 if error with dictionnary(empty or wrong type) 
 
     if DicoVide(Dico):
         return -1
@@ -1156,13 +1156,12 @@ def VerifDeterminism(Dico):
             return False
         
         #Testing there is no list of state 
-        Evenement=EvenementDico(Dico)
+        Event=EventDico(Dico)
         for i in range(len(Dico)):
-            for j in range(len(Evenement)):
-                Value=Dico[i][Evenement[j]]
+            for j in range(len(Event)):
+                Value=Dico[i][Event[j]]
                 if type(Value) == list:
                     return False
-
         return True
     
 #
@@ -1172,85 +1171,60 @@ def VerifDeterminism(Dico):
 
 
 
-def ChangeToDeterminist(MonDico):
-
-   
-
+def ChangeToDeterminist(Dico):
     # Function that take in parameters a dictionnary
-
     # Return an equivalent of the automaton but determinist
-
     # Return False if the dictionnary in parameter is empty
-
     # Return False if there is no initial state
-
     # Return the automaton if the automaton is already determinist
 
-    if DicoVide(MonDico)==True:
+    if DicoVide(Dico)==True:
 
         return False
 
     else:   
         Info=0
         
-        if VerifDeterminism(MonDico)==True:     #already determinist
+        if VerifDeterminism(Dico)==True:     #already determinist
 
             print("Already determinist")
-            return MonDico
+            return Dico
 
         Transition= {}
 
         Transition[0]={}
 
-        match len(listEtatInitial(MonDico)):
-
- 
+        match len(listEtatInitial(Dico)):
 
             case 0:     #no initial state
-
                 return False
 
  
 
             case 1:     #only one initial state
-                
+                for i in range(len(Dico)):
 
-                for i in range(len(MonDico)):
+                    if Dico[i]["colonne"]==listEtatInitial(Dico)[0]:  #putting initial state in new dictionnary
 
-                    if MonDico[i]["colonne"]==listEtatInitial(MonDico)[0]:  #putting initial state in new dictionnary
-
-                        Transition[0]=MonDico[i]
+                        Transition[0]=Dico[i]
                         Info=1
                 if len(Transition[0])==0:   #empty dictionnary created
                     return False
 
-
-
             case _:     #more than one
 
                 #initializing new initial state as list:
-
                 New_State=[]
-
                 Type=[]
 
-                for i in range(len(listEtatInitial(MonDico))): #adding this state(and type) to the list
-
-                    New_State.append(listEtatInitial(MonDico)[i])
-
-                    Type.append(TypeOfState(MonDico,listEtatInitial(MonDico)[i]))
-
-
-                
-            
-
+                for i in range(len(listEtatInitial(Dico))): #adding this state(and type) to the list
+                    New_State.append(listEtatInitial(Dico)[i])
+                    Type.append(TypeOfState(Dico,listEtatInitial(Dico)[i]))
 
                 #Initializing variables 
-                Initial=listEtatInitial(MonDico)
-
-                Event=EvenementDico(MonDico)
-
-                AddState(MonDico,New_State,1,"")    #adding the new initial state to the old dictionnary
+                Initial=listEtatInitial(Dico)
+                Event=EvenementDico(Dico)
+                AddState(Dico,New_State,1,"")    #adding the new initial state to the old dictionnary
                 
                 
                 #-----------creating a tmp dictionnary of state--------
@@ -1258,26 +1232,20 @@ def ChangeToDeterminist(MonDico):
 
 
                 Transition[0]["colonne"]=New_State
-
                 Transition[0]["type"]=UpdateTypeL(Type,0)
 
                 for i in range(len(Initial)):  
-
-                    Type.append(TypeOfState(MonDico,Initial[i]))    #adding type to the list
+                    Type.append(TypeOfState(Dico,Initial[i]))    #adding type to the list
                     
                     for j in range(len(Event)):
-
                         if Event[j] in Transition[0]:       # Event already exist in dictionnary
 
-                            Transition[0][Event[j]].append(destination(MonDico,Initial[i],Event[j]))    #add new state
-
+                            Transition[0][Event[j]].append(destination(Dico,Initial[i],Event[j]))    #add new state
                             SortList(Transition[0][Event[j]])
 
                         else:           # new event, create it and add value
-
                             Transition[0][Event[j]]=[]
-
-                            Transition[0][Event[j]].append(destination(MonDico,Initial[i],Event[j]))
+                            Transition[0][Event[j]].append(destination(Dico,Initial[i],Event[j]))
 
 
 
@@ -1287,55 +1255,38 @@ def ChangeToDeterminist(MonDico):
         #initializing variables
 
         Next=[] # State to process
-
         Done=[Transition[0]["colonne"]] # States already processed
-
-        Etat=EtatDico(MonDico)
-
-        Event=EvenementDico(MonDico)
-
+        Etat=EtatDico(Dico)
+        Event=EvenementDico(Dico)
         for j in range(len(Event)):  
-            
             if Transition[0][Event[j]] not in Done:     # adding states to process
-            
                 Next.append(Transition[0][Event[j]])
 
-
         #each state was correctly added
-
- 
 
         #process next states
 
         i=0
         while len(Next) != 0 :      #while a state to process
-            
             #initializing variables
-
             type1=[]
-
             ETAT=EtatDico(Transition)
-
             EVENT=EvenementDico(Transition)
+
             if Next[0] in ETAT:     # if already process, go to the next one
-
                 i=i+1
-
                 
             else:
-
                 if i+1 not in Transition:     #initializing if new index
-
                     Transition[i+1]={"colonne":"","type":""}
-
 
                 for I in range(len(Next[0])):
                     if type(Next[0])==list:
-                        type1.append(TypeOfState(MonDico,Next[0][I]))   #add type of each sub-state too the list
+                        type1.append(TypeOfState(Dico,Next[0][I]))   #add type of each sub-state too the list
                         INFO=0
 
                     else :
-                        type1.append(TypeOfState(MonDico,Next[0]))
+                        type1.append(TypeOfState(Dico,Next[0]))
                         INFO=1
                     for j in range(len(Event)):
 
@@ -1343,15 +1294,13 @@ def ChangeToDeterminist(MonDico):
                             Transition[i+1][Event[j]]=[]
 
                         if type(Transition[i+1][Event[j]])!=list:   # actual value not a list
-
                             Transition[i+1][Event[j]]=[Transition[i+1][Event[j]]]   #Convert into list
 
                         if INFO==0:
-                            Transition[i+1][Event[j]].append(destination(MonDico,Next[0][I],Event[j]))#add new state to list
+                            Transition[i+1][Event[j]].append(destination(Dico,Next[0][I],Event[j]))#add new state to list
                         if INFO==1:
-                            Transition[i+1][Event[j]].append(destination(MonDico,Next[0],Event[j]))#add new state to list
+                            Transition[i+1][Event[j]].append(destination(Dico,Next[0],Event[j]))#add new state to list
                         SortList(Transition[i+1][Event[j]])    
-
                         Transition[i+1][Event[j]]=ClearState(Transition[i+1][Event[j]])
 
 
@@ -1362,25 +1311,17 @@ def ChangeToDeterminist(MonDico):
                                     Next.append(Transition[i+1][Event[j]])                       
 
                 New_Type=UpdateTypeL(type1,1)
-
                 Transition[i+1]["colonne"]=Next[0]
-
                 Transition[i+1]["type"]=New_Type
-
                 Done.append(Next[0])   
 
                 del(Next[0])
-
                 i=i+1
-                
-
-        
 
     #here we have our new dictionnary but all states are registred as list, 
     #let's convert this with a new function ConvertDictionnaryListToStr() and ConvertListToStr()
 
     Transition=ConvertDictionnaryListToStr(Transition)
-
     return Transition
 #
 #Status
