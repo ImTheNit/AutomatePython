@@ -984,22 +984,23 @@ def VerifAEF(Dico):
 #OK
 #
 
-def VerifSaisieNewEtat(choix,ListeEtat):#en attente de savoir quels caractères sont interdits
-    # Verifie qu'un etat saisie lors du choix de la creation est correct
+def VerifSaisieNewEtat(Choice,ListState):
+    # Take as parameter a user choice and a list of state
+    # return False if input not correct
+    # return True if input is correct
+    # return -1 if parameters are incorrect
 
-    # Retourne False si la saisie n'est pas valide
-    # Retourne True si la saisie est valide
-
-    if choix == "":    #chaine vide 
-        return False
-
+    if Choice == "":    # Empty input 
+        return -1
+    if len(ListState)==0:   # empty list
+        return -1
     else:
-        if choix in ListeEtat:                                      #on verifie que l'etat n'existe pas déjà   
+        if Choice in ListState:                                      # check state do not already exist   
             print("This state already exist")
             return False
 
         for i in range(len(RESTRICTION_CHOIX_ETAT)):
-            if RESTRICTION_CHOIX_ETAT[i] in choix:                  # on verifie qu'aucun caractère interdit n'est utilisé
+            if RESTRICTION_CHOIX_ETAT[i] in Choice:                  # Check no forbidden caracter used
                 return False
 
         return True
@@ -1009,20 +1010,20 @@ def VerifSaisieNewEtat(choix,ListeEtat):#en attente de savoir quels caractères 
 #
 
 
-def VerifSaisieEtat(choix):#en attente de savoir quels caractères sont interdits
-    # Verifie qu'un etat saisie lors du choix de la modification est correct
-    #-> difference avec VerifSaisieNewEtat: on peut choisir un champ qui n'existe pas encore
+def VerifSaisieEtat(Choice):
+    # Take as parameter a user choice 
+    # difference with VerifSaisieNewEtat:  we can choose a field that do not already exist
+    # return False if input not correct
+    # return True if input is correct
+    # return -1 if parameters are incorrect
 
-    # Retourne False si la saisie n'est pas valide
-    # Retourne True si la saisie est valide
-
-    if choix == "":    #chaine vide 
-        return False
+    if Choice == "":    # empty input 
+        return -1
 
     else:
 
         for i in range(len(RESTRICTION_CHOIX_ETAT)):
-            if RESTRICTION_CHOIX_ETAT[i] in choix:                  # on verifie qu'aucun caractère interdit n'est utilisé
+            if RESTRICTION_CHOIX_ETAT[i] in Choice:                  # Check no forbidden caracter used
                 return False
 
         return True
@@ -1033,22 +1034,24 @@ def VerifSaisieEtat(choix):#en attente de savoir quels caractères sont interdit
 
 
 
-def VerifSaisieNewEvenement(choix,ListeEvenement):#en attente de savoir quels caractères sont interdits
-    # Verifie qu'un évenement saisie lors du choix de la creation est correct
+def VerifSaisieNewEvenement(Choice,ListEvent):
+    # Take as parameter a user choice and a list of event
+    # return False if input not correct
+    # return True if input is correct
+    # return -1 if parameters are incorrect
 
-    # Retourne False si la saisie n'est pas valide
-    # Retourne True si la saisie est valide
-
-    if choix == "":    #chaine vide 
-        return False
+    if Choice == "":    #empty input 
+        return -1
+    if len(ListEvent)==0:   # empty list
+        return -1
 
     else:
-        if choix in ListeEvenement:                                 #on verifie que l'evenement n'existe pas deja  
+        if Choice in ListEvent:                                 # Check the event do not already exist  
             print("This event already exist")                      
             return False
 
         for i in range(len(RESTRICTION_CHOIX_EVENEMENT)):       
-            if RESTRICTION_CHOIX_EVENEMENT[i] in choix:             # on verifie qu'aucun caractère interdit n'est utilisé
+            if RESTRICTION_CHOIX_EVENEMENT[i] in Choice:             # Check no forbidden caracter used
                 return False
 
         return True
@@ -1058,20 +1061,20 @@ def VerifSaisieNewEvenement(choix,ListeEvenement):#en attente de savoir quels ca
 #
 
 
-def VerifSaisieEvenement(choix):#en attente de savoir quels caractères sont interdits
-    # Verifie qu'un évenement saisie lors du choix de la modification est correct
-    #-> difference avec VerifSaisieNewEvenement: on peut choisir un champ qui n'existe pas encore
+def VerifSaisieEvenement(Choice):
+    # Take as parameter a user choice 
+    # difference with VerifSaisieNewEvennement:  we can choose a field that do not already exist
+    # return False if input not correct
+    # return True if input is correct
+    # return -1 if parameters are incorrect
 
-    # Retourne False si la saisie n'est pas valide
-    # Retourne True si la saisie est valide
-
-    if choix == "":    #chaine vide 
-        return False
+    if Choice == "":    #Empty input 
+        return -1
 
     else:
 
         for i in range(len(RESTRICTION_CHOIX_EVENEMENT)):       
-            if RESTRICTION_CHOIX_EVENEMENT[i] in choix:             # on verifie qu'aucun caractère interdit n'est utilisé
+            if RESTRICTION_CHOIX_EVENEMENT[i] in Choice:             # Check no forbidden caracter used
                 return False
 
         return True
@@ -1081,25 +1084,27 @@ def VerifSaisieEvenement(choix):#en attente de savoir quels caractères sont int
 #
 
 
-def VerifSaisieNouvelEtat(choix,ListeEtat):#en attente de savoir quels caractères sont interdits
-    #Verifie qu'un etat de "destination" saisie lors de la creation est correct
+def VerifSaisieNouvelEtat(Choice,listState):
+    # Take as parameter a user choice and a list of state
+    # return False if input not correct
+    # return True if input is correct as destination state
+    # return -1 if parameters are incorrect
 
-    # Retourne False si la saisie n'est pas valide
-    # Retourne True si la saisie est valide
-
-    if choix == "":    #chaine vide 
-        return True
+    if Choice == "":    # empty input 
+        return -1
+    if len(listState)==0:   # empty list
+        return -1
 
     else:
 
         for i in range(len(RESTRICTION_CHOIX_NOUVEL_ETAT)):       
-            if RESTRICTION_CHOIX_NOUVEL_ETAT[i] in choix:             # on verifie qu'aucun caractère interdit n'est utilisé
+            if RESTRICTION_CHOIX_NOUVEL_ETAT[i] in Choice:             # Check no forbidden caracter used
                 return False
 
-        if choix in ListeEtat:                           # le nouvel etat existe bien deja 
+        if Choice in listState:                           # the new state already exist 
             return True
 
-        else:                                               #le nouvel etat n'existe pas deja
+        else:                                               # the new state do not already exist
             return False
     
     return False
