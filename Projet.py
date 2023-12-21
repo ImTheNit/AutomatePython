@@ -2106,7 +2106,7 @@ def choixFichier(mode,FileName):
             
             # Check file exist and not empty
             while FichierExiste(FileName)==False or FichierVide(FileName)==True:        
-                NomFichier=input("Empty file or unexisting file, try another:")
+                FileName=input("Empty file or unexisting file, try another:")
             print("File OK")
             return FileName
 
