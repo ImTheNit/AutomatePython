@@ -88,38 +88,38 @@ def wait(a=0.8):
 #
 
 
-def AffichageDico(MonDico):
+def AffichageDico(Dico):
     #take as parameter a dictionnary
     #print the dictionnary, index by index
 
     print("Dictionnary:")
 
-    for i in range(len(MonDico)):
-        print(MonDico[i],"\n")
+    for i in range(len(Dico)):
+        print(Dico[i],"\n")
     return 0
 #
 #status
 #ok
 #
 
-def AffichageAutomateFromDico(MonDico):
+def AffichageAutomateFromDico(Dico):
     # Take as parameter a dictionnary
     # Return False if it is empty
     # Return 0 and display the dictionnary like:
     # State:Event --> destination State
 
-    if DicoVide(MonDico)== True:
+    if DicoVide(Dico)== True:
         print("Error: the dictionnary to print is empty")     
         return False
 
     else:
 
         print("Affichage sous la forme:\nETAT:évènement-->NouvelEtat\n")
-        field=list(FIELDNAMES(MonDico))
-        for i in (range(len(MonDico))):
+        field=list(FIELDNAMES(Dico))
+        for i in (range(len(Dico))):
 
             for j in range(1,len(field)):
-                print(MonDico[i][field[0]],":",field[j],"-->",MonDico[i][list(FIELDNAMES(MonDico))[j]])
+                print(Dico[i][field[0]],":",field[j],"-->",Dico[i][list(FIELDNAMES(Dico))[j]])
             print("\n")#to separate the display for each state
             wait()
         return 0
@@ -194,13 +194,13 @@ def CSVToDico(CSVFILES):
 #ok
 #
 
-def DicoToCSV(MonDico,CSVFILES):
+def DicoToCSV(Dico,CSVFILES):
     # Take as parameters a dictionnary and a file name NEED ADD VERIFICATION OF THE EXTENSION(.csv)
     # Create the file if not already exist, delete the old file already exist
     # Return False if empty dictionnary 
     # Return 0 and write the dictionnary in the file
 
-    if DicoVide(MonDico)==True: # empty dictionnary
+    if DicoVide(Dico)==True: # empty dictionnary
         print("Error: the dictionnary is empty")
         return False
         
@@ -208,13 +208,13 @@ def DicoToCSV(MonDico,CSVFILES):
         with open (CSVFILES,'w',newline="") as csvfiles:
             #Variables
 
-            fieldnames=FIELDNAMES(MonDico)  #keys of dictionnary (here:it is the first line of the csv file['colonne', 'type', 'A', 'B', 'C', 'D'])
+            fieldnames=FIELDNAMES(Dico)  #keys of dictionnary (here:it is the first line of the csv file['colonne', 'type', 'A', 'B', 'C', 'D'])
             writer =  csv.DictWriter(csvfiles,fieldnames,delimiter=DELIMITER)
 
             #Writing
             writer.writeheader()
-            for i in range(len(MonDico)):
-                writer.writerow(MonDico[i])
+            for i in range(len(Dico)):
+                writer.writerow(Dico[i])
         return 0
 #
 #status
@@ -227,10 +227,10 @@ def CreationDico():
     #No parameters
 
     #Initializing variables and objects:
-    MonDico={}
-    Etat=[]    #List of states
+    Dico={}
+    State=[]    #List of states
     Type=[]    # List of Type associate to each State
-    Evenement=[]    #List of Event
+    Event=[]    #List of Event
     
     #Variables that show if we have to stop user input
     a=1
@@ -239,56 +239,56 @@ def CreationDico():
     while a != 0:
 
         # Ask user
-        Rep=input("Input a state (0 to stop):")
+        Answer=input("Input a state (0 to stop):")
 
-        if VerifEntier(Rep)==True : # The input can be convert as integer
-            if int(Rep)==0:         # User want to stop input state
+        if VerifEntier(Answer)==True : # The input can be convert as integer
+            if int(Answer)==0:         # User want to stop input state
                 a=0
 
 
             else:   #integer but not 0 so the state name is an integer(accepted)
 
-                while VerifSaisieNewEtat(Rep,Etat)==False:  # Verify the input is correct
+                while VerifSaisieNewEtat(Answer,State)==False:  # Verify the input is correct
 
                     print("The name of the new state do not respect the conditions.\n"+CONDITIONS_ETAT)
-                    Rep=input("New choice:")
+                    Answer=input("New choice:")
 
-                # We initialize Rep2 outside the list of accepted Type to access the while  
-                Rep2=-1
+                # We initialize Answer2 outside the list of accepted Type to access the while  
+                Answer2=-1
                 
-                while VerifType(Rep2)==False :  # Verify the input Type is correct
+                while VerifType(Answer2)==False :  # Verify the input Type is correct
 
-                    Rep2=input("Input the type of the state"+Rep+" among: ordinary(0), initial(1), final(2) or   initial and final(3):")
-                    if VerifType(Rep2)==False:
+                    Answer2=input("Input the type of the state"+Answer+" among: ordinary(0), initial(1), final(2) or   initial and final(3):")
+                    if VerifType(Answer2)==False:
                         print("The type is not correct")
 
                 # Now state and type are coorect, we can add them to lists
-                Type.append(Rep2)
-                Etat.append(Rep)
+                Type.append(Answer2)
+                State.append(Answer)
 
 
         else:                       #The input can't be converted to integer, the user want to continue input
 
-            while VerifSaisieNewEtat(Rep,Etat)==False:  # Verify the input is correct
+            while VerifSaisieNewEtat(Answer,State)==False:  # Verify the input is correct
 
                 print("The name of the new state do not respect the conditions.\n"+CONDITIONS_ETAT)
-                Rep=input("New choice:")
+                Answer=input("New choice:")
 
-            # We initialize Rep2 outside the list of accepted Type to access the while    
-            Rep2=-1
+            # We initialize Answer2 outside the list of accepted Type to access the while    
+            Answer2=-1
             
-            while VerifType(Rep2)==False : # Verify the input Type is correct
+            while VerifType(Answer2)==False : # Verify the input Type is correct
 
-                Rep2=input("Input the type of the state "+Rep+" among: ordinary(0), initial(1), final(2) or   initial and final(3):")
-                if VerifType(Rep2)==False:
+                Answer2=input("Input the type of the state "+Answer+" among: ordinary(0), initial(1), final(2) or   initial and final(3):")
+                if VerifType(Answer2)==False:
                     print("The type is not correct")
 
             # Now state and type are coorect, we can add them to lists
-            Type.append(Rep2)
-            Etat.append(Rep)
+            Type.append(Answer2)
+            State.append(Answer)
 
     #Control Display
-    print("The list of input's states:",Etat)
+    print("The list of input's states:",State)
     print("The list of input's state's type:",Type,"\n")
     wait(0.4)
 
@@ -300,82 +300,82 @@ def CreationDico():
     while a != 0:
 
         # Ask user
-        Rep=input("Input an event (0 to stop):")
+        Answer=input("Input an event (0 to stop):")
 
-        if VerifEntier(Rep)==True : # The input can be convert as integer
-            if int(Rep)==0:         # User want to stop input event
+        if VerifEntier(Answer)==True : # The input can be convert as integer
+            if int(Answer)==0:         # User want to stop input event
                 a=0
 
             else:
 
-                while VerifSaisieNewEvenement(Rep,Evenement)==False: # Verify the input is correct
+                while VerifSaisieNewEvenement(Answer,Event)==False: # Verify the input is correct
 
                     print("The name of the event do not respect conditions.\n"+CONDITIONS_EVENEMENT)
-                    Rep=input("New choice:")
+                    Answer=input("New choice:")
 
                 # Now the Eevnt is correct we can add it to his list    
-                Evenement.append(Rep)
+                Event.append(Answer)
 
 
         else:                       #The input can't be converted to integer, the user want to continue input
             
-            while VerifSaisieNewEvenement(Rep,Evenement)==False:    # Verify the input is correct
+            while VerifSaisieNewEvenement(Answer,Event)==False:    # Verify the input is correct
 
                 print("The name of the event do not respect conditions.\n"+CONDITIONS_EVENEMENT)
-                Rep=input("New choice:")
+                Answer=input("New choice:")
 
             # Now the Event is correct we can add it to his list
-            Evenement.append(Rep)
+            Event.append(Answer)
 
 
     # Control Display      
-    print("The list of input's events:",Evenement,"\n")
+    print("The list of input's events:",Event,"\n")
     wait(0.4)
 
 
     # Input Destination states
     print("Inserting destination's states:\nSynthax: State:Event-->destination's state")
 
-    for i in range(len(Etat)):  # For each State
+    for i in range(len(State)):  # For each State
 
-        MonDico[i]={}     #Create the index in the dictionnary to access later VITAL
-        MonDico[i]["colonne"]=Etat[i]
-        MonDico[i]["Type"]=Type[i]
+        Dico[i]={}     #Create the index in the dictionnary to access later VITAL
+        Dico[i]["colonne"]=State[i]
+        Dico[i]["Type"]=Type[i]
 
-        for j in range(len(Evenement)):     #  For each Event
+        for j in range(len(Event)):     #  For each Event
             check=0
             while check == 0:
 
                 # Ask user
-                Rep3=input(Etat[i]+":"+Evenement[j]+"-->")
+                Answer3=input(State[i]+":"+Event[j]+"-->")
 
                 # Convert the answer into a list if two or more states
-                Rep3=ListState(Rep3)
-                Rep3=ClearState(Rep3)
-                if type(Rep3)==str:
-                    if VerifSaisieNouvelEtat(Rep3,Etat)==False:  # Verify the input is correct
-                        print(Rep3,": the name of the state do not respect conditions.\n"+CONDITIONS_NOUVEL_ETAT)
+                Answer3=ListState(Answer3)
+                Answer3=ClearState(Answer3)
+                if type(Answer3)==str:
+                    if VerifSaisieNouvelEtat(Answer3,State)==False:  # Verify the input is correct
+                        print(Answer3,": the name of the state do not respect conditions.\n"+CONDITIONS_NOUVEL_ETAT)
                     else:
                         check=2
 
 
-                if type(Rep3)==list:
+                if type(Answer3)==list:
                     # We have to check if each member of the list is ok
                     check=1
                     print("\n")
                     wait()
-                    for k in range(len(Rep3)):
+                    for k in range(len(Answer3)):
 
-                        if VerifSaisieNouvelEtat(Rep3[k],Etat)==False and check==1:
-                            print(Rep3[k],": the name of the state do not respect conditions.\n"+CONDITIONS_NOUVEL_ETAT)
+                        if VerifSaisieNouvelEtat(Answer3[k],State)==False and check==1:
+                            print(Answer3[k],": the name of the state do not respect conditions.\n"+CONDITIONS_NOUVEL_ETAT)
                             check=0
                             break
 
             # Now input is ok, add to the dictionnary
-            MonDico[i][Evenement[j]]=Rep3
+            Dico[i][Event[j]]=Answer3
             
 
-    return MonDico
+    return Dico
 
 #
 #status
@@ -383,16 +383,16 @@ def CreationDico():
 #
 
 
-def FIELDNAMES(MonDico):
+def FIELDNAMES(Dico):
     # Take as paramter a dictionnary
     # Return False if empty dictionnary
     # return the list of the field (Ex:['colonne','Type','Event1','Event2'])
 
-    if DicoVide(MonDico)==True:
+    if DicoVide(Dico)==True:
         return False
 
     else:
-        return(MonDico[0].keys())
+        return(Dico[0].keys())
         # We suppose the first state of our dictionnary have the maximum of possible keys
         #(ie, No other state have a keys, that the first state do not
 #
@@ -400,40 +400,40 @@ def FIELDNAMES(MonDico):
 #ok
 #
     
-def ModifDico(MonDico):
+def ModifDico(Dico):
     # Take as parameter a dicitonnary
     # return False if the dictionnary is empty
     # return the new dictionnary
 
-    if DicoVide(MonDico)==True:
+    if DicoVide(Dico)==True:
         print("Error: the dictionnary is empty")
         return False
     else:
         #Variables
-        ListeEtat=EtatDico(MonDico)
-        ListeEvenement=EvenementDico(MonDico)
+        ListState=EtatDico(Dico)
+        ListEvent=EvenementDico(Dico)
 
-        AncienneListeEtat=[]
-        AncienneListeEvenement=[]
+        OldListState=[]
+        OldListEvent=[]
 
         # Copy content in backup list to compare 
-        for i in range(len(ListeEtat)):
-            AncienneListeEtat.append(ListeEtat[i])
+        for i in range(len(ListState)):
+            OldListState.append(ListState[i])
         
-        for i in range(len(ListeEvenement)):
-            AncienneListeEvenement.append(ListeEvenement[i])
+        for i in range(len(ListEvent)):
+            OldListEvent.append(ListEvent[i])
         
         # Modify lists by asking user
-        modifListeEtat(ListeEtat)
-        modifListeEvenement(ListeEvenement)
+        modifListeEtat(ListState)
+        modifListeEvenement(ListEvent)
 
         # Delete unwanted states
         
         print("Removing unwanted states")
         wait()
-        for i in range(len(AncienneListeEtat)):
-            if AncienneListeEtat[i] not in ListeEtat:      # state was here before, but not anymore          
-                a=MonDico.pop(i)
+        for i in range(len(OldListState)):
+            if OldListState[i] not in ListState:      # state was here before, but not anymore          
+                a=Dico.pop(i)
 
 
         # Add wanted states
@@ -442,16 +442,16 @@ def ModifDico(MonDico):
         wait()
 
 
-        for i in range (len(ListeEtat)):
-            Taille=len(MonDico)
-            if ListeEtat[i] not in AncienneListeEtat:   # state was not here before 
-                MonDico.setdefault(Taille+1,{'colonne':ListeEtat[i]}) # add it to the dictionnary
+        for i in range (len(ListState)):
+            Size=len(Dico)
+            if ListState[i] not in OldListState:   # state was not here before 
+                Dico.setdefault(Size+1,{'colonne':ListState[i]}) # add it to the dictionnary
         
         # Check if the dictionnary is sorted, if not sort it, in order to balance it 
-        if VerifTrieDico(MonDico)==False:
-            MonDico=TrieDicoCle(MonDico)
+        if VerifTrieDico(Dico)==False:
+            Dico=TrieDicoCle(Dico)
     
-        MonDico=ConvertIndiceDico(MonDico)  # Edit dictionnary to make index been succesives integers
+        Dico=ConvertIndiceDico(Dico)  # Edit dictionnary to make index been succesives integers
 
 
         #Delete unwanted events
@@ -459,75 +459,75 @@ def ModifDico(MonDico):
         print("Removing unwanted events")
         wait()
 
-        for i in range(len(AncienneListeEvenement)):
-            if AncienneListeEvenement[i] not in ListeEvenement: # event was here before, but not anymore
-                for j in range(len(MonDico)):
-                        a=MonDico[j].pop(AncienneListeEvenement[i]) # delete it   
+        for i in range(len(OldListEvent)):
+            if OldListEvent[i] not in ListEvent: # event was here before, but not anymore
+                for j in range(len(Dico)):
+                        a=Dico[j].pop(OldListEvent[i]) # delete it   
 
         # Add wanted events
 
         print("Adding new events")
         wait()
 
-        for i in range(len(ListeEvenement)):
-            if ListeEvenement[i] not in AncienneListeEvenement: # event was not here before
-                for j in range(len(MonDico)): # add the event in each state of the dictionnary
-                    MonDico[j][ListeEvenement[i]]=""
+        for i in range(len(ListEvent)):
+            if ListEvent[i] not in OldListEvent: # event was not here before
+                for j in range(len(Dico)): # add the event in each state of the dictionnary
+                    Dico[j][ListEvent[i]]=""
 
         # Display the automaton and ask input for each destination state
 
         print("New fields in the automaton")
         print("State:Event-> destination's state")
 
-        for i in range(len(MonDico)):
-            field=list(FIELDNAMES(MonDico))
+        for i in range(len(Dico)):
+            field=list(FIELDNAMES(Dico))
             
             
             # Edit type 
-            print(MonDico[i][field[0]],":",field[1],"-->",MonDico[i][list(FIELDNAMES(MonDico))[1]])
-            rep=input("Input the type of the state "+MonDico[i][field[0]]+" among: ordinary(0), initial(1), final(2) or    initial and final(3) (Enter to skip):")
+            print(Dico[i][field[0]],":",field[1],"-->",Dico[i][list(FIELDNAMES(Dico))[1]])
+            Answer=input("Input the type of the state "+Dico[i][field[0]]+" among: ordinary(0), initial(1), final(2) or    initial and final(3) (Enter to skip):")
 
-            while VerifType(rep)==False and rep!="": # We check if the type respect conditions, if empty keep the old value
+            while VerifType(Answer)==False and Answer!="": # We check if the type respect conditions, if empty keep the old value
                     print("The type is not correct")
-                    rep=input("Input the type of the state "+MonDico[i][field[0]]+" among: ordinary(0), initial(1), final(2) or   initial and final(3) (Enter to skip):")
-            if rep != "":
-                MonDico[i][list(FIELDNAMES(MonDico))[1]]=rep
+                    Answer=input("Input the type of the state "+Dico[i][field[0]]+" among: ordinary(0), initial(1), final(2) or   initial and final(3) (Enter to skip):")
+            if Answer != "":
+                Dico[i][list(FIELDNAMES(Dico))[1]]=Answer
 
             # Edit destination state
             for j in range(2,len(field)):
                 check=0
                 while check==0:
-                    print(MonDico[i][field[0]],":",field[j],"-->",MonDico[i][list(FIELDNAMES(MonDico))[j]])
-                    rep=input("Enter a new destination state (Enter to skip):")
-                    rep=ListState(rep)
-                    rep=ClearState(rep)
+                    print(Dico[i][field[0]],":",field[j],"-->",Dico[i][list(FIELDNAMES(Dico))[j]])
+                    Answer=input("Enter a new destination state (Enter to skip):")
+                    Answer=ListState(Answer)
+                    Answer=ClearState(Answer)
 
-                    if type(rep)==str:
-                        if VerifSaisieNouvelEtat(rep,EtatDico(MonDico))== False:
+                    if type(Answer)==str:
+                        if VerifSaisieNouvelEtat(Answer,EtatDico(Dico))== False:
                             print("The name of the state do no respect conditions.\n"+CONDITIONS_NOUVEL_ETAT)
                         else:
                             check=2
-                            if rep != "":
+                            if Answer != "":
                                 #print("test")
-                                MonDico[i][list(FIELDNAMES(MonDico))[j]]=rep
+                                Dico[i][list(FIELDNAMES(Dico))[j]]=Answer
 
-                    if type(rep)==list:
+                    if type(Answer)==list:
                         check=1
                         print("\n")
                         wait()
-                        for k in range(len(rep)):
-                            if VerifSaisieNouvelEtat(rep[k],EtatDico(MonDico))==False and check==1:
-                                print(rep[k],": the name of the state do not respect conditions.\n"+CONDITIONS_NOUVEL_ETAT)
+                        for k in range(len(Answer)):
+                            if VerifSaisieNouvelEtat(Answer[k],EtatDico(Dico))==False and check==1:
+                                print(Answer[k],": the name of the state do not respect conditions.\n"+CONDITIONS_NOUVEL_ETAT)
                                 check=0
                                 break
 
                             else:
-                                print(rep[k],"Correct")
+                                print(Answer[k],"Correct")
                                
-                if type(rep)==list and rep[k]!="":
-                    MonDico[i][list(FIELDNAMES(MonDico))[j]]=rep
+                if type(Answer)==list and Answer[k]!="":
+                    Dico[i][list(FIELDNAMES(Dico))[j]]=Answer
 
-        return MonDico
+        return Dico
 
 #
 #Status   
@@ -535,7 +535,7 @@ def ModifDico(MonDico):
 #
 
 
-def EquilibrageDico(MonDico):
+def EquilibrageDico(Dico):
     # take as parameter a dictionnary
     # return - if the dictionnary is empty
     # return the dictionarry with reorganized index 
@@ -546,45 +546,45 @@ def EquilibrageDico(MonDico):
     Suppr=[]
 
     
-    if DicoVide(MonDico)==True:
+    if DicoVide(Dico)==True:
         return -1
 
     else:
-        if VerifTrieDico(MonDico)==False:
-            MonDico=TrieDicoCle(MonDico)
+        if VerifTrieDico(Dico)==False:
+            Dico=TrieDicoCle(Dico)
         
-        for i in range(len(list(MonDico.keys()))):   
-            if list(MonDico.keys())[i]!=i:   # Check if each index is correctly named, else named it correctly 
+        for i in range(len(list(Dico.keys()))):   
+            if list(Dico.keys())[i]!=i:   # Check if each index is correctly named, else named it correctly 
  
-                AncienneValeur=list(MonDico.values())[i] # identify which index we have to remove
+                OldValue=list(Dico.values())[i] # identify which index we have to remove
 
-                MonDico.setdefault(i,AncienneValeur) # add new key et attribute the corresponding value, careful: index added at the end
+                Dico.setdefault(i,OldValue) # add new key et attribute the corresponding value, careful: index added at the end
 
                 if i not in Suppr: # we add the index only if this index is not attributed
-                    Suppr.append(list(MonDico.keys())[i])
+                    Suppr.append(list(Dico.keys())[i])
 
         for i in range(len(Suppr)): # delete unwanted index
-            a=MonDico.pop(Suppr[i])
+            a=Dico.pop(Suppr[i])
 
-    return MonDico
+    return Dico
 #
 #Status
 #OK
 #
 
-def ConvertIndiceDico(MonDico):
+def ConvertIndiceDico(Dico):
     # Take as parameter a dictionnarie
     # return False if the dictionnary is empty
     # return the dictionnary with index converted successively
 
-    if DicoVide(MonDico)==True:
+    if DicoVide(Dico)==True:
         print("Error: the dictionnary is empty")
         return False
     else:
-        DicoFinal={}
-        for i in range(len(MonDico.keys())):
-            DicoFinal[i]=MonDico[list(MonDico.keys())[i]]
-    return DicoFinal
+        FinalDico={}
+        for i in range(len(Dico.keys())):
+            FinalDico[i]=Dico[list(Dico.keys())[i]]
+    return FinalDico
 #
 #Status
 #ok
@@ -593,22 +593,22 @@ def ConvertIndiceDico(MonDico):
 
 
 
-def TrieDicoCle(MonDico):
+def TrieDicoCle(Dico):
     # Retourne -1 si le dictionnaire est vide
     # Retourne le dictionnaire trié sinon
 
-    if DicoVide(MonDico):
+    if DicoVide(Dico):
         return -1
     
     else:
-        Dico=sorted(MonDico.items(),key=lambda t:t[0])
+        Dico=sorted(Dico.items(),key=lambda t:t[0])
         #Here it's a list not a dictionnary, let's convert it
 
-        DicoFinal={}
+        FinalDico={}
 
         for i in range(len(Dico)):
-            DicoFinal[Dico[i][0]]=Dico[i][1]
-        return DicoFinal
+            FinalDico[Dico[i][0]]=Dico[i][1]
+        return FinalDico
 #
 #Status
 # OK
@@ -1256,7 +1256,7 @@ def ChangeToDeterminist(Dico):
 
         Next=[] # State to process
         Done=[Transition[0]["colonne"]] # States already processed
-        Etat=EtatDico(Dico)
+        State=EtatDico(Dico)
         Event=EvenementDico(Dico)
         for j in range(len(Event)):  
             if Transition[0][Event[j]] not in Done:     # adding states to process
@@ -1270,10 +1270,10 @@ def ChangeToDeterminist(Dico):
         while len(Next) != 0 :      #while a state to process
             #initializing variables
             type1=[]
-            ETAT=EtatDico(Transition)
+            STATE=EtatDico(Transition)
             EVENT=EvenementDico(Transition)
 
-            if Next[0] in ETAT:     # if already process, go to the next one
+            if Next[0] in STATE:     # if already process, go to the next one
                 i=i+1
                 
             else:
@@ -1339,8 +1339,8 @@ def ConvertDictionnaryListToStr(Dictionnary):
         return False
     else:
         Event=EvenementDico(Dictionnary)
-        Etat=EtatDico(Dictionnary)
-        for i in range(len(Etat)):
+        State=EtatDico(Dictionnary)
+        for i in range(len(State)):
             
 
             for j in range(len(Event)):
@@ -2776,7 +2776,6 @@ while ARRET == 0:
         case _:
             print("Invalid choice\n")
             wait()
-
 
 
 
