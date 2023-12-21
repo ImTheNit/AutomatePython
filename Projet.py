@@ -1380,138 +1380,89 @@ def ConvertListToStr(List):
 # Ok
 #
 
-def indexOfState(MonDico,State):
-
+def indexOfState(Dico,State):
     # Take in parameter a dictionnary and a state
-
-    # Return Flase if the dictionnary is empty or if the state is not in the dictionnary
-
+    # Return False if the dictionnary is empty or if the state is not in the dictionnary
     # Return the index of the State if the state is in the dictionnary
 
-    ETAT=EtatDico(MonDico)
+    STATE=EtatDico(Dico)
 
- 
-
-    if DicoVide(MonDico)==True:
-
+    if DicoVide(Dico)==True:
         print("Error: the dictionnary is empty")
-
         return False
 
     else:
 
-        if State not in ETAT:
-            
+        if State not in STATE:
             print("Error: the state is not in this dictionnary")
-
             return False
 
         else:
-
-            for i in range(len(MonDico)):
-
-                if MonDico[i]["colonne"]==State:
-
+            for i in range(len(Dico)):
+                if Dico[i]["colonne"]==State:
                     return i
             
             print("Error: the state is not in this dictionnary")
-
             return False
-
 #
 #Status
 # OK
 #
 
-def TypeOfState(MonDico,Etat):
-
+def TypeOfState(Dico,State):
     # Take in parameter a Dictionnary and a state
-
     # Return False if the dictionnary is empty or the state is not in the dictionnary
-
     # Return the type of the state if it is in the dictionnary
 
-    ETAT=EtatDico(MonDico)
-
- 
-
-    if DicoVide(MonDico)==True:
-
+    STATE=EtatDico(Dico)
+    if DicoVide(Dico)==True:
         print("Error: Empty dictionnary")
-
         return False
 
     else:
-
-        if Etat not in ETAT:
-            print("test",Etat,ETAT)
+        if State not in STATE:
             print("Error: the state is not in this dictionnary")
-
             return False
 
         else:
-
-            for i in range(len(MonDico)):
-
-                if MonDico[i]["colonne"]==Etat:
-                    
-                    return MonDico[i]["type"]
+            for i in range(len(Dico)):
+                if Dico[i]["colonne"]==State: 
+                    return Dico[i]["type"]
 
             print("Error: the state is not in this dictionnary")
-
             return False
 
 #
 #Status
-#
+#ok
 #
 
 def UpdateType(type1,type2):
-
     # take in parameter two type
-
     # Return False if at least one is incorrect(not in TYPE)
-
     # Return the new type
 
     type1=int(type1)
-
     type2=int(type2)
 
     if VerifType(type1)==False or VerifType(type2)==False:
-
         print("Error: At least one type is incorrect")
-
         return False
 
     else:
-
         if type1==type2:
-
             return type1
-
- 
 
         if type1==0:    #type2 give more informations
-
             return type2
 
- 
-
         if type2==0:    #type1 give more informations
-
             return type1
 
- 
-
         if type1==3 or type2==3:    #at least one is inital and final
-
             return 3
 
-       
-
         if (type1==1 and type2==2)  or (type1==2 and type2==1):   # one final and one initial
-
             return 3
 
 #
@@ -1527,14 +1478,13 @@ def UpdateTypeL(Type,mode=-1):
     # Return the equivalent type
     # Return False if mode is not an integer or not a known mode
 
-    #
+    
     if type(mode)!= int:
         if VerifEntier(mode)==True: # we can convert mode into integer
             mode=int(mode)
         else:
             print("Error: invalid mode")
             return False
-
 
     match mode:
         #mode : 0(initial) or 1(ordinary)
@@ -2934,7 +2884,6 @@ while ARRET == 0:
 #   Existe dans les etats
 #   cas où plusieurs etats d'arrivée???
 #   ???
-
 
 
 
