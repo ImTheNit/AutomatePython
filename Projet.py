@@ -2365,7 +2365,7 @@ def ChoixAutomate(Dico1,Dico2):
         AffichageAutomateFromDico(Dico1)
     print("\nHere is the second automaton :")
     if DicoVide(Dico2)==True:
-        print("THe automaton is empty.")
+        print("The automaton is empty.")
     else:
         AffichageAutomateFromDico(Dico2)
     a=input("What automaton would you like to choose ? (automaton1 or automaton2)\n")
@@ -2382,6 +2382,28 @@ def ChoixAutomate(Dico1,Dico2):
             case _:
                 print("The automaton don't exist")
                 a=input("Could you choose automaton1 or automaton2 ?\n")
+
+
+def StockageAutomate(NewDico,Dico1,Dico2):
+    print("In which automaton would you like to stock your automaton ? (automaton1 or automaton2)")
+    p=0
+    while p==0:
+        match a:
+
+            case 'automaton1':
+                print("You choose the first automaton")
+                NewDico=Dico1
+                return NewDico
+            case 'automaton2':
+                print("You choose the second automaton")
+                NewDico=Dico2
+                return NewDico
+            case _:
+                print("The automaton don't exist")
+                a=input("Could you choose automaton1 or automaton2 ?\n")
+
+
+
 
 
 #COCOZONE
