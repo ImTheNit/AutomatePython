@@ -2246,7 +2246,7 @@ def ChoixAutomate(Dico1,Dico2):
 
 
 def StockageAutomate(NewDico,Dico1,Dico2):
-    print("In which automaton would you like to stock your automaton ? (automaton1 or automaton2)")
+    input("In which automaton would you like to stock your automaton ? (automaton1 or automaton2)")
     p=0
     while p==0:
         match a:
