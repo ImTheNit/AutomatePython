@@ -28,7 +28,7 @@ FileChoice="ChoiceFile.txt" # File containing choices
 DELIMITER=";"
 
 ARRET=0 #0 if we want to continue, 1 else
-DEBUGG=0 #1 if we want to debugg, 0 else
+DEBUGG=1 #1 if we want to debugg, 0 else
 Dictionnary1={}
 Dictionnary2={}
 #Type of state
@@ -2246,7 +2246,7 @@ def ChoixAutomate(Dico1,Dico2):
 
 
 def StockageAutomate(NewDico,Dico1,Dico2):
-    a=input("In which automaton would you like to stock your automaton ? (automaton1 or automaton2)")
+    a=input("In which automaton would you like to stock your automaton ? (automaton1 or automaton2)\n")
     p=0
     while p==0:
         match a:
@@ -2427,9 +2427,10 @@ if DEBUGG == 1:
 
     Dictionnaire1=CSVToDico("data3.csv")
     Dictionnaire2=CSVToDico("data4.csv")
-
-    Dictionnaire=ConcatenationAutomatons(Dictionnaire1,Dictionnaire2)
-    AffichageAutomateFromDico(Dictionnaire)
+    Dictionnaire=CSVToDico("data.csv")
+    print(StockageAutomate(Dictionnaire,Dictionnaire1,Dictionnaire2))
+    #Dictionnaire=ConcatenationAutomatons(Dictionnaire1,Dictionnaire2)
+    #AffichageAutomateFromDico(Dictionnaire)
     ARRET = 1
 
 #
