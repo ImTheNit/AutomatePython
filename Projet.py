@@ -2246,11 +2246,6 @@ def ChoixAutomate(Dico1,Dico2):
 
 
 def StockageAutomate(NewDico,Dico1,Dico2):
-    #Take as parameter three dictionnary
-    #This function serve to save the automaton that the user is using in one of the predefined variables in the program
-    #Return Dico1 if the user save the his automaton in the variable Dico1
-    #Return Dico2 if the user save the his automaton in the variable Dico2
-
     a=input("In which automaton would you like to stock your automaton ? (automaton1 or automaton2)\n")
     p=0
     while p==0:
@@ -2258,12 +2253,12 @@ def StockageAutomate(NewDico,Dico1,Dico2):
 
             case 'automaton1':
                 print("You choose the first automaton")
-                Dico1=NewDico
-                return Dico1
+                NewDico=Dico1
+                return NewDico
             case 'automaton2':
                 print("You choose the second automaton")
-                Dico2=NewDico
-                return Dico2
+                NewDico=Dico2
+                return NewDico
             case _:
                 print("The automaton don't exist")
                 a=input("Could you choose automaton1 or automaton2 ?\n")
