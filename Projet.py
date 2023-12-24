@@ -2574,13 +2574,23 @@ while ARRET == 0:
             print("---------------------------\n")
             wait()
 
-            Dictionnary=ChoixAutomate(Dictionnary1,Dictionnary2)
-            if DicoVide(Dictionnary)==True:
-                print("Error: no Automaton in memory")
-                wait()
+            if DicoVide(Dictionnary1)==True and DicoVide(Dictionnary2)==True:
+                print("Error: no automaton in memory")
             else:
-                AffichageAutomateFromDico(Dictionnary)
-
+                if DicoVide(Dictionnary1)==False and DicoVide(Dictionnary2)==False:
+                    print("First automaton:")
+                    AffichageAutomateFromDico(Dictionnary1)
+                    wait()
+                    print("Second Automaton")
+                    AffichageAutomateFromDico(Dictionnary1)
+                    wait()
+                else:
+                    if DicoVide(Dictionnary1)==True:
+                        AffichageAutomateFromDico(Dictionnary2)
+                        wait()
+                    else: 
+                        AffichageAutomateFromDico(Dictionnary1)
+                        wait()
 
 
         #Register automaton as csv
@@ -2617,8 +2627,16 @@ while ARRET == 0:
             print("Erasing Automaton in memory")
             print("---------------------------\n")
             wait()
+
             Dictionnary=ChoixAutomate(Dictionnary1,Dictionnary2)
-            Dictionnary={}#Replace by empty dictionnary
+            if Dictionnary == Dictionnary1:
+                Dictionnary1 ={}
+                  
+            if Dictionnary == Dictionnary2:
+                Dictionnary2 = {}
+                
+            Dictionnary={}    
+
             print("Automaton erase")
             wait()
 
@@ -2649,12 +2667,17 @@ while ARRET == 0:
             print("--------------------------\n")
             wait()
             Dictionnary=ChoixAutomate(Dictionnary1,Dictionnary2)
+            d=Dictionnary
+
             if DicoVide(Dictionnary)==True:
                 print("No Automaton in memory")
                 wait()
             else:
                 ModifDico(Dictionnary)
-
+                if d == Dictionnary1:
+                    Dictionnary1=Dictionnary
+                else:
+                    Dictionnary2=Dictionnary
 
         #Check if an Automaton is a FSM(final state machine) 
         case 8:
@@ -2717,12 +2740,18 @@ while ARRET == 0:
             print("--------------------\n")
             wait()
             Dictionnary=ChoixAutomate(Dictionnary1,Dictionnary2)
+            d=Dictionnary
             if DicoVide(Dictionnary)==True:    #No automaton in memory
                 print("No Automaton in memory")
                 wait()
 
             else:
                 Dictionnary = ChangeToComplet(Dictionnary)
+                if d == Dictionnary1:
+                    Dictionnary1=Dictionnary
+                else:
+                    Dictionnary2=Dictionnary
+
                 print("done \n")
                 wait()
 
@@ -2807,6 +2836,7 @@ while ARRET == 0:
                     wait()
                 else:
                     print("Error: non determinist automaton are not allowed")
+                    
         # Find Mirror
         case 15:
             print("\n------")
@@ -2832,10 +2862,9 @@ while ARRET == 0:
             print("-------\n")
             wait()
 
-        #######################ENVIRONNEMENT DEUX AUTOMATES +verif##############
-
-
-            Dictionnary=ProductAutomatons(Dictionnaire1,Dictionnaire2)
+            Dico=ProductAutomatons(Dictionnaire1,Dictionnaire2)
+            if replaceAutomatonMemory(Dico)==True:
+                break
             AffichageAutomateFromDico(Dictionnary)
             wait()
         
@@ -2847,13 +2876,15 @@ while ARRET == 0:
             print("-------------\n")
             wait()
 
-        #######################ENVIRONNEMENT DEUX AUTOMATES +verif##############
 
-            Dictionnary=ConcatenationAutomatons(Dictionnaire1,Dictionnaire2)
+            Dico=ConcatenationAutomatons(Dictionnaire1,Dictionnaire2)
+            if replaceAutomatonMemory(Dico)==False:
+                break
             AffichageAutomateFromDico(Dictionnary)
+
             wait()
         
-        #############################(18)-(19)-(20)
+        #############################(19)-(20)
 
 
         # Excising
