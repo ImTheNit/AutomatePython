@@ -2281,7 +2281,7 @@ def StockageAutomate(NewDico,Dico1,Dico2):
 
             case 'automaton2':
                 print("You choose the second automaton")
-                if DicoVide(Dico1)==False:
+                if DicoVide(Dico2)==False:
                     print("This automaton is already used \n")
                     choice=input("Are you sure you want to overwrite this automaton ? (y or n)\n")
                     v=0
@@ -2310,7 +2310,7 @@ def replaceAutomatonMemory(Dico):
     # replace the dictionnary in the memory in the right variable
     # return False if parameter is empty or wrong
     # return True if everything is okay at the end
-    
+
     global Dictionnary
     global Dictionnary1
     global Dictionnary2
@@ -2630,22 +2630,15 @@ while ARRET == 0:
             print("----------------------\n")
             wait()
 
-            Dictionnary=CreationDico()
-            if VerifAEF(Dictionnary)==False:
+            Dico=CreationDico()
+            if VerifAEF(Dico)==False:
                 print("Error while creating")
                 wait()
             else:
                 print("Automaton successfully created")
                 wait()
-
-                DicoChoose=StockageAutomate(Dico,Dictionnary1,Dictionnary2)
-                if DicoChoose=='Dico1':
-                    Dictionnary1=Dico
-                    Dictionnary=Dictionnary1
-                else:
-                    Dictionnary2=Dico
-                    Dictionnary=Dictionnary2
-         
+                if replaceAutomatonMemory(Dico)==False:
+                    break         
                 AffichageAutomateFromDico(Dictionnary)
 
 
