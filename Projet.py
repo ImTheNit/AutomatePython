@@ -28,7 +28,7 @@ FileChoice="ChoiceFile.txt" # File containing choices
 DELIMITER=";"
 
 ARRET=0 #0 if we want to continue, 1 else
-DEBUGG=1 #1 if we want to debugg, 0 else
+DEBUGG=0 #1 if we want to debugg, 0 else
 Dictionnary1={}
 Dictionnary2={}
 #Type of state
@@ -2465,8 +2465,8 @@ while ARRET == 0:
             #check existing file
             FichierEntree=choixFichier(1,Fichier)
 
-            Dictionnaire=CSVToDico(FichierEntree)
-            if DicoVide(Dictionnaire)==False:
+            Dictionnary1=CSVToDico(FichierEntree)
+            if DicoVide(Dictionnary1)==False:
                 print("Automaton successfully loaded")
                 wait()
     
