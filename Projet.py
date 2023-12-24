@@ -29,6 +29,7 @@ DELIMITER=";"
 
 ARRET=0 #0 if we want to continue, 1 else
 DEBUGG=0 #1 if we want to debugg, 0 else
+Dictionnary={}
 Dictionnary1={}
 Dictionnary2={}
 #Type of state
@@ -2304,6 +2305,34 @@ def StockageAutomate(NewDico,Dico1,Dico2):
                 a=input("Could you choose automaton1 or automaton2 ?\n")
 
 
+def replaceAutomatonMemory(Dico):
+    # take as parameter a Dictionnary
+    # replace the dictionnary in the memory in the right variable
+    # return False if parameter is empty or wrong
+    # return True if everything is okay at the end
+    
+    global Dictionnary
+    global Dictionnary1
+    global Dictionnary2
+
+    if DicoVide(Dico):
+        print("Error: empty Dictionnary")
+        return False
+    
+    DicoChoose=StockageAutomate(Dico,Dictionnary1,Dictionnary2)
+    if DicoChoose=='Dico1':
+        Dictionnary1=Dico
+        Dictionnary=Dictionnary1
+        return True
+    else:
+        Dictionnary2=Dico
+        Dictionnary=Dictionnary2
+        return True
+    
+#
+#Status 
+#OK
+#
 
 
 
@@ -2468,7 +2497,9 @@ if DEBUGG == 1:
     Dictionnaire1=CSVToDico("data3.csv")
     Dictionnaire2=CSVToDico("data4.csv")
     Dictionnaire=CSVToDico("data.csv")
-    print(StockageAutomate(Dictionnaire,Dictionnaire1,Dictionnaire2))
+
+    
+    #print(StockageAutomate(Dictionnaire,Dictionnaire1,Dictionnaire2))
     #Dictionnaire=ConcatenationAutomatons(Dictionnaire1,Dictionnaire2)
     #AffichageAutomateFromDico(Dictionnaire)
     ARRET = 1
@@ -2504,9 +2535,13 @@ while ARRET == 0:
 
             #check existing file
             FichierEntree=choixFichier(1,Fichier)
+            Dico=CSVToDico(FichierEntree)
 
-            Dictionnary1=CSVToDico(FichierEntree)
-            if DicoVide(Dictionnary1)==False:
+            if replaceAutomatonMemory(Dico)==False:
+                break
+
+
+            if DicoVide(Dictionnary)==False:
                 print("Automaton successfully loaded")
                 wait()
     
@@ -2556,6 +2591,7 @@ while ARRET == 0:
             wait()
 
             Dictionnary=ChoixAutomate(Dictionnary1,Dictionnary2)
+
             if DicoVide(Dictionnary)==True:
                 print("Error: no Automaton in memory")
                 wait()
@@ -2568,7 +2604,7 @@ while ARRET == 0:
                 FichierSortie=choixFichier(2,Fichier)
             
             #confirmation if not empty ?
-                if DicoToCSV(Dictionnaire,FichierSortie) == 0:
+                if DicoToCSV(Dictionnary,FichierSortie) == 0:
                     print("Successfully registered")
                     wait()
                 else:
@@ -2576,7 +2612,7 @@ while ARRET == 0:
                     wait()
 
         #Delete automaton in memory
-        case 5:
+        case 5:         # a faire
             print("\n---------------------------")
             print("Erasing Automaton in memory")
             print("---------------------------\n")
@@ -2601,6 +2637,15 @@ while ARRET == 0:
             else:
                 print("Automaton successfully created")
                 wait()
+
+                DicoChoose=StockageAutomate(Dico,Dictionnary1,Dictionnary2)
+                if DicoChoose=='Dico1':
+                    Dictionnary1=Dico
+                    Dictionnary=Dictionnary1
+                else:
+                    Dictionnary2=Dico
+                    Dictionnary=Dictionnary2
+         
                 AffichageAutomateFromDico(Dictionnary)
 
 
