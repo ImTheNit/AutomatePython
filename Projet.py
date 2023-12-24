@@ -2248,6 +2248,7 @@ def ChoixAutomate(Dico1,Dico2):
 def StockageAutomate(NewDico,Dico1,Dico2):
     #Take as parameter three dictionnary
     #This function serve to save the automaton that the user is using in one of the predefined variables in the program
+    #If the automaton that the user choose is already used the program asks him if he is sure that he want to overwrite the automaton
     #Return Dico1 if the user save the his automaton in the variable Dico1
     #Return Dico2 if the user save the his automaton in the variable Dico2
 
@@ -2257,13 +2258,47 @@ def StockageAutomate(NewDico,Dico1,Dico2):
         match a:
 
             case 'automaton1':
-                print("You choose the first automaton")
-                Dico1=NewDico
-                return Dico1
+                print("You choose the first automaton \n")
+                if DicoVide(Dico1)==False:
+                    print("This automaton is already used \n")
+                    choice=input("Are you sure you want to overwrite this automaton ? (y or n)\n")
+                    v=0
+                    while v==0:
+                        match choice:
+
+                            case 'y':
+                                Dico1=NewDico
+                                return "Dico1"
+                            case 'n':
+                                a=input("In which automaton would you like to stock your automaton ? (automaton1 or automaton2)\n")
+                                v=1
+                            case _:
+                                choice=input("Could you choose y or n ?\n")
+                else:
+                    Dico1=NewDico
+                    return "Dico1"
+
             case 'automaton2':
                 print("You choose the second automaton")
-                Dico2=NewDico
-                return Dico2
+                if DicoVide(Dico1)==False:
+                    print("This automaton is already used \n")
+                    choice=input("Are you sure you want to overwrite this automaton ? (y or n)\n")
+                    v=0
+                    while v==0:
+                        match choice:
+
+                            case 'y':
+                                Dico2=NewDico
+                                return "Dico2"
+                            case 'n':
+                                a=input("In which automaton would you like to stock your automaton ? (automaton1 or automaton2)\n")
+                                v=1
+                            case _:
+                                choice=input("Could you choose y or n ? \n")
+                else:
+                    Dico2=NewDico
+                    return "Dico2"
+
             case _:
                 print("The automaton don't exist")
                 a=input("Could you choose automaton1 or automaton2 ?\n")
