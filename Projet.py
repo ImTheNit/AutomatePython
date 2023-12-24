@@ -692,7 +692,7 @@ def modifListeEtat(ListeState):
                         answer2=input("New choice:")
                     # Answer is now correct 
 
-                    if Answer2 in ListeState:   # State already exist
+                    if answer2 in ListeState:   # State already exist
                         Choice=input("Choosen state: "+answer2+" Do you want to remove(0) or edi(1) it:")
 
                         # Check field 'Choice'
@@ -773,7 +773,7 @@ def modifListeEvenement(ListeEvent):
                         answer2=input("New choice:")
                     # field is now correct 
                     
-                    if Reponse2 in ListeEvent:   # Event already exist
+                    if answer2 in ListeEvent:   # Event already exist
                         Choice=input("Choosen event: "+answer2+" Do you want to remove(0) or edit(1) it:")
 
                         # Check field 'Choice' is correct
@@ -1156,7 +1156,7 @@ def VerifDeterminism(Dico):
             return False
         
         #Testing there is no list of state 
-        Event=EventDico(Dico)
+        Event=EvenementDico(Dico)
         for i in range(len(Dico)):
             for j in range(len(Event)):
                 Value=Dico[i][Event[j]]
@@ -2246,19 +2246,59 @@ def ChoixAutomate(Dico1,Dico2):
 
 
 def StockageAutomate(NewDico,Dico1,Dico2):
+    #Take as parameter three dictionnary
+    #This function serve to save the automaton that the user is using in one of the predefined variables in the program
+    #If the automaton that the user choose is already used the program asks him if he is sure that he want to overwrite the automaton
+    #Return Dico1 if the user save the his automaton in the variable Dico1
+    #Return Dico2 if the user save the his automaton in the variable Dico2
+
     a=input("In which automaton would you like to stock your automaton ? (automaton1 or automaton2)\n")
     p=0
     while p==0:
         match a:
 
             case 'automaton1':
-                print("You choose the first automaton")
-                NewDico=Dico1
-                return NewDico
+                print("You choose the first automaton \n")
+                if DicoVide(Dico1)==False:
+                    print("This automaton is already used \n")
+                    choice=input("Are you sure you want to overwrite this automaton ? (y or n)\n")
+                    v=0
+                    while v==0:
+                        match choice:
+
+                            case 'y':
+                                Dico1=NewDico
+                                return "Dico1"
+                            case 'n':
+                                a=input("In which automaton would you like to stock your automaton ? (automaton1 or automaton2)\n")
+                                v=1
+                            case _:
+                                choice=input("Could you choose y or n ?\n")
+                else:
+                    Dico1=NewDico
+                    return "Dico1"
+
             case 'automaton2':
                 print("You choose the second automaton")
-                NewDico=Dico2
-                return NewDico
+                if DicoVide(Dico1)==False:
+                    print("This automaton is already used \n")
+                    choice=input("Are you sure you want to overwrite this automaton ? (y or n)\n")
+                    v=0
+                    while v==0:
+                        match choice:
+
+                            case 'y':
+                                Dico2=NewDico
+                                return "Dico2"
+                            case 'n':
+                                a=input("In which automaton would you like to stock your automaton ? (automaton1 or automaton2)\n")
+                                v=1
+                            case _:
+                                choice=input("Could you choose y or n ? \n")
+                else:
+                    Dico2=NewDico
+                    return "Dico2"
+
             case _:
                 print("The automaton don't exist")
                 a=input("Could you choose automaton1 or automaton2 ?\n")
