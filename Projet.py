@@ -2516,6 +2516,7 @@ while ARRET == 0:
     
     ChoixUser=DemandeUser()
     time.sleep(0.8)
+    Dictionnary={}
     match ChoixUser:
         
         #Stop
