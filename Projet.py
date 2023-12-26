@@ -28,7 +28,7 @@ FileChoice="ChoiceFile.txt" # File containing choices
 DELIMITER=";"
 
 ARRET=0 #0 if we want to continue, 1 else
-DEBUGG=0 #1 if we want to debugg, 0 else
+DEBUGG=1 #1 if we want to debugg, 0 else
 Dictionnary={}
 Dictionnary1={}
 Dictionnary2={}
@@ -411,21 +411,21 @@ def ModifDico(Dico):
         return False
     else:
         #Variables
-        ListState=EtatDico(Dico)
+        ListeState=EtatDico(Dico)
         ListEvent=EvenementDico(Dico)
 
         OldListState=[]
         OldListEvent=[]
 
         # Copy content in backup list to compare 
-        for i in range(len(ListState)):
-            OldListState.append(ListState[i])
+        for i in range(len(ListeState)):
+            OldListState.append(ListeState[i])
         
         for i in range(len(ListEvent)):
             OldListEvent.append(ListEvent[i])
         
         # Modify lists by asking user
-        modifListeEtat(ListState)
+        modifListeEtat(ListeState)
         modifListeEvenement(ListEvent)
 
         # Delete unwanted states
@@ -433,7 +433,7 @@ def ModifDico(Dico):
         print("Removing unwanted states")
         wait()
         for i in range(len(OldListState)):
-            if OldListState[i] not in ListState:      # state was here before, but not anymore          
+            if OldListState[i] not in ListeState:      # state was here before, but not anymore          
                 a=Dico.pop(i)
 
 
@@ -443,10 +443,10 @@ def ModifDico(Dico):
         wait()
 
 
-        for i in range (len(ListState)):
+        for i in range (len(ListeState)):
             Size=len(Dico)
-            if ListState[i] not in OldListState:   # state was not here before 
-                Dico.setdefault(Size+1,{'colonne':ListState[i]}) # add it to the dictionnary
+            if ListeState[i] not in OldListState:   # state was not here before 
+                Dico.setdefault(Size+1,{'colonne':ListeState[i]}) # add it to the dictionnary
         
         # Check if the dictionnary is sorted, if not sort it, in order to balance it 
         if VerifTrieDico(Dico)==False:
@@ -2498,7 +2498,9 @@ if DEBUGG == 1:
     Dictionnaire2=CSVToDico("data4.csv")
     Dictionnaire=CSVToDico("data.csv")
 
-    
+    Dictionnaire1=ModifDico(Dictionnaire1)
+    print(Dictionnaire1)
+    AffichageAutomateFromDico(Dictionnaire1)
     #print(StockageAutomate(Dictionnaire,Dictionnaire1,Dictionnaire2))
     #Dictionnaire=ConcatenationAutomatons(Dictionnaire1,Dictionnaire2)
     #AffichageAutomateFromDico(Dictionnaire)
@@ -2562,7 +2564,6 @@ while ARRET == 0:
 
             #check existing file
             FichierEntree=choixFichier(1,Fichier)
-
             AffichageAutomateFromCSV(FichierEntree)
             
 
@@ -2587,11 +2588,9 @@ while ARRET == 0:
                 else:
                     if DicoVide(Dictionnary1)==True:
                         AffichageAutomateFromDico(Dictionnary2)
-                        wait()
                     else: 
                         AffichageAutomateFromDico(Dictionnary1)
-                        wait()
-
+                        
 
         #Register automaton as csv
         case 4:
@@ -2622,7 +2621,7 @@ while ARRET == 0:
                     wait()
 
         #Delete automaton in memory
-        case 5:         # a faire
+        case 5:         
             print("\n---------------------------")
             print("Erasing Automaton in memory")
             print("---------------------------\n")
@@ -2634,11 +2633,9 @@ while ARRET == 0:
                   
             if Dictionnary == Dictionnary2:
                 Dictionnary2 = {}
-                
-            Dictionnary={}    
+                  
 
             print("Automaton erase")
-            wait()
 
 
         #Create a new automaton
@@ -2666,18 +2663,13 @@ while ARRET == 0:
             print("Edit an Automaton")
             print("--------------------------\n")
             wait()
-            Dictionnary=ChoixAutomate(Dictionnary1,Dictionnary2)
-            d=Dictionnary
+            Dico=ChoixAutomate(Dictionnary1,Dictionnary2)
 
-            if DicoVide(Dictionnary)==True:
-                print("No Automaton in memory")
-                wait()
-            else:
-                ModifDico(Dictionnary)
-                if d == Dictionnary1:
-                    Dictionnary1=Dictionnary
-                else:
-                    Dictionnary2=Dictionnary
+            Dico=ModifDico(Dico)
+            if replaceAutomatonMemory(Dico) == False:
+                break
+            print("Done")
+            AffichageAutomateFromDico(Dictionnary)
 
         #Check if an Automaton is a FSM(final state machine) 
         case 8:
@@ -2686,27 +2678,24 @@ while ARRET == 0:
             print("---------\n")
             wait()
             Dictionnary=ChoixAutomate(Dictionnary1,Dictionnary2)
-            if DicoVide(Dictionnary)==True:    #Empty
-                print("No Automaton in memory")
-                wait()
-            else:       #existing Automaton
-                match VerifAEF(Dictionnary):
-            
-                    #Automaton is FSM
-                    case True:
-                        print("The Automaton is a Final State Machine")
-                        wait()
-                    
-                    #Automaton is not FSM
-                    case False:
-                        print("The Automaton is not a Final State Machine")
-                        wait()
 
-                    #default case
-                    case _: 
-                        print("Error: probleme occurend while checking")
-                        wait()
-                    
+            match VerifAEF(Dictionnary):
+        
+                #Automaton is FSM
+                case True:
+                    print("The Automaton is a Final State Machine")
+                    wait()
+                
+                #Automaton is not FSM
+                case False:
+                    print("The Automaton is not a Final State Machine")
+                    wait()
+
+                #default case
+                case _: 
+                    print("Error: probleme occurend while checking")
+                    wait()
+                
                     
 
         #verify if an automaton is complete
@@ -2716,22 +2705,19 @@ while ARRET == 0:
             print("---------------------\n")
             wait()
             Dictionnary=ChoixAutomate(Dictionnary1,Dictionnary2)
-            if DicoVide(Dictionnary)==True:    #No automaton in memory
-                print("No Automaton in memory")
-                wait()
-            else:
-                match VerifComplet(Dictionnary):
-                    case True : #automaton is complete
-                        print("The automaton is complete")
-                        wait()
 
-                    case False :#automaton is not complete
-                        print("The automaton is not complete")
-                        wait()
+            match VerifComplet(Dictionnary):
+                case True : #automaton is complete
+                    print("The automaton is complete")
+                    wait()
 
-                    case _: #default case
-                        print("Error: problem with the verification")
-                        wait()
+                case False :#automaton is not complete
+                    print("The automaton is not complete")
+                    wait()
+
+                case _: #default case
+                    print("Error: problem with the verification")
+                    wait()
 
         #to complete an automaton
         case 10:
@@ -2739,21 +2725,13 @@ while ARRET == 0:
             print("Automaton completion")
             print("--------------------\n")
             wait()
-            Dictionnary=ChoixAutomate(Dictionnary1,Dictionnary2)
-            d=Dictionnary
-            if DicoVide(Dictionnary)==True:    #No automaton in memory
-                print("No Automaton in memory")
-                wait()
+            Dico=ChoixAutomate(Dictionnary1,Dictionnary2)
+            Dico = ChangeToComplet(Dico)
+            if replaceAutomatonMemory(Dico) == False:
+                break
 
-            else:
-                Dictionnary = ChangeToComplet(Dictionnary)
-                if d == Dictionnary1:
-                    Dictionnary1=Dictionnary
-                else:
-                    Dictionnary2=Dictionnary
-
-                print("done \n")
-                wait()
+            print("done \n")
+            AffichageAutomateFromDico(Dictionnary)
 
 
         #Check word is admit
@@ -2763,16 +2741,13 @@ while ARRET == 0:
             print("-------------\n")
             wait()
             Dictionnary=ChoixAutomate(Dictionnary1,Dictionnary2)
-            if DicoVide(Dictionnary)==True:
-                print("No Automaton in memory")
-                wait()
+
+            word=input("Input a word:")
+            if VerifMotAEF(word,Dictionnary) == False:
+                print("The word",word," is not admitted by the dictionnary")
             else:
-                word=input("Input a word:")
-                if VerifMotAEF(word,Dictionnary) == False:
-                    print("The word",word," is not admitted by the dictionnary")
-                else:
-                    print("The word",word,"is not admitted by the dictionnary")
-                wait()
+                print("The word",word,"is not admitted by the dictionnary")
+            wait()
 
         #check determinist
         case 12:
@@ -2781,19 +2756,15 @@ while ARRET == 0:
             print("-----------------\n")
             wait()
             Dictionnary=ChoixAutomate(Dictionnary1,Dictionnary2)
-            if DicoVide(Dictionnary)==True:
-                print("No Automaton in memory")
-                wait()
-            else:
-                if VerifAEF(Dictionnary)==True:    
-                    if VerifDeterminism(Dictionnary)==True:
-                        print("The automaton is determinist")
-                        wait()
-                    else:
-                        print("The automaton is not determinist")
-                        wait()
+            if VerifAEF(Dictionnary)==True:    
+                if VerifDeterminism(Dictionnary)==True:
+                    print("The automaton is determinist")
+                    wait()
                 else:
-                    print("The Automaton is not a final state machine")
+                    print("The automaton is not determinist")
+                    wait()
+            else:
+                print("The Automaton is not a final state machine")
 
         #Make determinist
         case 13:
@@ -2801,23 +2772,21 @@ while ARRET == 0:
             print("Determinisation")
             print("---------------\n")
             wait()
-            Dictionnary=ChoixAutomate(Dictionnary1,Dictionnary2)
-            if DicoVide(Dictionnary)==True:
-                print("No Automaton in memory")
-                wait()
-            else:
-                if VerifAEF(Dictionnary)==True:
-                    if VerifDeterminism(Dictionnary)==True:
-                        print("The automaton is already determinist")
-                        wait()
-                    else:
-                        Dictionnary=ChangeToDeterminist(Dictionnary)
-                        if Dictionnary!= False:
-                            print("Automaton succesfully determinised")
-                            AffichageAutomateFromDico(Dictionnary)
-                        wait()
+            Dico=ChoixAutomate(Dictionnary1,Dictionnary2)
+            if VerifAEF(Dico)==True:
+                if VerifDeterminism(Dico)==True:
+                    print("The automaton is already determinist")
+                    wait()
                 else:
-                    print("The Automaton is not a final state machine")
+                    Dico=ChangeToDeterminist(Dico)
+                    if VerifDeterminism(Dico) == True:
+                        print("Automaton succesfully determinised")
+                        if replaceAutomatonMemory(Dico) == False:
+                            break
+                        AffichageAutomateFromDico(Dictionnary)
+                    
+            else:
+                print("The Automaton is not a final state machine")
         
         #Find Complement
         case 14:
@@ -2825,17 +2794,15 @@ while ARRET == 0:
             print("Complement")
             print("----------\n")  
             wait()
-            Dictionnary=ChoixAutomate(Dictionnary1,Dictionnary2)
-            if DicoVide(Dictionnary)==True:
-                print("No Automaton in memory")
-                wait()
+            Dico=ChoixAutomate(Dictionnary1,Dictionnary2)
+            if VerifDeterminism(Dico)==True:
+                Dico=ComplementDico(Dico)
+                if replaceAutomatonMemory(Dico) == False:
+                    break
+                print("Done")
+                AffichageAutomateFromDico(Dictionnary)
             else:
-                if VerifDeterminism(Dictionnary)==True:
-                    Dictionnary=ComplementDico(Dictionnary)
-                    AffichageAutomateFromDico(Dictionnary)
-                    wait()
-                else:
-                    print("Error: non determinist automaton are not allowed")
+                print("Error: non determinist automaton are not allowed")
                     
         # Find Mirror
         case 15:
@@ -2843,17 +2810,16 @@ while ARRET == 0:
             print("Mirror")
             print("------\n")  
             wait()
-            Dictionnary=ChoixAutomate(Dictionnary1,Dictionnary2)
-            if DicoVide(Dictionnary)==True:
-                print("No Automaton in memory")
-                wait()
+
+            Dico=ChoixAutomate(Dictionnary1,Dictionnary2)
+            if VerifDeterminism(Dico)==True:
+                Dico=MiroirDico(Dico)
+                if replaceAutomatonMemory(Dico) == False:
+                    break
+                print("Done")
+                AffichageAutomateFromDico(Dictionnary)  
             else:
-                if VerifDeterminism(Dictionnary)==True:
-                    Dictionnary=MiroirDico(Dictionnary)
-                    AffichageAutomateFromDico(Dictionnary)
-                    wait()     
-                else:
-                    print("Error: non determinist automaton are not allowed")                      
+                print("Error: non determinist automaton are not allowed")                      
 
         # product
         case 16:
@@ -2865,8 +2831,8 @@ while ARRET == 0:
             Dico=ProductAutomatons(Dictionnaire1,Dictionnaire2)
             if replaceAutomatonMemory(Dico)==True:
                 break
+            print("Done")
             AffichageAutomateFromDico(Dictionnary)
-            wait()
         
 
         # concatenation
@@ -2880,11 +2846,9 @@ while ARRET == 0:
             Dico=ConcatenationAutomatons(Dictionnaire1,Dictionnaire2)
             if replaceAutomatonMemory(Dico)==False:
                 break
+            print("Done")
             AffichageAutomateFromDico(Dictionnary)
 
-            wait()
-        
-        #############################(19)-(20)
 
 
         # Excising
@@ -2893,14 +2857,14 @@ while ARRET == 0:
             print("Excising mode")
             print("-------------\n")
             wait()
-            Dictionnary=ChoixAutomate(Dictionnary1,Dictionnary2)
-            if DicoVide(Dictionnary)==True:
-                print("No Automaton in memory")
-                wait()
-            else:
-                Dictionnary=ChangeToExcised(Dictionnary)
-                AffichageAutomateFromDico(Dictionnary)
-                wait()
+
+            Dico=ChoixAutomate(Dictionnary1,Dictionnary2)
+
+            Dico=ChangeToExcised(Dico)
+            if replaceAutomatonMemory(Dico)== False:
+                break
+            print("Done")
+            AffichageAutomateFromDico(Dictionnary)
 
 
 
