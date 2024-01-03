@@ -631,7 +631,7 @@ def ListState(string):
 #
 
 
-def ClearState(State):
+def ClearState(State):  
     # Take as parameter a list
     # Return this list without elements that are twice or more in
     # Return the State if there is only one state(no matter how many times) in the list
@@ -643,14 +643,14 @@ def ClearState(State):
 
         for i in range(len(State)):
             if State[i] not in New:
-                New.append(State[i])
+                New.append(State[i].replace(" ",""))
         if len(New)==1:
             return(New[0])
         else:
             return(New)
     else:
 
-        return State
+        return State.replace(" ","")
 
 
 #
