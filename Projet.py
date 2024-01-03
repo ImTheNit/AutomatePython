@@ -2106,15 +2106,16 @@ def choixFichier(mode,FileName):
         case 1:
             
             # Check file exist and not empty
-            while FichierExiste(FileName)==False or FichierVide(FileName)==True:        
-                FileName=input("Empty file or unexisting file, try another:")
+            while FichierExiste(FileName)==False or FichierVide(FileName)==True or FileName[-4:]!=".csv":        
+                FileName=input("Empty file, unexisting file or incorrect extensions, try another:")
             print("File OK")
             return FileName
 
 
         # exit file mode
         case 2:
-
+            if FileName[-4:]!=".csv":       
+                FileName=FileName+".csv"     
             if FichierExiste(FileName)==False:    # unexisting file 
                 print("No corresponding file, creating new file")
                     # To create a file using python, open it in writing mode
