@@ -2500,7 +2500,7 @@ if DEBUGG == 1:
 
     Dictionnaire1=ModifDico(Dictionnaire1)
     print(Dictionnaire1)
-    AffichageAutomateFromDico(Dictionnaire1)
+    AffichageAutomateFromDico(Dictionnaire1) 
     #print(StockageAutomate(Dictionnaire,Dictionnaire1,Dictionnaire2))
     #Dictionnaire=ConcatenationAutomatons(Dictionnaire1,Dictionnaire2)
     #AffichageAutomateFromDico(Dictionnaire)
