@@ -1,0 +1,20 @@
+Project done on python 3 by: Quentin Gagneux, Guillaume Androny, Corentin Guédès et Meven Thomas.
+It is a automaton textual editor usable on a python terminal.
+
+
+This program is used and was created to create and transform automatons.
+
+It dispose of the following functionalities :
+You can :
+1) Load(1)/register(4) an automaton from/to a csv file, csv is the format we have chosen to register the automatons
+2) Display an automaton from the memory(3) or directly from a csv file(2)
+3) Create(6), modify(7) or delete an automaton(5)
+4) Check if the automaton is a final state automaton(8) (machine in the menu)
+5) Check if your automaton is complete(9) or make it be complete(10), if the automaton is not complete, it adds a bin state and make all missing transitions to the bin (even if a bin already exist, would mean your bin was not done properly)
+6) Check if your automaton is deteminist(12) or make it be determinist(13)
+7) test a word on an automaton (11)
+8) Find the Complement of the automaton (14). The complement means all non final state of your automaton become final and all final state become non final
+9) Find the mirror of the automaton (15). The mirror means you reverse all your transitions (B to A using Q event becomes A to B using Q event), your final(s) state(s) become initial and your initial state become final
+10) Product of two automatons(16)
+11) Concatenate two automatons(17)
+

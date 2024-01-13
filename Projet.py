@@ -28,7 +28,7 @@ FileChoice="ChoiceFile.txt" # File containing choices
 DELIMITER=";"
 
 ARRET=0 #0 if we want to continue, 1 else
-DEBUGG=1 #1 if we want to debugg, 0 else
+DEBUGG=0 #1 if we want to debugg, 0 else
 Dictionnary={}
 Dictionnary1={}
 Dictionnary2={}
@@ -631,7 +631,7 @@ def ListState(string):
 #
 
 
-def ClearState(State):
+def ClearState(State):  
     # Take as parameter a list
     # Return this list without elements that are twice or more in
     # Return the State if there is only one state(no matter how many times) in the list
@@ -643,14 +643,14 @@ def ClearState(State):
 
         for i in range(len(State)):
             if State[i] not in New:
-                New.append(State[i])
+                New.append(State[i].replace(" ",""))
         if len(New)==1:
             return(New[0])
         else:
             return(New)
     else:
 
-        return State
+        return State.replace(" ","")
 
 
 #
@@ -2106,15 +2106,16 @@ def choixFichier(mode,FileName):
         case 1:
             
             # Check file exist and not empty
-            while FichierExiste(FileName)==False or FichierVide(FileName)==True:        
-                FileName=input("Empty file or unexisting file, try another:")
+            while FichierExiste(FileName)==False or FichierVide(FileName)==True or FileName[-4:]!=".csv":        
+                FileName=input("Empty file, unexisting file or incorrect extensions, try another:")
             print("File OK")
             return FileName
 
 
         # exit file mode
         case 2:
-
+            if FileName[-4:]!=".csv":       
+                FileName=FileName+".csv"     
             if FichierExiste(FileName)==False:    # unexisting file 
                 print("No corresponding file, creating new file")
                     # To create a file using python, open it in writing mode
