@@ -28,7 +28,7 @@ FileChoice="ChoiceFile.txt" # File containing choices
 DELIMITER=";"
 
 ARRET=0 #0 if we want to continue, 1 else
-DEBUGG=1 #1 if we want to debugg, 0 else
+DEBUGG=0 #1 if we want to debugg, 0 else
 Dictionnary={}
 Dictionnary1={}
 Dictionnary2={}
