@@ -2134,7 +2134,7 @@ def choixFichier(mode,FileName):
 #ok
 #
 def creer_matrice_carree(n):
-
+#Function that creates a squared matrice of size n
     matrice = []
     for i in range(n):
         ligne = [""] * n
@@ -2142,6 +2142,8 @@ def creer_matrice_carree(n):
     return matrice
 
 def transitionsIn(matriceDico, etat, taille):
+    #return a list of all the transitions that comes in the indicated state
+    #except transitions to himself
     listeIn = []
     for i in range(0,taille):
         if matriceDico[i][etat] != "" and etat != i:
@@ -2149,6 +2151,7 @@ def transitionsIn(matriceDico, etat, taille):
     return listeIn
 
 def transitionsOut(matriceDico, etat, taille):
+    #same as transitionIn but for all the transitions that goes out of the indicated state
     listeOut = []
     for i in range(0, taille):
         if matriceDico[etat][i] != "" and etat != i:
@@ -2156,6 +2159,7 @@ def transitionsOut(matriceDico, etat, taille):
     return listeOut
 
 def addListe(liste):
+    #make a string out concatenating a list
 
     if not isinstance(liste, list):
         return liste
@@ -2165,6 +2169,8 @@ def addListe(liste):
     return resultat
 
 def matrixOfTransitions(Dico):
+    #return a squared matrix of all the transitions of the automaton
+    #for example, at the index [1][2] you have the name of the transition that goes from Q1 to Q2
     states = EtatDico(Dico)
     if DicoVide(Dico):
         print("Le dico est vide")
@@ -2186,6 +2192,7 @@ def matrixOfTransitions(Dico):
 
 
 def eliminateDoublons(liste):
+    #eliminate all the doublons in a string
     liste_sans_doublons = []
     caracteres_speciaux = ['(','*',')']
     for element in liste:
@@ -2196,6 +2203,7 @@ def eliminateDoublons(liste):
     return liste_sans_doublons
 
 def suppEtatElimine(liste,listeElem):
+    #check in the list if there is any eliminated states and if there is, remove it
     for element in listeElem:
         if element in liste:
             liste.remove(element)
@@ -2210,7 +2218,7 @@ def est_liste_vide(ma_liste):
 def RegularExpression(Dico):
     # take as parameter a dctionnary
     # return False if the dictionnary is empty
-    # return the regular expression from the automaton
+    # return the regular expression from the automaton with the state elimination technique.
 
     if DicoVide(Dico)==True:
         print("Error: empty automaton")
@@ -2228,7 +2236,6 @@ def RegularExpression(Dico):
 
             suppEtatElimine(listeIn,listeElimine)
             suppEtatElimine(listeOut,listeElimine)
-            print(listeIn, listeOut)
             if len(listeElimine) == len(Dico)-1:
                 if matrice[i][i] != '':
                     ER += matrice[i][i] + '*'
@@ -2245,7 +2252,6 @@ def RegularExpression(Dico):
             else :
                 for k in listeIn :
                     for j in listeOut :
-                        print(k,j)
                         if k == j != i:
                             listeER.append('(')
                             listeER.append(matrice[k][i])
@@ -2270,7 +2276,6 @@ def RegularExpression(Dico):
                             vListeER = []
                             listeER = []
             listeElimine.append(i)
-            print('les éléments éliminés pour la boucle',listeElimine)
             vListeER = eliminateDoublons(listeER)
             ER += concatener_liste_caracteres(vListeER)+ '+'
 
