@@ -2133,6 +2133,150 @@ def choixFichier(mode,FileName):
 #status
 #ok
 #
+def creer_matrice_carree(n):
+
+    matrice = []
+    for i in range(n):
+        ligne = [""] * n
+        matrice.append(ligne)
+    return matrice
+
+def transitionsIn(matriceDico, etat, taille):
+    listeIn = []
+    for i in range(0,taille):
+        if matriceDico[i][etat] != "" and etat != i:
+            listeIn.append(i)
+    return listeIn
+
+def transitionsOut(matriceDico, etat, taille):
+    listeOut = []
+    for i in range(0, taille):
+        if matriceDico[etat][i] != "" and etat != i:
+            listeOut.append(i)
+    return listeOut
+
+def addListe(liste):
+
+    if not isinstance(liste, list):
+        return liste
+
+    expression = " + ".join(map(str, liste))
+    resultat = sum(liste)
+    return resultat
+
+def matrixOfTransitions(Dico):
+    states = EtatDico(Dico)
+    if DicoVide(Dico):
+        print("Le dico est vide")
+    else :
+        n = len(Dico);
+        matrix = creer_matrice_carree(n)
+        for i in range(0,n):
+            for values in Dico[i].values():
+                if values in states :
+
+                    indice = states.index(values)
+                    key = [k for (k,val) in Dico[i].items() if val == values]
+                    if key[0] != 'colonne':
+                        matrix[i][indice] += key[0]
+                    if len(key) > 1:
+                        matrix[i][indice] = key[1]
+
+    return matrix
+
+
+def eliminateDoublons(liste):
+    liste_sans_doublons = []
+    caracteres_speciaux = ['(','*',')']
+    for element in liste:
+        if element not in liste_sans_doublons :
+            liste_sans_doublons.append(element)
+        elif element in caracteres_speciaux:
+            liste_sans_doublons.append(element)
+    return liste_sans_doublons
+
+def suppEtatElimine(liste,listeElem):
+    for element in listeElem:
+        if element in liste:
+            liste.remove(element)
+
+def concatener_liste_caracteres(liste_caracteres):
+    chaine_concatenee = ''.join(liste_caracteres)
+    return chaine_concatenee
+
+def est_liste_vide(ma_liste):
+    return not ma_liste
+
+def RegularExpression(Dico):
+    # take as parameter a dctionnary
+    # return False if the dictionnary is empty
+    # return the regular expression from the automaton
+
+    if DicoVide(Dico)==True:
+        print("Error: empty automaton")
+    else :
+        matrice = matrixOfTransitions(Dico)
+        end = 0
+        listeER = []
+        listeElimine=[]
+        ER = ''
+        i = 0
+        while end == 0:
+
+            listeIn = transitionsIn(matrice,i,len(Dico))
+            listeOut = transitionsOut(matrice,i,len(Dico))
+
+            suppEtatElimine(listeIn,listeElimine)
+            suppEtatElimine(listeOut,listeElimine)
+            print(listeIn, listeOut)
+            if len(listeElimine) == len(Dico)-1:
+                if matrice[i][i] != '':
+                    ER += matrice[i][i] + '*'
+                end = 1
+            elif est_liste_vide(listeIn) and not est_liste_vide(listeOut):
+                for out in listeOut:
+                    ER += matrice[i][out]
+            elif est_liste_vide(listeOut) and not est_liste_vide(listeIn):
+                for inn in listeIn:
+                    ER += matrice[i][inn]
+            elif est_liste_vide(listeIn) and est_liste_vide(listeOut):
+                if matrice[i][i] != '':
+                    ER += matrice[i][i] + '*'
+            else :
+                for k in listeIn :
+                    for j in listeOut :
+                        print(k,j)
+                        if k == j != i:
+                            listeER.append('(')
+                            listeER.append(matrice[k][i])
+                            listeER.append(matrice[i][k])
+                            if matrice[i][i] != "":
+                                listeER.append(matrice[i][i]+'*')
+                            listeER.append(')')
+                            listeER.append('*')
+                            vListeER = eliminateDoublons(listeER)
+                            ER += concatener_liste_caracteres(vListeER) + '+'
+                            vListeER = []
+                            listeER = []
+                        else:
+                            listeER.append('(')
+                            listeER.append(matrice[k][i])
+                            if matrice[i][i] != "":
+                                listeER.append(matrice[i][i] + '*')
+                            listeER.append(matrice[i][j])
+                            listeER.append(')')
+                            vListeER = eliminateDoublons(listeER)
+                            ER += concatener_liste_caracteres(vListeER) + '+'
+                            vListeER = []
+                            listeER = []
+            listeElimine.append(i)
+            print('les éléments éliminés pour la boucle',listeElimine)
+            vListeER = eliminateDoublons(listeER)
+            ER += concatener_liste_caracteres(vListeER)+ '+'
+
+            i += 1
+        return ER
+
 
 def listEtatInitial(MonDico):
     #Take as parameter a dictionnary
