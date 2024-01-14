@@ -2890,13 +2890,13 @@ while ARRET == 0:
             print("-------------\n")
             wait()
             Dictionnary=ChoixAutomate(Dictionnary1,Dictionnary2)
-            
+
             if VerifDeterminism(Dico)==True:
                 word=input("Input a word:")
                 if VerifMotAEF(word,Dictionnary) == False:
                     print("The word",word," is not admitted by the dictionnary")
                 else:
-                    print("The word",word,"is not admitted by the dictionnary")
+                    print("The word",word,"is admitted by the dictionnary")
                 wait()
             else:
                 print("Error: non determinist automaton are not allowed")
