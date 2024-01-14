@@ -2883,20 +2883,24 @@ while ARRET == 0:
             AffichageAutomateFromDico(Dictionnary)
 
 
-        #Check word is admit
+        #Check word is admitted
         case 11:
             print("\n-------------")
             print("Checking word")
             print("-------------\n")
             wait()
             Dictionnary=ChoixAutomate(Dictionnary1,Dictionnary2)
-
-            word=input("Input a word:")
-            if VerifMotAEF(word,Dictionnary) == False:
-                print("The word",word," is not admitted by the dictionnary")
+            
+            if VerifDeterminism(Dico)==True:
+                word=input("Input a word:")
+                if VerifMotAEF(word,Dictionnary) == False:
+                    print("The word",word," is not admitted by the dictionnary")
+                else:
+                    print("The word",word,"is not admitted by the dictionnary")
+                wait()
             else:
-                print("The word",word,"is not admitted by the dictionnary")
-            wait()
+                print("Error: non determinist automaton are not allowed")
+    
 
         #check determinist
         case 12:
