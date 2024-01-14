@@ -2133,6 +2133,10 @@ def choixFichier(mode,FileName):
 #
 
 def listEtatInitial(MonDico):
+    #Take as parameter a dictionnary
+    #This function serve to create a list with all initial states
+    #Return the list of all initial states
+
     l=[]
     for i in range (len(MonDico)):
         if ((int(list(MonDico[i].values())[1])==1) or (int(list(MonDico[i].values())[1])==3)):
@@ -2144,6 +2148,10 @@ def listEtatInitial(MonDico):
 #
 
 def listEtatFinal(MonDico):
+    #Take as parameter a dictionnary
+    #This function serve to create a list with all final states
+    #Return the list of all final states
+
     liste=[]
     for i in range (len(MonDico)):
         if ((int(list(MonDico[i].values())[1])==2) or (int(list(MonDico[i].values())[1])==3)):
@@ -2156,10 +2164,11 @@ def listEtatFinal(MonDico):
 
 
 def VerifMotAEF(Mot,MonDico):
-    #Don't accept events with more than one character
-    #
-    #
-    #
+    #Don't work with events with more than one character
+    #The function don't work if the automaton is non-deterministic 
+    #Take as parameter a word and a dictionnary
+    #The function serve to see if the word that is enter is valid with the automaton in parameter
+    #If the word is good with the automaton the function return True, else the function retrun False
 
 
     b=0
@@ -2169,56 +2178,45 @@ def VerifMotAEF(Mot,MonDico):
     if VerifAEF(MonDico)==False:
         return False
 
-
     EtatI=listEtatInitial(MonDico)
     EtatF=listEtatFinal(MonDico)
 
-
     Mot=str(Mot)
 
-        # se placer sur un etat initial
-    for L in range(len(EtatI)): # pour chaque etat on verifie
-            # si mot reconnu pour un des etat, le mot est reconnu donc on peut return True
+    for L in range(len(EtatI)):
         
         MonEtat=EtatI[L]
         if (Mot=='' and MonEtat in EtatF):
             return True
         for i in range(len(Mot)):
-            print("test:",Mot[i])
-            #verifier que le caractère i du mot est accepté pour faire une transition
-            print("destination",destination(MonDico,MonEtat,Mot[i]))
-            if type(destination(MonDico,MonEtat,Mot[i]))==str:      #case str
+            if type(destination(MonDico,MonEtat,Mot[i]))==str:     
                 if destination(MonDico,MonEtat,Mot[i])!="":
                     MonEtat=destination(MonDico,MonEtat,Mot[i])
                     b=0
-                else:   #pas de destination
+                else:   
                     b=1
                     break
-                print("test")
-            if type(destination(MonDico,MonEtat,Mot[i]))==list:     #case list
-                
+            if type(destination(MonDico,MonEtat,Mot[i]))==list:     
                 for k in range(len(destination(MonDico,MonEtat,Mot[i]))):
-                    #print(MonDico)
-                    print("len:",len(destination(MonDico,MonEtat,Mot[i])),(destination(MonDico,MonEtat,Mot[i])))
                     if destination(MonDico,MonEtat,Mot[i])[k]!="":
-                        print("essai:",destination(MonDico,MonEtat,Mot[i]))
                         MonEtat=destination(MonDico,MonEtat,Mot[i])[k]
                         b=0
-                        print("Mon état :",MonEtat)
-                    else:   #pas de destination
+                    else:   
                         b=1
-                        
                         break
-                    print("test2")
             
-        if (MonEtat in EtatF and b==0): #bien un etat final 
-            print("Youpi")
+        if (MonEtat in EtatF and b==0):
             return True 
 
-    return False #invalide pour tous les etats initiaux
+    return False
 
 
 def ChoixAutomate(Dico1,Dico2):
+    #Take as parameter two dictionnary
+    #This function serve to choose which automaton we want to use in the program
+    #Return Dico1 if the user want to use the automaton saved in the variable Dico1
+    #Return Dico2 if the user want to use the automaton saved in the variable Dico2
+
     print("Two automatons are stored in the program.\nHere is the first automaton :")
     if DicoVide(Dico1)==True:
         print("The automaton is empty.")
