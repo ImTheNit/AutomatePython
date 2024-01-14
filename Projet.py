@@ -1908,7 +1908,7 @@ def VerifStandard(Dico):
 #
 
 
-def RegularExpression(Dico):
+def RegularExpression2(Dico):
     # take as parameter a dctionnary
     # return False if the dictionnary is empty
     # return the regular expression from the automaton
@@ -2972,7 +2972,7 @@ while ARRET == 0:
             print("-------\n")
             wait()
 
-            Dico=ProductAutomatons(Dictionnaire1,Dictionnaire2)
+            Dico=ProductAutomatons(Dictionnary1,Dictionnary2)
             if replaceAutomatonMemory(Dico)==True:
                 break
             print("Done")
@@ -2987,16 +2987,27 @@ while ARRET == 0:
             wait()
 
 
-            Dico=ConcatenationAutomatons(Dictionnaire1,Dictionnaire2)
+            Dico=ConcatenationAutomatons(Dictionnary1,Dictionnary2)
             if replaceAutomatonMemory(Dico)==False:
                 break
             print("Done")
             AffichageAutomateFromDico(Dictionnary)
 
+        # Regular Expression
+        case 18:
+            print("\n------------------")
+            print("Regular Expression")
+            print("------------------\n")
+            wait()
+
+            Dico=ChoixAutomate(Dictionnary1,Dictionnary2)
+            RE=RegularExpression(Dico)
+            print(RE)
+
 
 
         # Excising
-        case 18:
+        case 21:
             print("\n-------------")
             print("Excising mode")
             print("-------------\n")
