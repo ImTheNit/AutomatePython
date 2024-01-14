@@ -13,8 +13,8 @@ You can :
 5) Check if your automaton is complete(9) or make it be complete(10), if the automaton is not complete, it adds a bin state and make all missing transitions to the bin (even if a bin already exist, would mean your bin was not done properly).
 6) Check if your automaton is deteminist(12) or make it be determinist(13).
 7) test a word on an automaton (11). It needs the automaton to be determinist. It needs your transitions/events to be of an only character.
-8) Find the Complement of the automaton (14). The complement means all non final state of your automaton become final and all final state become non final.
-9) Find the mirror of the automaton (15). The mirror means you reverse all your transitions (B to A using Q event becomes A to B using Q event), your final(s) state(s) become initial and your initial state become final.
+8) Find the Complement of the automaton (14). It needs the automaton to be determinist. The complement means all non final state of your automaton become final and all final state become non final.
+9) Find the mirror of the automaton (15). It needs the automaton to be determinist. The mirror means you reverse all your transitions (B to A using Q event becomes A to B using Q event), your final(s) state(s) become initial and your initial state become final.
 10) Product of two automatons(16).
 11) Concatenate two automatons(17).
 12) Extract the regular expression of an automaton(18).it needs the automaton to be determinist and won't work if a state has two or more transitions to a same state.
