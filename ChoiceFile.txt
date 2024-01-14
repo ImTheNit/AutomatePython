@@ -8,7 +8,7 @@
 (5)Erase the automaton in memory
 (6)Create an automaton
 (7)Modify the automaton in memory
-(8)Check if the automaton is a final state machine
+(8)Check if the automaton is a final state automaton
 (9)Check that the automaton is complete
 (10)Complete the automaton
 (11)Check if a word is admitted by an Automaton
