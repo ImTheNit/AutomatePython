@@ -18,7 +18,7 @@
 (15)Find the mirror of the automaton
 (16)Product of two automatons
 (17)Concatenate two automatons
-(18)
+(18)Extract the Regular Expression from an automaton in memory
 (19)
 (20)
 (21)Excise an automaton
